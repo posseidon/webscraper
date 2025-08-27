@@ -1,0 +1,49 @@
+{
+  "difficultyLevels": {
+    "easy": {
+      "displayName": "Easy",
+      "description": "Simple questions",
+      "icon": "😊",
+      "sortOrder": 1,
+      "mappings": {
+        "hungarian": ["könnyű", "könnyű szint", "alapszint"],
+        "vietnamese": ["dễ", "dễ dàng", "cơ bản"],
+        "english": ["easy", "simple", "basic", "beginner"],
+        "numeric": ["1", "level1", "low"],
+        "other": []
+      }
+    },
+    "medium": {
+      "displayName": "Medium",
+      "description": "Moderate challenge",
+      "icon": "🤔",
+      "sortOrder": 2,
+      "mappings": {
+        "hungarian": ["közepes", "közép szint", "átlagos"],
+        "vietnamese": ["trung bình", "vừa", "bình thường"],
+        "english": ["medium", "moderate", "intermediate", "average"],
+        "numeric": ["2", "level2", "mid"],
+        "other": []
+      }
+    },
+    "hard": {
+      "displayName": "Hard",
+      "description": "Expert level",
+      "icon": "🔥",
+      "sortOrder": 3,
+      "mappings": {
+        "hungarian": ["nehéz", "nehéz szint", "haladó", "expert"],
+        "vietnamese": ["khó", "khó khăn", "nâng cao"],
+        "english": ["hard", "difficult", "advanced", "expert"],
+        "numeric": ["3", "level3", "high"],
+        "other": []
+      }
+    }
+  },
+  "metadata": {
+    "version": "1.0",
+    "lastUpdated": "2024-01-01",
+    "supportedLanguages": ["hungarian", "vietnamese", "english", "numeric", "other"],
+    "description": "Difficulty level mappings for quiz questions"
+  }
+}

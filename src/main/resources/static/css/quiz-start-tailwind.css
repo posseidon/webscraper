@@ -1,0 +1,94 @@
+/* Custom styles for elements that can't be fully handled by Tailwind */
+
+/* Slider thumb styles */
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 4px solid black;
+    background: #ffec8b;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0.25rem 0.25rem 0 black;
+    transition: all 0.2s ease-in-out;
+}
+
+.slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border: 4px solid black;
+    background: #ffec8b;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0.25rem 0.25rem 0 black;
+    transition: all 0.2s ease-in-out;
+}
+
+.slider:hover::-webkit-slider-thumb,
+.slider:focus::-webkit-slider-thumb {
+    transform: translate(-2px, -2px);
+    box-shadow: 0.5rem 0.5rem 0 black;
+}
+
+.slider:hover::-moz-range-thumb,
+.slider:focus::-moz-range-thumb {
+    transform: translate(-2px, -2px);
+    box-shadow: 0.5rem 0.5rem 0 black;
+}
+
+/* Selected difficulty card styles */
+input[type="radio"]:checked + .difficulty-card {
+    background: #f8f8f8 !important;
+    transform: translate(0, 0) !important;
+    box-shadow: none !important;
+}
+
+input[type="radio"]:checked + .difficulty-card.easy { background: #d4edda !important; }
+input[type="radio"]:checked + .difficulty-card.medium { background: #fff3cd !important; }
+input[type="radio"]:checked + .difficulty-card.hard { background: #f8d7da !important; }
+input[type="radio"]:checked + .difficulty-card.mixed { background: #e2e3ff !important; }
+
+/* Topics container animation */
+.topics-container {
+    max-height: 0 !important;
+    overflow: hidden !important;
+    transition: max-height 0.4s ease-in-out !important;
+}
+
+.topics-container.show {
+    max-height: 500px !important;
+}
+
+/* Difficulty pill styles */
+.difficulty-pill {
+    user-select: none;
+}
+
+.difficulty-pill.selected {
+    background-color: #f8f8f8 !important;
+    transform: translate(0, 0) !important;
+    box-shadow: none !important;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .topics-container,
+    .toggle-icon,
+    .slider,
+    .difficulty-card,
+    button,
+    .difficulty-pill {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .difficulty-card:hover,
+    .slider:hover::-webkit-slider-thumb,
+    .slider:hover::-moz-range-thumb,
+    button:hover,
+    .difficulty-pill:hover {
+        transform: none !important;
+        filter: none !important;
+    }
+}

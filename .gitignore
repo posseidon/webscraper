@@ -1,0 +1,108 @@
+# Build outputs
+/target/
+/build/
+/out/
+
+# Spring Boot executable jars
+*.jar
+*.war
+*.zip
+
+# Gradle
+.gradle/
+gradle-app.setting
+gradle.properties
+!gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
+gradlew
+gradlew.bat
+
+# Maven
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+.mvn/wrapper/maven-wrapper-downloader.jar
+.mvn/wrapper/MavenWrapperDownloader.java
+.mvn/
+pom.xml.versionsBackup
+release.properties
+
+# IDEs and editors
+# IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+# VS Code
+.vscode/
+# Eclipse / STS
+.project
+.classpath
+.settings/
+.factorypath
+.springBeans
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/.nb-gradle/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+*.log.*
+hs_err_pid*
+replay_pid*
+
+# Spring DevTools
+.spring-boot-devtools.properties
+.spring-restart/
+.rebel.xml
+
+# Temporary files
+*.swp
+*.swo
+*~
+.tmp/
+tmp/
+
+# Test reports and coverage
+surefire-reports/
+failsafe-reports/
+test-output/
+jacoco.exec
+jacoco/
+coverage/
+.coverage
+.site/
+
+# Node/Front-end (if present)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+dist/
+.browserslistrc
+/.parcel-cache/
+/.vite/
+.vite/
+.eslintcache
+
+# SQLite databases and artifacts
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+/data/
+target/data/
+
+# Environment and local config
+.env
+.env.*
+*.local.properties
+application-*.local.yml
+application-*.local.properties
