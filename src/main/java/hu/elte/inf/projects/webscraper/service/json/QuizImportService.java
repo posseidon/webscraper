@@ -133,7 +133,7 @@ public class QuizImportService {
         }
 
         Map<String, Topic> topicLookup = topics.stream().collect(Collectors.toMap(Topic::getTopicId, Function.identity()));
-        Map<String, String> topicIdHash = topics.stream().collect(Collectors.toMap(Topic::getTopicId, topic -> createTopicId(quizMetadata.getSubject(), quizMetadata.getBook(), quizMetadata.getTitle(), topic.getTopicName(), topic.getDescription())));
+        Map<String, String> topicIdHash = topics.stream().collect(Collectors.toMap(Topic::getTopicId, topic -> createTopicId(quizMetadata.getCategory(), quizMetadata.getTopic(), quizMetadata.getTitle(), topic.getTopicName(), topic.getDescription())));
 
 
         // Establish Question -> Topic relationships

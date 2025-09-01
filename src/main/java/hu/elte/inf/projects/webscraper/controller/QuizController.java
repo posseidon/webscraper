@@ -29,33 +29,33 @@ public class QuizController {
         this.difficultyService = difficultyService;
     }
 
-    @GetMapping("/subjects")
+    @GetMapping("/categories")
     public String showSubjects(Model model) {
-        List<String> subjects = quizMetaDataRepository.findAllDistinctSubjects();
-        model.addAttribute("subjects", subjects);
-        return "subjects";
+        List<String> subjects = quizMetaDataRepository.findAllDistinctCategories();
+        model.addAttribute("categories", subjects);
+        return "categories";
     }
 
-    @GetMapping("/{subject}")
-    public String showBooks(@PathVariable String subject, Model model) {
-        List<String> books = quizMetaDataRepository.findDistinctBooksBySubject(subject);
-        model.addAttribute("books", books);
-        model.addAttribute("subject", subject);
-        return "books";
+    @GetMapping("/{category}")
+    public String showBooks(@PathVariable String category, Model model) {
+        List<String> books = quizMetaDataRepository.findDistinctTopicsByCategory(category);
+        model.addAttribute("topics", books);
+        model.addAttribute("category", category);
+        return "topics";
     }
 
-    @GetMapping("/{subject}/{book}")
-    public String showTitles(@PathVariable String subject, @PathVariable String book, Model model) {
-        List<QuizMetadata> quizzes = quizMetaDataRepository.findBySubjectAndBook(subject, book);
+    @GetMapping("/{category}/{topic}")
+    public String showTitles(@PathVariable String category, @PathVariable String topic, Model model) {
+        List<QuizMetadata> quizzes = quizMetaDataRepository.findByCategoryAndTopic(category, topic);
         model.addAttribute("quizzes", quizzes);
-        model.addAttribute("subject", subject);
-        model.addAttribute("book", book);
+        model.addAttribute("subject", category);
+        model.addAttribute("book", topic);
         return "titles";
     }
 
     @GetMapping("/{subject}/{book}/{title}")
     public String showQuizStart(@PathVariable String subject, @PathVariable String book, @PathVariable String title, Model model) {
-        QuizMetadata quiz = quizMetaDataRepository.findBySubjectAndBookAndTitle(subject, book, title).orElse(null);
+        QuizMetadata quiz = quizMetaDataRepository.findByCategoryAndTopicAndTitle(subject, book, title).orElse(null);
         if (quiz != null) {
             model.addAttribute("quiz", quiz);
             model.addAttribute("subject", subject);

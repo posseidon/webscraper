@@ -19,14 +19,14 @@ public interface QuizMetaDataRepository extends JpaRepository<QuizMetadata, Stri
     @EntityGraph(value = "QuizMetadata.withTopics")
     Optional<QuizMetadata> findWithTopicsById(String id);
     
-    @Query("SELECT DISTINCT q.subject FROM QuizMetadata q ORDER BY q.book")
-    List<String> findAllDistinctSubjects();
+    @Query("SELECT DISTINCT q.category FROM QuizMetadata q ORDER BY q.topic")
+    List<String> findAllDistinctCategories();
+
+    @Query("SELECT DISTINCT q.topic FROM QuizMetadata q WHERE q.category = :subject ORDER BY q.topic")
+    List<String> findDistinctTopicsByCategory(@Param("subject") String subject);
     
-    @Query("SELECT DISTINCT q.book FROM QuizMetadata q WHERE q.subject = :subject ORDER BY q.book")
-    List<String> findDistinctBooksBySubject(@Param("subject") String subject);
-    
-    @Query("SELECT q FROM QuizMetadata q WHERE q.subject = :subject AND q.book = :book ORDER BY q.title")
-    List<QuizMetadata> findBySubjectAndBook(@Param("subject") String subject, @Param("book") String book);
-    
-    Optional<QuizMetadata> findBySubjectAndBookAndTitle(String subject, String book, String title);
+    @Query("SELECT q FROM QuizMetadata q WHERE q.category = :subject AND q.topic = :book ORDER BY q.title")
+    List<QuizMetadata> findByCategoryAndTopic(@Param("subject") String subject, @Param("book") String book);
+
+    Optional<QuizMetadata> findByCategoryAndTopicAndTitle(String subject, String book, String title);
 }

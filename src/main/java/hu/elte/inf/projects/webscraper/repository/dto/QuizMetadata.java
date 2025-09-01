@@ -18,9 +18,9 @@ public class QuizMetadata {
     @Id
     private String id;
 
-    private String book;
+    private String topic;
     private String title;
-    private String subject;
+    private String category;
     private String level;
     
     @JsonProperty("total_questions")
@@ -38,8 +38,8 @@ public class QuizMetadata {
     private List<Topic> topics;
 
     public void createAndSetId(){
-        if(Objects.nonNull(this.book) && Objects.nonNull(this.title) && Objects.nonNull(this.subject)){
-            String id = StringUtils.join(List.of(this.subject, this.book, this.title), "_");
+        if(Objects.nonNull(this.topic) && Objects.nonNull(this.title) && Objects.nonNull(this.category)){
+            String id = StringUtils.join(List.of(this.category, this.topic, this.title), "_");
             setId(id);
         }
     }
@@ -52,12 +52,12 @@ public class QuizMetadata {
         this.id = id;
     }
 
-    public String getBook() {
-        return book;
+    public String getTopic() {
+        return topic;
     }
 
-    public void setBook(String book) {
-        this.book = book;
+    public void setTopic(String book) {
+        this.topic = book;
     }
 
     public String getTitle() {
@@ -68,12 +68,12 @@ public class QuizMetadata {
         this.title = title;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getCategory() {
+        return category;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setCategory(String subject) {
+        this.category = subject;
     }
 
     public String getLevel() {
