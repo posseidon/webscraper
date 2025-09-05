@@ -1,10 +1,3 @@
-console.log('🚀 JavaScript is loading!');
-
-// Simple test function available immediately
-window.testJS = function() {
-    console.log('✅ JavaScript is working!');
-    return 'JavaScript is working!';
-};
 
 // Function to update time estimator - MUST be available immediately for inline handlers
 function updateTimeEstimator(quizId, numberOfQuestions) {
@@ -30,27 +23,21 @@ function updateTimeEstimator(quizId, numberOfQuestions) {
                 const maxQuestions = parseInt(rangeSlider.max);
                 const selectedQuestions = parseInt(numberOfQuestions);
                 const progressPercent = Math.round((selectedQuestions / maxQuestions) * 100);
-                console.log('MaxQuestions:', maxQuestions, ' SelectedQuestions: ', selectedQuestions, ' progressPercent:', progressPercent);
                 // Update progress circle (circumference = 50, so progress = percentage/2)
                 const strokeLength = Math.round((progressPercent / 100) * 50);
                 setProgress(progressCircleElement, progressPercent);
-                console.log('✅ Updated progress circle to:', progressPercent + '% (', selectedQuestions, '/', maxQuestions, 'questions), stroke:', strokeLength);
             } else {
                 // Fallback: assume 100% if we can't find the slider
                 setProgress(progressCircleElement, 100);
-                console.log('✅ Range Slider not found: 100% (fallback)');
             }
         } else {
-            console.log('❌ Progress circle element not found');
         }
     } else {
-        console.log('❌ Time display element not found');
     }
 }
 
 function setProgress(circle, percent) {
     if (!circle) {
-        console.warn("No circle with id:", id);
         return;
     }
 
@@ -63,19 +50,6 @@ function setProgress(circle, percent) {
 
 // Make it globally available
 window.updateTimeEstimator = updateTimeEstimator;
-
-// Note: Removed immediate test to prevent exceptions on page load
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 DOM Content Loaded event fired!');
-    
-    const allQuizModals = document.querySelectorAll('[id*="quiz-modal"]');
-    const allRangeSliders = document.querySelectorAll('.questions-range-slider');
-    const allTimeDisplays = document.querySelectorAll('[id*="time-display"]');
-    const allProgressCircles = document.querySelectorAll('[id*="progress-circle"]');
-
-    const quizCards = document.querySelectorAll('.quiz-card');
-});
 
 // Add event listeners for buttons and controls
 document.addEventListener('click', function(e) {
@@ -114,15 +88,39 @@ document.addEventListener('click', function(e) {
         const buttonGroup = difficultyBtn.parentElement;
         const allButtons = buttonGroup.querySelectorAll('.difficulty-btn');
         
-        // Reset all buttons to default state
+        // Reset all buttons to their default state by removing active classes
         allButtons.forEach(btn => {
-            btn.classList.remove('active-difficulty', 'text-white', 'bg-blue-700', 'border-blue-700', 'dark:bg-blue-600');
-            btn.classList.add('text-gray-900', 'bg-white', 'border-gray-200', 'dark:bg-gray-800', 'dark:border-gray-700', 'dark:text-white');
+            btn.classList.remove('active-difficulty');
+            const difficulty = btn.getAttribute('data-difficulty');
+            
+            // Reset each button to its original color scheme
+            if (difficulty === 'easy') {
+                btn.className = 'difficulty-btn flex items-center justify-center px-4 py-3 text-sm font-medium transition-all duration-200 bg-green-50 text-green-700 border border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/40 focus:z-10 focus:ring-2 focus:ring-green-500 data-[active=true]:bg-green-600 data-[active=true]:text-white data-[active=true]:border-green-600';
+            } else if (difficulty === 'medium') {
+                btn.className = 'difficulty-btn flex items-center justify-center px-4 py-3 text-sm font-medium transition-all duration-200 bg-yellow-50 text-yellow-700 border border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-800 hover:bg-yellow-100 dark:hover:bg-yellow-900/40 focus:z-10 focus:ring-2 focus:ring-yellow-500 data-[active=true]:bg-yellow-600 data-[active=true]:text-white data-[active=true]:border-yellow-600';
+            } else if (difficulty === 'hard') {
+                btn.className = 'difficulty-btn flex items-center justify-center px-4 py-3 text-sm font-medium transition-all duration-200 bg-red-50 text-red-700 border border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/40 focus:z-10 focus:ring-2 focus:ring-red-500 data-[active=true]:bg-red-600 data-[active=true]:text-white data-[active=true]:border-red-600';
+            } else if (difficulty === 'mixed') {
+                btn.className = 'difficulty-btn flex items-center justify-center px-4 py-3 text-sm font-medium transition-all duration-200 bg-blue-600 text-white border border-blue-600 hover:bg-blue-700 hover:border-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-500';
+            }
         });
         
         // Set clicked button to active state
-        difficultyBtn.classList.remove('text-gray-900', 'bg-white', 'border-gray-200', 'dark:bg-gray-800', 'dark:border-gray-700', 'dark:text-white');
-        difficultyBtn.classList.add('active-difficulty', 'text-white', 'bg-blue-700', 'border-blue-700', 'dark:bg-blue-600');
+        difficultyBtn.classList.add('active-difficulty');
+        const selectedDifficulty = difficultyBtn.getAttribute('data-difficulty');
+        
+        // Apply active styling based on the button's difficulty level
+        if (selectedDifficulty === 'easy') {
+            difficultyBtn.classList.remove('bg-green-50', 'text-green-700', 'border-green-200');
+            difficultyBtn.classList.add('bg-green-600', 'text-white', 'border-green-600');
+        } else if (selectedDifficulty === 'medium') {
+            difficultyBtn.classList.remove('bg-yellow-50', 'text-yellow-700', 'border-yellow-200');
+            difficultyBtn.classList.add('bg-yellow-600', 'text-white', 'border-yellow-600');
+        } else if (selectedDifficulty === 'hard') {
+            difficultyBtn.classList.remove('bg-red-50', 'text-red-700', 'border-red-200');
+            difficultyBtn.classList.add('bg-red-600', 'text-white', 'border-red-600');
+        }
+        // Mixed button is already styled as active by default
     }
 });
 
@@ -130,19 +128,15 @@ document.addEventListener('click', function(e) {
 document.addEventListener('input', function(e) {
     // Check if it's any range input
     if (e.target.type === 'range') {
-        console.log('✅ Range input detected!');
         const quizId = e.target.getAttribute('data-quiz-id');
         const value = e.target.value;
-        console.log('Range slider - quizId:', quizId, 'value:', value);
         
         // Update question count (if element exists)
         updateQuestionCount(quizId, value);
         
         // Always update time estimator
-        console.log('About to call updateTimeEstimator with:', quizId, value);
         updateTimeEstimator(quizId, value);
     } else {
-        console.log('❌ Not a range input, type is:', e.target.type);
     }
 });
 
@@ -167,9 +161,6 @@ function updateQuestionCount(quizId, value) {
     if (countElement) {
         countElement.textContent = value;
     } else {
-        // Let's also try to find all elements with similar IDs
-        const allElements = document.querySelectorAll('[id*="question-count"]');
-        console.log('All question-count elements found:', allElements);
     }
 }
 
@@ -187,7 +178,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Quiz start function
 function startQuiz(quizTitle, quizId, category, topic) {
-    console.log('Starting quiz:', quizTitle, 'ID:', quizId, category, topic);
     
     // Get the modal ID by sanitizing the quiz ID (same as HTML template)
     const sanitizedQuizId = quizId.replace(/[^a-zA-Z0-9]/g, '-');
@@ -196,7 +186,6 @@ function startQuiz(quizTitle, quizId, category, topic) {
     // Get selected difficulty from button group
     const modal = document.getElementById(modalId);
     if (!modal) {
-        console.error('Modal not found with ID:', modalId);
         // Use default values if modal is not found
         const selectedDifficulty = 'mixed';
         const numberOfQuestions = 10;
@@ -233,11 +222,6 @@ function submitQuizForm(quizId, selectedDifficulty, numberOfQuestions) {
     difficultyInput.value = selectedDifficulty;
     form.appendChild(difficultyInput);
 
-    console.log('Submitting form:', form.action, 'with params:', {
-        questionCount: numberOfQuestions,
-        difficulty: selectedDifficulty,
-        quizId: quizId
-    });
     
     // Submit form
     document.body.appendChild(form);

@@ -66,6 +66,7 @@ public class QuizController {
             model.addAttribute("total", questions.size());
             model.addAttribute("selectedCount", questionCount);
             model.addAttribute("selectedDifficulty", difficulty);
+            model.addAttribute("quizTitle", quiz.getTitle());
             return "quiz-play";
         }
         return "redirect:/quiz/categories?error=Quiz not found";

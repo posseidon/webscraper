@@ -1,5 +1,5 @@
 {
-  "app.title": "Câu Hỏi",
+  "app.title": "Quiz",
   "nav.dashboard": "Bảng điều khiển",
   "nav.settings": "Cài đặt",
   "nav.earnings": "Thu nhập",
@@ -24,6 +24,7 @@
   "quiz.question": "Câu hỏi",
   "quiz.of": "của",
   "quiz.next": "Tiếp theo",
+  "quiz.close": "Thoát",
   "quiz.previous": "Trước",
   "quiz.finish": "Hoàn Thành Câu Hỏi",
   "quiz.results": "Kết Quả Câu Hỏi",

@@ -32,27 +32,18 @@ function initializeQuizData(questionsData) {
 
 // Initialize quiz when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, initializing quiz...');
     
     // Wait a bit for the language manager to be ready
     function initializeQuiz() {
-        console.log('=== INITIALIZING QUIZ ===');
-        console.log('window.quizQuestionsData:', window.quizQuestionsData);
-        console.log('Type of quizQuestionsData:', typeof window.quizQuestionsData);
         
         // Questions data will be passed from the HTML template
         if (window.quizQuestionsData && window.quizQuestionsData.length > 0) {
-            console.log('Quiz data found:', window.quizQuestionsData.length, 'questions');
-            console.log('First question sample:', window.quizQuestionsData[0]);
             initializeQuizData(window.quizQuestionsData);
             
             if (questions.length > 0) {
-                console.log('Loading first question and starting timer...');
-                console.log('Questions array:', questions);
                 loadQuestion(0);
                 initializeTimer();
             } else {
-                console.error('Questions array is empty after initialization');
                 const questionText = document.getElementById('questionText');
                 questionText.removeAttribute('data-translate');
                 if (window.languageManager) {
@@ -62,8 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         } else {
-            console.error('Quiz questions data not found or empty');
-            console.log('window.quizQuestionsData is:', window.quizQuestionsData);
             const questionText = document.getElementById('questionText');
             questionText.removeAttribute('data-translate');
             if (window.languageManager) {
@@ -79,21 +68,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Check if language manager is ready, otherwise wait longer
     if (window.languageManager && window.languageManager.currentLanguage) {
-        console.log('Language manager ready, initializing quiz...');
         initializeQuiz();
     } else {
-        console.log('Language manager not ready, waiting...');
         // Wait longer for language manager to fully load
         let attempts = 0;
         const waitForLanguageManager = () => {
             attempts++;
             if (window.languageManager && window.languageManager.currentLanguage) {
-                console.log('Language manager ready after', attempts, 'attempts');
                 initializeQuiz();
             } else if (attempts < 50) { // Wait up to 5 seconds
                 setTimeout(waitForLanguageManager, 100);
             } else {
-                console.warn('Language manager not available, initializing without translations');
                 initializeQuiz();
             }
         };
@@ -153,12 +138,35 @@ function setupEventListeners() {
         finishQuizBtn.addEventListener('click', finishQuiz);
     }
     
-    // Explanation toast close button
-    const toastCloseBtn = document.querySelector('#explanation-toast button[data-dismiss-target]');
-    if (toastCloseBtn) {
-        toastCloseBtn.addEventListener('click', function(e) {
+    // Explanation modal event listeners
+    const closeModalBtn = document.getElementById('close-explanation-modal');
+    const closeModalFooterBtn = document.getElementById('close-explanation-modal-footer');
+    const continueQuizBtn = document.getElementById('continue-quiz-btn');
+    
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            hideExplanationToast();
+            hideExplanationModal();
+        });
+    }
+    
+    if (closeModalFooterBtn) {
+        closeModalFooterBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            hideExplanationModal();
+        });
+    }
+    
+    if (continueQuizBtn) {
+        continueQuizBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            hideExplanationModal();
+            // Auto-advance to next question or show results
+            if (currentQuestionIndex < questions.length - 1) {
+                nextQuestion();
+            } else {
+                showEvaluation();
+            }
         });
     }
 }
@@ -169,13 +177,12 @@ function loadQuestion(index) {
         return;
     }
 
-    // Hide explanation toast when loading a new question
-    hideExplanationToast();
+    // Hide explanation modal when loading a new question
+    hideExplanationModal();
 
     const question = questions[index];
     currentQuestionIndex = index;
 
-    console.log('Loading question', index + 1, 'of', questions.length);
 
     // Update question counter
     const currentQuestionElement = document.getElementById('currentQuestionNum');
@@ -183,16 +190,12 @@ function loadQuestion(index) {
     
     if (currentQuestionElement) {
         currentQuestionElement.textContent = index + 1;
-        console.log('Updated current question number to:', index + 1);
     } else {
-        console.error('Current question number element not found');
     }
     
     if (totalQuestionsElement) {
         totalQuestionsElement.textContent = totalQuestions;
-        console.log('Updated total questions to:', totalQuestions);
     } else {
-        console.error('Total questions element not found');
     }
     
     // Update question progress circle
@@ -204,9 +207,7 @@ function loadQuestion(index) {
         questionTextElement.textContent = question.question;
         // Remove the translate attribute since we're setting actual question text
         questionTextElement.removeAttribute('data-translate');
-        console.log('Updated question text:', question.question);
     } else {
-        console.error('Question text element not found');
     }
 
     // Clear previous options
@@ -244,7 +245,6 @@ function loadQuestion(index) {
         // The template provides: <span data-translate="quiz.submit_answer">Submit Answer</span>
         actionBtn.className = 'px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800';
         actionBtn.dataset.mode = 'submit';
-        console.log('Action button set to submit mode (keeping original translation span)');
     }
     
     // Hide the bottom banner for new questions
@@ -347,8 +347,10 @@ function submitAnswer() {
         });
     }
 
-    // Show explanation in toast near the question
-    showExplanationToast(currentQuestion.explanation);
+    // Show explanation in modal only for wrong answers
+    if (selectedIndex !== correctIndex) {
+        showExplanationModal(currentQuestion.explanation);
+    }
 
     // Change action button to next/evaluate mode
     const actionBtn = document.getElementById('actionBtn');
@@ -397,82 +399,58 @@ function handleActionButton() {
 }
 
 function nextQuestion() {
-    // Hide explanation toast when moving to next question
-    hideExplanationToast();
+    // Hide explanation modal when moving to next question
+    hideExplanationModal();
     loadQuestion(currentQuestionIndex + 1);
 }
 
-function showExplanationToast(explanation) {
-    const toastContainer = document.getElementById('explanation-toast');
-    const toastText = document.getElementById('toast-explanation-text');
+function showExplanationModal(explanation) {
+    const modal = document.getElementById('explanation-modal');
+    const modalText = document.getElementById('modal-explanation-text');
     
-    if (!toastContainer || !toastText) {
-        console.error('Explanation toast elements not found');
+    if (!modal || !modalText) {
         return;
     }
     
     // Clear any existing content and translation attributes
-    toastText.innerHTML = '';
-    toastText.removeAttribute('data-translate');
+    modalText.innerHTML = '';
+    modalText.removeAttribute('data-translate');
     
     if (explanation && explanation.trim()) {
         // Set the explanation text
-        toastText.textContent = explanation;
-        
-        // Show the toast with animation
-        toastContainer.classList.remove('hidden');
-        
-        // Add smooth slide-down animation
-        toastContainer.style.opacity = '0';
-        toastContainer.style.transform = 'translateY(-20px)';
-        
-        requestAnimationFrame(() => {
-            toastContainer.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            toastContainer.style.opacity = '1';
-            toastContainer.style.transform = 'translateY(0)';
-        });
-        
-        console.log('Explanation toast shown');
+        modalText.textContent = explanation;
     } else {
         // Set default "no explanation" message with translation
         if (window.languageManager) {
-            toastText.textContent = window.languageManager.translate('quiz.no_explanation') || 'No explanation available for this question.';
+            modalText.textContent = window.languageManager.translate('quiz.no_explanation') || 'No explanation available for this question.';
         } else {
-            toastText.innerHTML = '<span data-translate="quiz.no_explanation">No explanation available for this question.</span>';
+            modalText.innerHTML = '<span data-translate="quiz.no_explanation">No explanation available for this question.</span>';
         }
-        
-        // Show the toast
-        toastContainer.classList.remove('hidden');
-        toastContainer.style.opacity = '1';
-        toastContainer.style.transform = 'translateY(0)';
-        
-        console.log('No explanation toast shown');
     }
+    
+    // Show the modal
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('overflow-hidden');
 }
 
-function hideExplanationToast() {
-    const toastContainer = document.getElementById('explanation-toast');
+function hideExplanationModal() {
+    const modal = document.getElementById('explanation-modal');
     
-    if (toastContainer && !toastContainer.classList.contains('hidden')) {
-        // Animate out
-        toastContainer.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-        toastContainer.style.opacity = '0';
-        toastContainer.style.transform = 'translateY(-20px)';
-        
-        setTimeout(() => {
-            toastContainer.classList.add('hidden');
-            toastContainer.style.transition = '';
-        }, 300);
-        
-        console.log('Explanation toast hidden');
+    if (modal && !modal.classList.contains('hidden')) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('overflow-hidden');
     }
 }
 
 function showEvaluation() {
     stopTimer();
     
-    // Hide explanation toast when showing results
-    hideExplanationToast();
+    // Hide explanation modal when showing results
+    hideExplanationModal();
     
     quizResults.completedAt = new Date();
     
@@ -638,7 +616,6 @@ function finishQuiz() {
         window.location.href = '/quiz/categories';
     })
     .catch(error => {
-        console.error('Error submitting results:', error);
         // Still redirect on error
         window.location.href = '/quiz/categories';
     });

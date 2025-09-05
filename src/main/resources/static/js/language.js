@@ -36,14 +36,13 @@ class LanguageManager {
             if (response.ok) {
                 this.translations = await response.json();
             } else {
-                console.warn(`Failed to load translations for ${this.currentLanguage}, falling back to English`);
                 if (this.currentLanguage !== 'en') {
                     const fallbackResponse = await fetch('/js/translations/en.json');
                     this.translations = await fallbackResponse.json();
                 }
             }
         } catch (error) {
-            console.error('Error loading translations:', error);
+            // Silent fallback to prevent console spam
         }
     }
 
@@ -53,7 +52,6 @@ class LanguageManager {
 
     async setLanguage(languageCode) {
         if (!this.supportedLanguages.includes(languageCode)) {
-            console.warn(`Unsupported language: ${languageCode}`);
             return;
         }
 
@@ -130,6 +128,40 @@ class LanguageManager {
         if (selector) {
             selector.addEventListener('change', (event) => {
                 this.setLanguage(event.target.value);
+            });
+        }
+
+        // Handle new language option buttons in user dropdown
+        const languageButtons = document.querySelectorAll('.language-option');
+        languageButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                const lang = button.getAttribute('data-lang');
+                if (lang) {
+                    this.setLanguage(lang);
+                }
+            });
+        });
+
+        // Handle language submenu toggle
+        const submenuToggle = document.getElementById('language-submenu-toggle');
+        const submenu = document.getElementById('language-submenu');
+        const arrow = document.getElementById('language-submenu-arrow');
+        
+        if (submenuToggle && submenu && arrow) {
+            submenuToggle.addEventListener('click', (event) => {
+                event.preventDefault();
+                const isExpanded = submenuToggle.getAttribute('aria-expanded') === 'true';
+                
+                if (isExpanded) {
+                    submenu.classList.add('hidden');
+                    submenuToggle.setAttribute('aria-expanded', 'false');
+                    arrow.style.transform = 'rotate(0deg)';
+                } else {
+                    submenu.classList.remove('hidden');
+                    submenuToggle.setAttribute('aria-expanded', 'true');
+                    arrow.style.transform = 'rotate(90deg)';
+                }
             });
         }
         

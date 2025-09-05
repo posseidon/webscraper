@@ -4,19 +4,11 @@
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a id="quiz-app-home" href="/quiz/categories" class="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>" class="h-8" alt="Flowbite Logo" />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white" data-translate="app.title">Quiz</span>
+            <div class="flex flex-col">
+                <span th:if="${quizTitle}" class="text-sm text-gray-600 dark:text-gray-400 truncate max-w-64" th:text="${quizTitle}"></span>
+            </div>
         </a>
         <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <!-- Language Selector -->
-            <div class="relative">
-                <label for="language-selector" class="sr-only" data-translate="language.selector_label">Language</label>
-                <select id="language-selector" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="en" data-translate="language.english">English</option>
-                    <option value="hu" data-translate="language.hungarian">Magyar</option>
-                    <option value="vi" data-translate="language.vietnamese">Tiếng Việt</option>
-                </select>
-            </div>
-            
             <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                 <span class="sr-only" data-translate="nav.user_menu">Open user menu</span>
                 <img class="w-8 h-8 rounded-full" th:src="@{/images/user-icon.png}" alt="Avatar"/>
@@ -34,10 +26,37 @@
                     <li>
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" data-translate="nav.settings">Settings</a>
                     </li>
-                    <li>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" data-translate="nav.earnings">Earnings</a>
+                    <li class="border-t border-gray-100 dark:border-gray-600 pt-2">
+                        <button class="flex items-center justify-between w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" id="language-submenu-toggle" aria-expanded="false">
+                            <span data-translate="language.selector_label">Language</span>
+                            <svg class="w-4 h-4 transition-transform duration-200" id="language-submenu-arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                        <div class="hidden pl-8 pr-4 pb-2" id="language-submenu">
+                            <div class="space-y-1">
+                                <button class="language-option flex items-center w-full px-2 py-1.5 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white rounded" data-lang="en">
+                                    <div class="w-5 h-5 rounded-full flex items-center justify-center mr-2 text-lg">
+                                        🇬🇧
+                                    </div>
+                                    <span data-translate="language.english">English</span>
+                                </button>
+                                <button class="language-option flex items-center w-full px-2 py-1.5 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white rounded" data-lang="hu">
+                                    <div class="w-5 h-5 rounded-full flex items-center justify-center mr-2 text-lg">
+                                        🇭🇺
+                                    </div>
+                                    <span data-translate="language.hungarian">Magyar</span>
+                                </button>
+                                <button class="language-option flex items-center w-full px-2 py-1.5 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white rounded" data-lang="vi">
+                                    <div class="w-5 h-5 rounded-full flex items-center justify-center mr-2 text-lg">
+                                        🇻🇳
+                                    </div>
+                                    <span data-translate="language.vietnamese">Tiếng Việt</span>
+                                </button>
+                            </div>
+                        </div>
                     </li>
-                    <li>
+                    <li class="border-t border-gray-100 dark:border-gray-600 pt-2">
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" data-translate="nav.signout">Sign out</a>
                     </li>
                 </ul>
