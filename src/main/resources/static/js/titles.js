@@ -79,18 +79,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Add event listeners for buttons and controls
 document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('start-quiz-btn')) {
+    // Check if the clicked element or its parent has the start-quiz-btn class
+    const startQuizBtn = e.target.closest('.start-quiz-btn');
+    if (startQuizBtn) {
         e.preventDefault();
-        const quizId = e.target.getAttribute('data-quiz-id');
-        const quizTitle = e.target.getAttribute('data-quiz-title');
-        const category = e.target.getAttribute('data-category');
-        const topic = e.target.getAttribute('data-topic');
+        const quizId = startQuizBtn.getAttribute('data-quiz-id');
+        const quizTitle = startQuizBtn.getAttribute('data-quiz-title');
+        const category = startQuizBtn.getAttribute('data-category');
+        const topic = startQuizBtn.getAttribute('data-topic');
         startQuiz(quizTitle, quizId, category, topic);
     }
     
-    if (e.target.classList.contains('cancel-quiz-btn')) {
+    // Check if the clicked element or its parent has the cancel-quiz-btn class
+    const cancelQuizBtn = e.target.closest('.cancel-quiz-btn');
+    if (cancelQuizBtn) {
         e.preventDefault();
-        const modalId = e.target.getAttribute('data-modal-hide');
+        const modalId = cancelQuizBtn.getAttribute('data-modal-hide');
         const modal = document.getElementById(modalId);
         if (modal) {
             // Clear any focused elements to prevent aria-hidden focus issues
@@ -104,9 +108,10 @@ document.addEventListener('click', function(e) {
     }
 
     // Handle difficulty button selection
-    if (e.target.classList.contains('difficulty-btn')) {
+    const difficultyBtn = e.target.closest('.difficulty-btn');
+    if (difficultyBtn) {
         e.preventDefault();
-        const buttonGroup = e.target.parentElement;
+        const buttonGroup = difficultyBtn.parentElement;
         const allButtons = buttonGroup.querySelectorAll('.difficulty-btn');
         
         // Reset all buttons to default state
@@ -116,8 +121,8 @@ document.addEventListener('click', function(e) {
         });
         
         // Set clicked button to active state
-        e.target.classList.remove('text-gray-900', 'bg-white', 'border-gray-200', 'dark:bg-gray-800', 'dark:border-gray-700', 'dark:text-white');
-        e.target.classList.add('active-difficulty', 'text-white', 'bg-blue-700', 'border-blue-700', 'dark:bg-blue-600');
+        difficultyBtn.classList.remove('text-gray-900', 'bg-white', 'border-gray-200', 'dark:bg-gray-800', 'dark:border-gray-700', 'dark:text-white');
+        difficultyBtn.classList.add('active-difficulty', 'text-white', 'bg-blue-700', 'border-blue-700', 'dark:bg-blue-600');
     }
 });
 

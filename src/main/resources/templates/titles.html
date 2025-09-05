@@ -15,7 +15,7 @@
                         <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                         </svg>
-                        <span th:text="${quiz.totalQuestions}">0</span> Questions
+                        <span th:text="${quiz.totalQuestions}">0</span> <span data-translate="titles.questions">Questions</span>
                     </span>
                 </div>
                 <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed">
@@ -24,7 +24,7 @@
                 <button th:attr="data-modal-target='quiz-modal-' + ${quiz.id.replaceAll('[^a-zA-Z0-9]', '-')}, data-modal-toggle='quiz-modal-' + ${quiz.id.replaceAll('[^a-zA-Z0-9]', '-')}"
                         class="w-full inline-block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200"
                         type="button">
-                    Start Quiz
+                    <span data-translate="titles.start_quiz">Start Quiz</span>
                 </button>
             </div>
         </div>
@@ -37,17 +37,17 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
                     </svg>
                 </div>
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No Quizzes Available</h3>
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2" data-translate="titles.no_quizzes">No Quizzes Available</h3>
                 <p class="text-gray-500 dark:text-gray-400 mb-4">
-                    <span th:if="${topic != null && category != null}">No quizzes found for <span class="capitalize font-medium" th:text="${topic}"></span> in <span class="capitalize font-medium" th:text="${category}"></span>.</span>
-                    <span th:if="${topic == null || category == null}">No quizzes are currently available.</span>
+                    <span th:if="${topic != null && category != null}" data-translate="titles.no_quizzes_desc">There are no quizzes available for this topic yet.</span>
+                    <span th:if="${topic == null || category == null}" data-translate="titles.no_quizzes_desc">There are no quizzes available for this topic yet.</span>
                 </p>
                 <a th:href="@{'/quiz/' + ${category}}"
                    class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
-                    Back to Topics
+                    <span data-translate="titles.back_to_topics">Back to Topics</span>
                 </a>
             </div>
         </div>

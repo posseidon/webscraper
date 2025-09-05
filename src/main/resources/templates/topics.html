@@ -17,7 +17,7 @@
                 </p>
                 <a th:href="@{'/quiz/' + ${category} + '/' + ${topic}}"
                    class="w-full inline-block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200">
-                    View Quizzes
+                    <span data-translate="topics.view_quizzes">View Quizzes</span>
                 </a>
             </div>
         </div>
@@ -30,17 +30,17 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 10.5v6m0-6V9a3 3 0 013-3v0a3 3 0 013 3v1.5M12 10.5H9.5a1.5 1.5 0 00-1.5 1.5v0a1.5 1.5 0 001.5 1.5h3M12 10.5V9a3 3 0 00-3-3v0a3 3 0 00-3 3v1.5M12 10.5H14.5a1.5 1.5 0 011.5 1.5v0a1.5 1.5 0 01-1.5 1.5h-3"></path>
                     </svg>
                 </div>
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No Topics Available</h3>
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2" data-translate="topics.no_topics">No Topics Available</h3>
                 <p class="text-gray-500 dark:text-gray-400 mb-4">
-                    <span th:if="${category != null}">No topics found for <span class="capitalize font-medium" th:text="${category}"></span>.</span>
-                    <span th:if="${category == null}">No topics are currently available.</span>
+                    <span th:if="${category != null}" data-translate="topics.no_topics_desc">There are no topics available for this category yet.</span>
+                    <span th:if="${category == null}" data-translate="topics.no_topics_desc">There are no topics available for this category yet.</span>
                 </p>
                 <a th:href="@{/quiz/categories}"
                    class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
-                    Back to Categories
+                    <span data-translate="topics.back_to_categories">Back to Categories</span>
                 </a>
             </div>
         </div>
