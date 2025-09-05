@@ -74,25 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const allTimeDisplays = document.querySelectorAll('[id*="time-display"]');
     const allProgressCircles = document.querySelectorAll('[id*="progress-circle"]');
 
-    const searchInput = document.getElementById('quizSearch');
     const quizCards = document.querySelectorAll('.quiz-card');
-
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-
-        quizCards.forEach(card => {
-            const quizTitle = card.querySelector('h2').textContent.toLowerCase();
-            const shouldShow = quizTitle.includes(searchTerm);
-            
-            if (shouldShow) {
-                card.style.display = 'block';
-                card.classList.remove('hidden');
-            } else {
-                card.style.display = 'none';
-                card.classList.add('hidden');
-            }
-        });
-    });
 });
 
 // Add event listeners for buttons and controls
