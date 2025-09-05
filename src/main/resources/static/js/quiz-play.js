@@ -34,25 +34,71 @@ function initializeQuizData(questionsData) {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing quiz...');
     
-    // Questions data will be passed from the HTML template
-    if (window.quizQuestionsData) {
-        console.log('Quiz data found:', window.quizQuestionsData.length, 'questions');
-        initializeQuizData(window.quizQuestionsData);
+    // Wait a bit for the language manager to be ready
+    function initializeQuiz() {
+        console.log('=== INITIALIZING QUIZ ===');
+        console.log('window.quizQuestionsData:', window.quizQuestionsData);
+        console.log('Type of quizQuestionsData:', typeof window.quizQuestionsData);
         
-        if (questions.length > 0) {
-            console.log('Loading first question and starting timer...');
-            loadQuestion(0);
-            initializeTimer();
+        // Questions data will be passed from the HTML template
+        if (window.quizQuestionsData && window.quizQuestionsData.length > 0) {
+            console.log('Quiz data found:', window.quizQuestionsData.length, 'questions');
+            console.log('First question sample:', window.quizQuestionsData[0]);
+            initializeQuizData(window.quizQuestionsData);
+            
+            if (questions.length > 0) {
+                console.log('Loading first question and starting timer...');
+                console.log('Questions array:', questions);
+                loadQuestion(0);
+                initializeTimer();
+            } else {
+                console.error('Questions array is empty after initialization');
+                const questionText = document.getElementById('questionText');
+                questionText.removeAttribute('data-translate');
+                if (window.languageManager) {
+                    questionText.textContent = window.languageManager.translate('quiz.error') || 'No questions available for this quiz.';
+                } else {
+                    questionText.textContent = 'No questions available for this quiz.';
+                }
+            }
         } else {
-            document.getElementById('questionText').textContent = 'No questions available for this quiz.';
+            console.error('Quiz questions data not found or empty');
+            console.log('window.quizQuestionsData is:', window.quizQuestionsData);
+            const questionText = document.getElementById('questionText');
+            questionText.removeAttribute('data-translate');
+            if (window.languageManager) {
+                questionText.textContent = window.languageManager.translate('quiz.error') || 'Error loading quiz data.';
+            } else {
+                questionText.textContent = 'Error loading quiz data.';
+            }
         }
-    } else {
-        console.error('Quiz questions data not found');
-        document.getElementById('questionText').textContent = 'Error loading quiz data.';
+        
+        // Add event listeners for buttons
+        setupEventListeners();
     }
     
-    // Add event listeners for buttons
-    setupEventListeners();
+    // Check if language manager is ready, otherwise wait longer
+    if (window.languageManager && window.languageManager.currentLanguage) {
+        console.log('Language manager ready, initializing quiz...');
+        initializeQuiz();
+    } else {
+        console.log('Language manager not ready, waiting...');
+        // Wait longer for language manager to fully load
+        let attempts = 0;
+        const waitForLanguageManager = () => {
+            attempts++;
+            if (window.languageManager && window.languageManager.currentLanguage) {
+                console.log('Language manager ready after', attempts, 'attempts');
+                initializeQuiz();
+            } else if (attempts < 50) { // Wait up to 5 seconds
+                setTimeout(waitForLanguageManager, 100);
+            } else {
+                console.warn('Language manager not available, initializing without translations');
+                initializeQuiz();
+            }
+        };
+        setTimeout(waitForLanguageManager, 100);
+    }
 });
 
 function setupEventListeners() {
@@ -106,6 +152,15 @@ function setupEventListeners() {
     if (finishQuizBtn) {
         finishQuizBtn.addEventListener('click', finishQuiz);
     }
+    
+    // Explanation toast close button
+    const toastCloseBtn = document.querySelector('#explanation-toast button[data-dismiss-target]');
+    if (toastCloseBtn) {
+        toastCloseBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            hideExplanationToast();
+        });
+    }
 }
 
 function loadQuestion(index) {
@@ -113,6 +168,9 @@ function loadQuestion(index) {
         showEvaluation();
         return;
     }
+
+    // Hide explanation toast when loading a new question
+    hideExplanationToast();
 
     const question = questions[index];
     currentQuestionIndex = index;
@@ -144,7 +202,9 @@ function loadQuestion(index) {
     const questionTextElement = document.getElementById('questionText');
     if (questionTextElement) {
         questionTextElement.textContent = question.question;
-        console.log('Updated question text');
+        // Remove the translate attribute since we're setting actual question text
+        questionTextElement.removeAttribute('data-translate');
+        console.log('Updated question text:', question.question);
     } else {
         console.error('Question text element not found');
     }
@@ -180,9 +240,11 @@ function loadQuestion(index) {
     // Set action button to submit mode
     const actionBtn = document.getElementById('actionBtn');
     if (actionBtn) {
-        actionBtn.textContent = 'Submit Answer';
+        // Don't change the button text on initial load - it already has the correct translation span
+        // The template provides: <span data-translate="quiz.submit_answer">Submit Answer</span>
         actionBtn.className = 'px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800';
         actionBtn.dataset.mode = 'submit';
+        console.log('Action button set to submit mode (keeping original translation span)');
     }
     
     // Hide the bottom banner for new questions
@@ -285,38 +347,38 @@ function submitAnswer() {
         });
     }
 
-    // Show explanation in both the card and the bottom banner
-    const bottomBanner = document.getElementById('bottom-banner');
-    const bannerExplanationText = document.getElementById('bannerExplanationText');
-    
-    if (currentQuestion.explanation) {
-        // Show in bottom banner
-        if (bannerExplanationText) {
-            bannerExplanationText.textContent = currentQuestion.explanation;
-        }
-    } else {
-        // Show default text if no explanation
-        if (bannerExplanationText) {
-            bannerExplanationText.textContent = 'No explanation available for this question.';
-        }
-    }
-    
-    // Show the bottom banner
-    if (bottomBanner) {
-        bottomBanner.classList.remove('hidden');
-    }
+    // Show explanation in toast near the question
+    showExplanationToast(currentQuestion.explanation);
 
     // Change action button to next/evaluate mode
     const actionBtn = document.getElementById('actionBtn');
     if (actionBtn) {
         if (currentQuestionIndex < questions.length - 1) {
-            actionBtn.textContent = 'Next Question';
+            // Create span with translation attribute for Next button
+            actionBtn.innerHTML = `<span data-translate="quiz.next">Next</span>`;
             actionBtn.className = 'px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800';
             actionBtn.dataset.mode = 'next';
+            
+            // Manually translate the new content if language manager is available
+            if (window.languageManager) {
+                const span = actionBtn.querySelector('span');
+                if (span) {
+                    span.textContent = window.languageManager.translate('quiz.next');
+                }
+            }
         } else {
-            actionBtn.textContent = 'View Results';
+            // Create span with translation attribute for Finish button
+            actionBtn.innerHTML = `<span data-translate="quiz.finish">Finish Quiz</span>`;
             actionBtn.className = 'px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors duration-200 focus:ring-4 focus:ring-purple-300 dark:focus:ring-purple-800';
             actionBtn.dataset.mode = 'evaluate';
+            
+            // Manually translate the new content if language manager is available
+            if (window.languageManager) {
+                const span = actionBtn.querySelector('span');
+                if (span) {
+                    span.textContent = window.languageManager.translate('quiz.finish');
+                }
+            }
         }
     }
 }
@@ -335,23 +397,90 @@ function handleActionButton() {
 }
 
 function nextQuestion() {
+    // Hide explanation toast when moving to next question
+    hideExplanationToast();
     loadQuestion(currentQuestionIndex + 1);
+}
+
+function showExplanationToast(explanation) {
+    const toastContainer = document.getElementById('explanation-toast');
+    const toastText = document.getElementById('toast-explanation-text');
+    
+    if (!toastContainer || !toastText) {
+        console.error('Explanation toast elements not found');
+        return;
+    }
+    
+    // Clear any existing content and translation attributes
+    toastText.innerHTML = '';
+    toastText.removeAttribute('data-translate');
+    
+    if (explanation && explanation.trim()) {
+        // Set the explanation text
+        toastText.textContent = explanation;
+        
+        // Show the toast with animation
+        toastContainer.classList.remove('hidden');
+        
+        // Add smooth slide-down animation
+        toastContainer.style.opacity = '0';
+        toastContainer.style.transform = 'translateY(-20px)';
+        
+        requestAnimationFrame(() => {
+            toastContainer.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            toastContainer.style.opacity = '1';
+            toastContainer.style.transform = 'translateY(0)';
+        });
+        
+        console.log('Explanation toast shown');
+    } else {
+        // Set default "no explanation" message with translation
+        if (window.languageManager) {
+            toastText.textContent = window.languageManager.translate('quiz.no_explanation') || 'No explanation available for this question.';
+        } else {
+            toastText.innerHTML = '<span data-translate="quiz.no_explanation">No explanation available for this question.</span>';
+        }
+        
+        // Show the toast
+        toastContainer.classList.remove('hidden');
+        toastContainer.style.opacity = '1';
+        toastContainer.style.transform = 'translateY(0)';
+        
+        console.log('No explanation toast shown');
+    }
+}
+
+function hideExplanationToast() {
+    const toastContainer = document.getElementById('explanation-toast');
+    
+    if (toastContainer && !toastContainer.classList.contains('hidden')) {
+        // Animate out
+        toastContainer.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        toastContainer.style.opacity = '0';
+        toastContainer.style.transform = 'translateY(-20px)';
+        
+        setTimeout(() => {
+            toastContainer.classList.add('hidden');
+            toastContainer.style.transition = '';
+        }, 300);
+        
+        console.log('Explanation toast hidden');
+    }
 }
 
 function showEvaluation() {
     stopTimer();
+    
+    // Hide explanation toast when showing results
+    hideExplanationToast();
     
     quizResults.completedAt = new Date();
     
     // Calculate percentage
     const percentage = Math.round((correctAnswers / totalQuestions) * 100);
     
-    // Hide question container and bottom banner
+    // Hide question container
     document.getElementById('questionContainer').classList.add('hidden');
-    const bottomBanner = document.getElementById('bottom-banner');
-    if (bottomBanner) {
-        bottomBanner.classList.add('hidden');
-    }
     
     // Show results container
     document.getElementById('resultsContainer').classList.remove('hidden');
@@ -380,7 +509,7 @@ function displayWrongAnswers() {
         wrongAnswerCard.innerHTML = `
             <div class="mb-4">
                 <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                    Question ${wrongAnswer.questionIndex + 1}:
+                    ${window.languageManager ? window.languageManager.translate('quiz.question_label') : 'Question'} ${wrongAnswer.questionIndex + 1}:
                 </h4>
                 <p class="text-gray-700 dark:text-gray-300">${wrongAnswer.question.question}</p>
             </div>
@@ -388,21 +517,21 @@ function displayWrongAnswers() {
             <div class="space-y-3">
                 <div class="flex items-start space-x-2">
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">
-                        Your Answer
+                        ${window.languageManager ? window.languageManager.translate('quiz.your_answer') : 'Your Answer'}
                     </span>
                     <span class="text-gray-700 dark:text-gray-300">${wrongAnswer.question.options[wrongAnswer.selectedAnswer]}</span>
                 </div>
                 
                 <div class="flex items-start space-x-2">
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
-                        Correct Answer
+                        ${window.languageManager ? window.languageManager.translate('quiz.correct_answer') : 'Correct Answer'}
                     </span>
                     <span class="text-gray-700 dark:text-gray-300">${wrongAnswer.question.options[wrongAnswer.correctAnswer]}</span>
                 </div>
                 
                 ${wrongAnswer.question.explanation ? `
                 <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
-                    <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-1">Explanation:</h5>
+                    <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-1">${window.languageManager ? window.languageManager.translate('quiz.explanation') : 'Explanation:'}</h5>
                     <p class="text-sm text-gray-600 dark:text-gray-400">${wrongAnswer.question.explanation}</p>
                 </div>
                 ` : ''}

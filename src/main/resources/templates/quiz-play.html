@@ -16,7 +16,7 @@
                     </div>
                     <!-- Time label positioned below the control -->
                     <div class="absolute" style="bottom: 18px;">
-                        <span class="text-xs text-gray-500 dark:text-gray-400">time</span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400" data-translate="quiz.time">time</span>
                     </div>
                 </div>
                 <!-- SVG Circle Progress -->
@@ -48,7 +48,7 @@
                             class="cursor-pointer hover:fill-white transition-colors duration-200"
                             style="pointer-events: auto;"
                             onclick="toggleTimer()">
-                        <title>Toggle Timer</title>
+                        <title data-translate="quiz.toggle_timer">Toggle Timer</title>
                     </circle>
                     <g id="timerIcon" transform="translate(16.5,16.5)" class="cursor-pointer" style="pointer-events: auto;" onclick="toggleTimer()">
                         <!-- Default pause icon (two vertical bars) -->
@@ -58,20 +58,20 @@
                 </svg>
             </div>
             <div class="text-left">
-                <div class="text-sm font-medium text-gray-600 dark:text-gray-300">Remaining Time</div>
+                <div class="text-sm font-medium text-gray-600 dark:text-gray-300" data-translate="quiz.remaining_time">Remaining Time</div>
             </div>
         </div>
 
         <!-- Question Counter with Modern Design -->
         <div class="flex items-center space-x-4">
             <div class="text-right">
-                <div class="text-sm font-medium text-gray-600 dark:text-gray-300">Progress</div>
+                <div class="text-sm font-medium text-gray-600 dark:text-gray-300" data-translate="quiz.progress">Progress</div>
             </div>
             <div class="relative w-16 h-16">
                 <!-- Centered question counter -->
                 <div class="absolute inset-0 flex flex-col items-center justify-center z-10 text-center">
                     <span id="currentQuestionNum" class="text-sm font-bold text-gray-800 dark:text-gray-100">1</span>
-                    <span class="text-xs text-gray-500 dark:text-gray-400">of <span id="totalQuestions" th:text="${total}">10</span></span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400"><span data-translate="quiz.of">of</span> <span id="totalQuestions" th:text="${total}">10</span></span>
                 </div>
                 <!-- SVG Circle Progress for Questions -->
                 <svg class="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
@@ -99,12 +99,38 @@
 
     <!-- Question Container -->
     <div id="questionContainer">
+        <!-- Explanation Toast (positioned above question card) -->
+        <div id="explanation-toast" class="hidden max-w-4xl mx-auto mb-4">
+            <div id="toast-success" class="flex items-center w-full p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 border border-green-200 dark:border-green-700" role="alert">
+                <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                    </svg>
+                    <span class="sr-only">Check icon</span>
+                </div>
+                <div class="ms-3 text-sm font-normal flex-1">
+                    <div class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">
+                        <span data-translate="quiz.explanation">Explanation:</span>
+                    </div>
+                    <div id="toast-explanation-text" class="mb-2 text-sm font-normal">
+                        <span data-translate="quiz.explanation_placeholder">Answer explanation will appear here...</span>
+                    </div>
+                </div>
+                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
+                    <span class="sr-only">Close</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
         <!-- Question Card -->
         <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6">
             <div class="p-6">
                 <!-- Question Text -->
                 <div class="mb-6">
-                    <h1 id="questionText" class="text-2xl font-semibold text-gray-900 dark:text-white leading-relaxed">Loading question...</h1>
+                    <h1 id="questionText" class="text-2xl font-semibold text-gray-900 dark:text-white leading-relaxed" data-translate="quiz.loading">Loading question...</h1>
                 </div>
                 
                 <!-- Options Container -->
@@ -115,7 +141,7 @@
                 <!-- Action Button -->
                 <div class="flex justify-center mt-8">
                     <button id="actionBtn" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">
-                        Submit Answer
+                        <span data-translate="quiz.submit_answer">Submit Answer</span>
                     </button>
                 </div>
             </div>
@@ -127,7 +153,7 @@
         <!-- Score Summary Card -->
         <div class="max-w-2xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-8">
             <div class="p-8 text-center">
-                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Quiz Results</h2>
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6" data-translate="quiz.results">Quiz Results</h2>
                 
                 <!-- Score Circle -->
                 <div class="flex justify-center mb-6">
@@ -139,44 +165,34 @@
                 </div>
                 
                 <p class="text-lg text-gray-600 dark:text-gray-300">
-                    You got <span id="correctAnswers" class="font-bold text-green-600 dark:text-green-400">0</span> 
-                    out of <span id="totalQuestionsResult" class="font-bold">0</span> questions correct!
+                    <span data-translate="quiz.you_got">You got</span> <span id="correctAnswers" class="font-bold text-green-600 dark:text-green-400">0</span> 
+                    <span data-translate="quiz.out_of">out of</span> <span id="totalQuestionsResult" class="font-bold">0</span> <span data-translate="quiz.questions_correct">questions correct!</span>
                 </p>
                 
                 <button id="finishQuizBtn" class="mt-6 px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">
-                    Back to Categories
+                    <span data-translate="quiz.back_to_categories">Back to Categories</span>
                 </button>
             </div>
         </div>
         
         <!-- Wrong Answers Section -->
         <div id="wrongAnswersSection" class="max-w-4xl mx-auto">
-            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Review Wrong Answers</h3>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center" data-translate="quiz.review_wrong">Review Wrong Answers</h3>
             <div id="wrongAnswersList" class="space-y-4">
                 <!-- Wrong answers will be populated here -->
             </div>
         </div>
     </div>
 
-    <!-- Explanation banner -->
-    <div id="bottom-banner" tabindex="-1" class="hidden fixed bottom-0 start-0 z-50 flex flex-col sm:flex-row justify-between w-full min-h-[130px] p-6 border-t border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-        <div class="flex items-start flex-grow pr-4">
-            <div class="flex items-start w-full">
-                <span class="sr-only">Explanation</span>
-                <div class="flex-grow">
-                    <p class="text-sm font-normal text-gray-600 dark:text-gray-300 leading-relaxed">
-                        <strong>Explanation:</strong> <span id="bannerExplanationText" class="inline">Answer explanation will appear here...</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Data injection for JavaScript -->
     <script th:inline="javascript">
         /*<![CDATA[*/
         // Pass quiz data to external JavaScript file
         window.quizQuestionsData = /*[[${questions}]]*/ [];
+        
+        // Debug log to check if data is passed correctly
+        console.log('Quiz questions data injected:', window.quizQuestionsData);
         /*]]>*/
     </script>
     

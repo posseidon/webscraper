@@ -15,7 +15,8 @@
                     th:text="${category}">Category Name</h2>
                 
                 <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-5"
-                   th:text="'Explore ' + ${#strings.toLowerCase(category)} + ' topics and test your knowledge with interactive quizzes.'">
+                   th:text="'Explore ' + ${#strings.toLowerCase(category)} + ' topics and test your knowledge with interactive quizzes.'"
+                   data-translate="categories.explore_desc">
                     Explore this subject and test your knowledge with interactive quizzes.
                 </p>
                 
@@ -27,7 +28,7 @@
                              (iterStat.index == 2 ? 'bg-amber-600 hover:bg-amber-700 focus:ring-amber-500' :
                              (iterStat.index == 3 ? 'bg-purple-600 hover:bg-purple-700 focus:ring-purple-500' :
                              'bg-red-600 hover:bg-red-700 focus:ring-red-500')))}">
-                    <span>Start Learning</span>
+                    <span data-translate="categories.start_learning">Start Learning</span>
                     <svg class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5-5 5M6 12h12"></path>
                     </svg>
@@ -43,8 +44,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                     </svg>
                 </div>
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No Quiz Categories Available</h3>
-                <p class="text-gray-500 dark:text-gray-400">Please check back later for available quiz categories.</p>
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2" data-translate="categories.no_categories">No Quiz Categories Available</h3>
+                <p class="text-gray-500 dark:text-gray-400" data-translate="categories.check_back">Please check back later for available quiz categories.</p>
             </div>
         </div>
     </div>
