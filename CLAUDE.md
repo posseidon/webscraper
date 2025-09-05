@@ -72,7 +72,7 @@ docker run -p 8080:8080 -v $(pwd)/data:/data webscraper
 ### Database Layer
 - **Entities**: Question, QuizMetadata, Topic (DTOs in `repository/dto/`)
 - **Repositories**: JPA repositories for each entity
-- **Database**: SQLite at `/data/webscraper.db` (configurable in application.yml)
+- **Database**: MongoDb (configurable in application.yml)
 
 ### Additional Controllers
 - **QuizController** (`controller/QuizController.java`): Handles quiz retrieval endpoints

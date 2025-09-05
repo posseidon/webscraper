@@ -48,23 +48,9 @@ public class QuizController {
     public String showTitles(@PathVariable String category, @PathVariable String topic, Model model) {
         List<QuizMetadata> quizzes = quizMetaDataRepository.findByCategoryAndTopic(category, topic);
         model.addAttribute("quizzes", quizzes);
-        model.addAttribute("subject", category);
-        model.addAttribute("book", topic);
+        model.addAttribute("category", category);
+        model.addAttribute("topic", topic);
         return "titles";
-    }
-
-    @GetMapping("/{subject}/{book}/{title}")
-    public String showQuizStart(@PathVariable String subject, @PathVariable String book, @PathVariable String title, Model model) {
-        QuizMetadata quiz = quizMetaDataRepository.findByCategoryAndTopicAndTitle(subject, book, title).orElse(null);
-        if (quiz != null) {
-            model.addAttribute("quiz", quiz);
-            model.addAttribute("subject", subject);
-            model.addAttribute("book", book);
-            model.addAttribute("title", title);
-            model.addAttribute("difficultyLevels", difficultyService.getAllDifficultyLevels());
-            return "quiz-start";
-        }
-        return "redirect:/quiz/subjects?error=Quiz not found";
     }
 
     @PostMapping("/start/{quizId}")
@@ -75,13 +61,14 @@ public class QuizController {
         QuizMetadata quiz = quizService.findCompleteQuizById(quizId);
         if (quiz != null) {
             List<Question> questions = selectBalancedQuestions(quiz, questionCount, difficulty);
+            
             model.addAttribute("questions", questions);
             model.addAttribute("total", questions.size());
             model.addAttribute("selectedCount", questionCount);
             model.addAttribute("selectedDifficulty", difficulty);
             return "quiz-play";
         }
-        return "redirect:/quiz/subjects?error=Quiz not found";
+        return "redirect:/quiz/categories?error=Quiz not found";
     }
     
     private List<Question> selectBalancedQuestions(QuizMetadata quiz, int requestedCount, String difficulty) {
@@ -164,15 +151,6 @@ public class QuizController {
         return selectedQuestions;
     }
 
-    @GetMapping("/play/{quizId}")
-    public String playQuiz(@PathVariable String quizId, Model model) {
-        QuizMetadata quiz = quizService.findCompleteQuizById(quizId);
-        if (quiz != null) {
-            model.addAttribute("quiz", quiz);
-            return "quiz-play";
-        }
-        return "redirect:/quiz/start?error=Quiz not found";
-    }
 
     @PostMapping("/submit-results")
     @ResponseBody
@@ -191,16 +169,5 @@ public class QuizController {
         return response;
     }
 
-    @ResponseBody
-    @GetMapping("/api/quiz/{title}")
-    public QuizMetadata getQuizApi(@PathVariable String title) {
-        return quizService.findCompleteQuizByTitle(title);
-    }
-
-    @ResponseBody
-    @GetMapping("/api/topic/{topicName}")
-    public Topic getTopicApi(@PathVariable String topicName) {
-        return quizService.findTopicByName(topicName);
-    }
 
 }

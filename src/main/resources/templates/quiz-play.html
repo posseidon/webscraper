@@ -1,476 +1,188 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="format-detection" content="telephone=no">
-    <title>Quiz Player</title>
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
-    <!-- Ionic CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css">
-    <!-- Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/quiz-play.css}">
-</head>
-<body>
-  <!-- Ionic App root element -->
-  <ion-app>
-    <ion-content>
-      <div class="quiz-play-page">
-          <!-- Header Section with Progress and Timer -->
-          <div class="quiz-header-section">
-            <!-- Timer/Score Display -->
-            <div class="quiz-timer-container">
-              <div class="quiz-timer">
-                <span class="timer-number" id="timerDisplay">0</span>
-              </div>
-              <div class="quiz-timer-icon">
-                <i class="material-icons">schedule</i>
-              </div>
-            </div>
-            
-            <!-- Question Counter -->
-            <div class="question-counter">
-              <span class="question-text">Question <span id="currentQuestionNum">1</span>/<span id="totalQuestions" th:text="${total}">10</span></span>
-            </div>
-          </div>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      th:replace="~{fragments/layout :: layout ('Quiz Player - Quiz Application', ~{::content})}" lang="en">
 
-          <!-- Question Container -->
-          <div class="quiz-question-section" id="questionContainer">
-            <!-- Question Text -->
-            <div class="quiz-question-text">
-              <h1 id="questionText">Loading question...</h1>
-            </div>
-            
-            <!-- Options Container -->
-            <div class="quiz-options-container" id="optionsContainer">
-              <!-- Options will be populated by JavaScript -->
-            </div>
-            
-            
-            <!-- Action Buttons -->
-            <div class="quiz-action-section">
-              <button id="submitBtn" class="quiz-next-button" onclick="submitAnswer()">
-                <span>Submit</span>
-              </button>
-              
-              <button id="nextBtn" class="quiz-next-button hidden" onclick="nextQuestion()">
-                <span>Next</span>
-              </button>
-              
-              <button id="evaluateBtn" class="quiz-next-button hidden" onclick="showEvaluation()">
-                <span>Results</span>
-              </button>
-            </div>
-            
-            <!-- Explanation Container (hidden initially) -->
-            <div class="quiz-explanation-section hidden" id="explanationContainer">
-              <div class="explanation-content">
-                <h4 class="explanation-title">Explanation:</h4>
-                <p class="explanation-text" id="explanationText"></p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Results Container (hidden initially) -->
-          <div class="results-block hidden" id="resultsContainer">
-            <ion-card>
-              <ion-card-content class="text-align-center">
-                <h2 class="results-title">Quiz Results</h2>
-                
-                <!-- Score Summary -->
-                <div class="score-summary-section">
-                  <div class="score-circle-container">
-                    <div class="score-percentage" id="scorePercentage">0%</div>
-                  </div>
-                  <p class="score-description">You got <span class="score-correct" id="correctAnswers">0</span> out of <span class="score-total" id="totalQuestionsResult">0</span> questions correct!</p>
+<div th:fragment="content" class="container mx-auto px-4 pt-0 pb-48">
+    <br/><br/><br/>
+    <!-- Quiz Header Section -->
+    <div class="flex justify-between items-center mb-6">
+        <!-- Timer Display with SVG Circle Progress -->
+        <div class="flex items-center space-x-4">
+            <div class="relative w-24 h-24">
+                <!-- Timer text positioned relative to centered control -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center z-10 text-center">
+                    <!-- Time display positioned above the control -->
+                    <div class="absolute" style="top: 18px;">
+                        <span id="timerDisplay" class="text-sm font-bold text-gray-800 dark:text-gray-100">00:00</span>
+                    </div>
+                    <!-- Time label positioned below the control -->
+                    <div class="absolute" style="bottom: 18px;">
+                        <span class="text-xs text-gray-500 dark:text-gray-400">time</span>
+                    </div>
                 </div>
-              </ion-card-content>
-            </ion-card>
-            
-            <!-- Wrong Answers Section -->
-            <div class="wrong-answers-section" id="wrongAnswersSection">
-              <div class="block-title">Review Wrong Answers:</div>
-              <div id="wrongAnswersList">
+                <!-- SVG Circle Progress -->
+                <svg class="w-24 h-24 transform -rotate-90" viewBox="0 0 36 36">
+                    <!-- Background circle -->
+                    <circle
+                            cx="18" cy="18" r="15.9155"
+                            stroke="#E5E7EB"
+                            stroke-width="3"
+                            fill="none"
+                            class="dark:stroke-gray-600"/>
+                    <!-- Progress circle -->
+                    <circle
+                            id="timerProgressCircle"
+                            cx="18" cy="18" r="15.9155"
+                            stroke="#3B82F6"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            fill="none"
+                            style="stroke-dasharray: 100 100; stroke-dashoffset: 0;"
+                            transform="rotate(-90 18 18)"/>
+                    <!-- Embedded play/pause control (centered in timer circle) -->
+                    <circle
+                            id="timerControl"
+                            cx="18" cy="18" r="3"
+                            fill="rgba(255,255,255,0.95)"
+                            stroke="#3B82F6"
+                            stroke-width="1"
+                            class="cursor-pointer hover:fill-white transition-colors duration-200"
+                            style="pointer-events: auto;"
+                            onclick="toggleTimer()">
+                        <title>Toggle Timer</title>
+                    </circle>
+                    <g id="timerIcon" transform="translate(16.5,16.5)" class="cursor-pointer" style="pointer-events: auto;" onclick="toggleTimer()">
+                        <!-- Default pause icon (two vertical bars) -->
+                        <rect x="0.5" y="0.5" width="0.8" height="2" fill="#3B82F6"/>
+                        <rect x="1.7" y="0.5" width="0.8" height="2" fill="#3B82F6"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="text-left">
+                <div class="text-sm font-medium text-gray-600 dark:text-gray-300">Remaining Time</div>
+            </div>
+        </div>
+
+        <!-- Question Counter with Modern Design -->
+        <div class="flex items-center space-x-4">
+            <div class="text-right">
+                <div class="text-sm font-medium text-gray-600 dark:text-gray-300">Progress</div>
+            </div>
+            <div class="relative w-16 h-16">
+                <!-- Centered question counter -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center z-10 text-center">
+                    <span id="currentQuestionNum" class="text-sm font-bold text-gray-800 dark:text-gray-100">1</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">of <span id="totalQuestions" th:text="${total}">10</span></span>
+                </div>
+                <!-- SVG Circle Progress for Questions -->
+                <svg class="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
+                    <!-- background circle -->
+                    <circle
+                        cx="18" cy="18" r="15.9155"
+                        stroke="#E5E7EB"
+                        stroke-width="3"
+                        fill="none"
+                        class="dark:stroke-gray-600"/>
+                    <!-- progress circle -->
+                    <circle
+                        id="questionProgressCircle"
+                        cx="18" cy="18" r="15.9155"
+                        stroke="#10B981"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        fill="none"
+                        style="stroke-dasharray: 100 100; stroke-dashoffset: 100;"
+                        transform="rotate(-90 18 18)"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Question Container -->
+    <div id="questionContainer">
+        <!-- Question Card -->
+        <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6">
+            <div class="p-6">
+                <!-- Question Text -->
+                <div class="mb-6">
+                    <h1 id="questionText" class="text-2xl font-semibold text-gray-900 dark:text-white leading-relaxed">Loading question...</h1>
+                </div>
+                
+                <!-- Options Container -->
+                <div id="optionsContainer" class="space-y-4">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+                
+                <!-- Action Button -->
+                <div class="flex justify-center mt-8">
+                    <button id="actionBtn" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">
+                        Submit Answer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Container (hidden initially) -->
+    <div id="resultsContainer" class="hidden">
+        <!-- Score Summary Card -->
+        <div class="max-w-2xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-8">
+            <div class="p-8 text-center">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Quiz Results</h2>
+                
+                <!-- Score Circle -->
+                <div class="flex justify-center mb-6">
+                    <div class="relative w-32 h-32">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                            <span id="scorePercentage" class="text-3xl font-bold text-white">0%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="text-lg text-gray-600 dark:text-gray-300">
+                    You got <span id="correctAnswers" class="font-bold text-green-600 dark:text-green-400">0</span> 
+                    out of <span id="totalQuestionsResult" class="font-bold">0</span> questions correct!
+                </p>
+                
+                <button id="finishQuizBtn" class="mt-6 px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">
+                    Back to Categories
+                </button>
+            </div>
+        </div>
+        
+        <!-- Wrong Answers Section -->
+        <div id="wrongAnswersSection" class="max-w-4xl mx-auto">
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Review Wrong Answers</h3>
+            <div id="wrongAnswersList" class="space-y-4">
                 <!-- Wrong answers will be populated here -->
-              </div>
             </div>
-            
-            <!-- Final Action Buttons -->
-            <div class="action-buttons-container">
-              <div class="button-row">
-                <ion-button fill="solid" color="success" onclick="finishQuiz()">
-                  <ion-icon name="checkmark"></ion-icon>
-                  <span>Finish Quiz</span>
-                </ion-button>
-                <ion-button fill="outline" color="warning" onclick="retryQuiz()">
-                  <ion-icon name="refresh"></ion-icon>
-                  <span>Try Again</span>
-                </ion-button>
-              </div>
+        </div>
+    </div>
+
+    <!-- Explanation banner -->
+    <div id="bottom-banner" tabindex="-1" class="hidden fixed bottom-0 start-0 z-50 flex flex-col sm:flex-row justify-between w-full min-h-[130px] p-6 border-t border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+        <div class="flex items-start flex-grow pr-4">
+            <div class="flex items-start w-full">
+                <span class="sr-only">Explanation</span>
+                <div class="flex-grow">
+                    <p class="text-sm font-normal text-gray-600 dark:text-gray-300 leading-relaxed">
+                        <strong>Explanation:</strong> <span id="bannerExplanationText" class="inline">Answer explanation will appear here...</span>
+                    </p>
+                </div>
             </div>
-          </div>
+        </div>
+    </div>
 
-    </ion-content>
-  </ion-app>
+    <!-- Data injection for JavaScript -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // Pass quiz data to external JavaScript file
+        window.quizQuestionsData = /*[[${questions}]]*/ [];
+        /*]]>*/
+    </script>
+    
+    <!-- External JavaScript file -->
+    <script th:src="@{/js/quiz-play.js}"></script>
+</div>
 
-  <!-- Ionic JS -->
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
-  <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
-
-  <!-- Hidden data for JavaScript -->
-  <script th:inline="javascript">
-    // Function to initialize the quiz app
-    function initializeQuizApp() {
-      // Ionic is loaded via modules, no need for Framework7 initialization
-    
-      const questions = /*[[${questions}]]*/ [];
-      const totalQuestions = /*[[${total}]]*/ 0;
-      
-      let currentQuestionIndex = 0;
-      let userAnswers = [];
-      let quizResults = {
-          totalQuestions: totalQuestions,
-          correctAnswers: 0,
-          wrongAnswers: [],
-          completedAt: null
-      };
-      
-      // Timer variables
-      let totalTimeSeconds = totalQuestions * 5; // 5 seconds per question
-      let remainingSeconds = totalTimeSeconds;
-      let timerInterval = null;
-      
-      // Initialize quiz
-      loadQuestion(0);
-      updateProgress();
-      
-      // Start timer after page is fully loaded (including images, CSS, etc.)
-      if (document.readyState === 'complete') {
-        initializeTimer();
-      } else {
-        window.addEventListener('load', function() {
-          initializeTimer();
-        });
-      }
-    
-      function loadQuestion(index) {
-        if (index >= questions.length) return;
-        
-        const question = questions[index];
-        currentQuestionIndex = index;
-        
-        document.getElementById('topicName').textContent = question.topic_name || 'Unknown Topic';
-        document.getElementById('currentQuestionNum').textContent = index + 1;
-        document.getElementById('questionText').textContent = question.question;
-        
-        // Set difficulty badge with class and formatted text
-        const difficultyBadge = document.getElementById('difficultyBadge');
-        const difficulty = (question.difficulty || 'Medium').toLowerCase();
-        const difficultyIcons = {
-            'easy': '😊',
-            'könnyű': '😊',
-            'medium': '🤔',
-            'közepes': '🤔',
-            'hard': '😤',
-            'nehéz': '😤',
-            'mixed': '🎲',
-            'vegyes': '🎲'
-        };
-        
-        const icon = difficultyIcons[difficulty] || '📝';
-        difficultyBadge.className = 'chip difficulty-badge ' + (difficultyIcons[difficulty] ? difficulty : 'medium');
-        difficultyBadge.innerHTML = '<div class="chip-label">' + icon + ' ' + (question.difficulty || 'Medium') + '</div>';
-        
-        // Load options
-        const optionsContainer = document.getElementById('optionsContainer');
-        optionsContainer.innerHTML = '';
-        
-        question.options.forEach((option, optionIndex) => {
-            const optionDiv = document.createElement('div');
-            optionDiv.className = 'quiz-option';
-            optionDiv.innerHTML = `
-                <input type="radio" name="answer" value="${optionIndex}" id="option-${optionIndex}" />
-                <label for="option-${optionIndex}" class="quiz-option-label">
-                  <span class="quiz-option-text">${option}</span>
-                  <span class="quiz-option-check">
-                    <i class="material-icons">check</i>
-                  </span>
-                </label>
-            `;
-            optionsContainer.appendChild(optionDiv);
-        });
-        
-        // Reset UI state
-        document.getElementById('explanationContainer').classList.add('hidden');
-        document.getElementById('submitBtn').style.display = 'block';
-        document.getElementById('nextBtn').classList.add('hidden');
-        document.getElementById('evaluateBtn').classList.add('hidden');
-        document.getElementById('nextButtonRow').classList.add('hidden');
-        
-        // Clear previous selections
-        document.querySelectorAll('input[name="answer"]').forEach(input => {
-            input.checked = false;
-            input.disabled = false;
-        });
-        
-        // Remove previous result classes
-        document.querySelectorAll('.quiz-option').forEach(opt => {
-            opt.classList.remove('option-correct', 'option-incorrect', 'option-selected', 'option-dimmed');
-        });
-        
-        // Clear any animation classes from question container
-        const questionContainer = document.getElementById('questionContainer');
-        questionContainer.classList.remove('correct-answer', 'wrong-answer');
-        
-        updateProgress();
-      }
-      
-      function submitAnswer() {
-        const selectedOption = document.querySelector('input[name="answer"]:checked');
-        if (!selectedOption) {
-            alert('Please select an answer');
-            return;
-        }
-        
-        const selectedAnswer = parseInt(selectedOption.value);
-        const question = questions[currentQuestionIndex];
-        const correctAnswer = question.correctAnswer || question.correct_answer;
-        const isCorrect = selectedAnswer === correctAnswer;
-        
-        // Debug logging
-        console.log('Selected Answer:', selectedAnswer);
-        console.log('Correct Answer:', correctAnswer);
-        console.log('Question object:', question);
-        console.log('Is Correct:', isCorrect);
-        
-        // Store user answer
-        userAnswers[currentQuestionIndex] = {
-            questionIndex: currentQuestionIndex,
-            selectedAnswer: selectedAnswer,
-            correctAnswer: correctAnswer,
-            isCorrect: isCorrect,
-            question: question
-        };
-        
-        // Update results and add animations
-        const questionContainer = document.getElementById('questionContainer');
-        
-        // Clear any existing animation classes first
-        questionContainer.classList.remove('correct-answer', 'wrong-answer');
-        
-        if (isCorrect) {
-            quizResults.correctAnswers++;
-            // Force a reflow to ensure the class removal takes effect
-            questionContainer.offsetHeight;
-            questionContainer.classList.add('correct-answer');
-            // Remove animation class after animation completes
-            setTimeout(() => {
-                questionContainer.classList.remove('correct-answer');
-            }, 800);
-        } else {
-            quizResults.wrongAnswers.push(userAnswers[currentQuestionIndex]);
-            // Force a reflow to ensure the class removal takes effect
-            questionContainer.offsetHeight;
-            questionContainer.classList.add('wrong-answer');
-            // Remove animation class after animation completes
-            setTimeout(() => {
-                questionContainer.classList.remove('wrong-answer');
-            }, 600);
-        }
-        
-        // Disable all options and show results
-        document.querySelectorAll('input[name="answer"]').forEach(input => {
-            input.disabled = true;
-        });
-        
-        // Highlight correct and incorrect answers
-        document.querySelectorAll('.quiz-option').forEach((option, index) => {
-            if (index === correctAnswer) {
-                option.classList.add('option-correct');
-            } else if (index === selectedAnswer && !isCorrect) {
-                option.classList.add('option-incorrect');
-            }
-            if (index === selectedAnswer) {
-                option.classList.add('option-selected');
-            }
-            
-            // Dim non-relevant options for wrong answers
-            if (!isCorrect && index !== correctAnswer && index !== selectedAnswer) {
-                option.classList.add('option-dimmed');
-            }
-        });
-        
-        // Show explanation
-        if (question.explanation) {
-            document.getElementById('explanationText').textContent = question.explanation;
-            document.getElementById('explanationContainer').classList.remove('hidden');
-        }
-        
-        // Show appropriate button
-        document.getElementById('submitBtn').style.display = 'none';
-        document.getElementById('nextButtonRow').classList.remove('hidden');
-        
-        if (currentQuestionIndex < questions.length - 1) {
-            document.getElementById('nextBtn').classList.remove('hidden');
-        } else {
-            document.getElementById('evaluateBtn').classList.remove('hidden');
-        }
-      }
-    
-      function nextQuestion() {
-        if (currentQuestionIndex < questions.length - 1) {
-            loadQuestion(currentQuestionIndex + 1);
-        }
-      }
-    
-      function updateProgress() {
-        // Update question counter (already handled in loadQuestion)
-        // Progress bar was removed in favor of timer display
-      }
-      
-      function initializeTimer() {
-        updateTimerDisplay();
-        startTimer();
-      }
-      
-      function startTimer() {
-        if (timerInterval) {
-          clearInterval(timerInterval);
-        }
-        
-        timerInterval = setInterval(function() {
-          remainingSeconds--;
-          updateTimerDisplay();
-          
-          if (remainingSeconds <= 0) {
-            clearInterval(timerInterval);
-            timeUp();
-          }
-        }, 1000);
-      }
-      
-      function updateTimerDisplay() {
-        const timerDisplay = document.getElementById('timerDisplay');
-        if (timerDisplay) {
-          timerDisplay.textContent = remainingSeconds;
-        }
-      }
-      
-      function stopTimer() {
-        if (timerInterval) {
-          clearInterval(timerInterval);
-          timerInterval = null;
-        }
-      }
-      
-      function timeUp() {
-        stopTimer();
-        alert('Time is up! The quiz will be submitted automatically.');
-        showEvaluation();
-      }
-    
-      function showEvaluation() {
-        stopTimer(); // Stop the timer when quiz ends
-        quizResults.completedAt = new Date().toISOString();
-        
-        // Hide question container
-        document.getElementById('questionContainer').classList.add('hidden');
-        
-        // Show results container
-        document.getElementById('resultsContainer').classList.remove('hidden');
-        
-        // Calculate and display score
-        const percentage = Math.round((quizResults.correctAnswers / quizResults.totalQuestions) * 100);
-        document.getElementById('scorePercentage').textContent = percentage + '%';
-        document.getElementById('correctAnswers').textContent = quizResults.correctAnswers;
-        document.getElementById('totalQuestionsResult').textContent = quizResults.totalQuestions;
-        
-        // Show wrong answers if any
-        if (quizResults.wrongAnswers.length > 0) {
-            const wrongAnswersList = document.getElementById('wrongAnswersList');
-            wrongAnswersList.innerHTML = '';
-            
-            quizResults.wrongAnswers.forEach((wrongAnswer, index) => {
-                const wrongAnswerCard = document.createElement('ion-card');
-                wrongAnswerCard.className = 'wrong-answer-card';
-                wrongAnswerCard.innerHTML = `
-                    <ion-card-content>
-                        <div class="wrong-question">
-                            <strong>Question ${wrongAnswer.questionIndex + 1}:</strong> ${wrongAnswer.question.question}
-                        </div>
-                        <div class="wrong-details">
-                            <div class="your-answer margin-top">
-                                <span class="label">Your Answer:</span> 
-                                <span class="incorrect-text">${wrongAnswer.question.options[wrongAnswer.selectedAnswer]}</span>
-                            </div>
-                            <div class="correct-answer margin-top">
-                                <span class="label">Correct Answer:</span> 
-                                <span class="correct-text">${wrongAnswer.question.options[wrongAnswer.correctAnswer]}</span>
-                            </div>
-                            ${wrongAnswer.question.explanation ? `
-                            <div class="explanation margin-top">
-                                <span class="label">Explanation:</span> ${wrongAnswer.question.explanation}
-                            </div>
-                            ` : ''}
-                        </div>
-                    </ion-card-content>
-                `;
-                wrongAnswersList.appendChild(wrongAnswerCard);
-            });
-        } else {
-            document.getElementById('wrongAnswersSection').classList.add('hidden');
-        }
-      }
-    
-      function finishQuiz() {
-        // Send results to server
-        fetch('/quiz/submit-results', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(quizResults)
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Redirect to subjects page or show success message
-            window.location.href = '/quiz/subjects';
-        })
-        .catch(error => {
-            console.error('Error submitting results:', error);
-            // Still redirect on error
-            window.location.href = '/quiz/subjects';
-        });
-    }
-    
-      function retryQuiz() {
-        // Reset all variables
-        currentQuestionIndex = 0;
-        userAnswers = [];
-        quizResults = {
-            totalQuestions: totalQuestions,
-            correctAnswers: 0,
-            wrongAnswers: [],
-            completedAt: null
-        };
-        
-        // Reset timer
-        remainingSeconds = totalTimeSeconds;
-        stopTimer();
-        
-        // Show question container and hide results
-        document.getElementById('questionContainer').classList.remove('hidden');
-        document.getElementById('resultsContainer').classList.add('hidden');
-        
-        // Load first question and restart timer
-        loadQuestion(0);
-        initializeTimer();
-      }
-    }
-  </script>
-</body>
 </html>

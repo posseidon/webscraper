@@ -1,107 +1,72 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="format-detection" content="telephone=no">
-    <title th:text="${subject != null && book != null ? subject + ' - ' + book + ' Quizzes' : 'Quiz Titles'}">Quiz Titles</title>
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      th:replace="~{fragments/layout :: layout ('Quiz Titles - Quiz Application', ~{::content})}" lang="en">
 
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-</head>
-<body class="bg-gray-50 dark:bg-gray-900 pt-5 md:pt-24 pb-5">
-    <!-- Import Header -->
-    <div th:replace="~{fragments/header :: header}"></div>
+<div th:fragment="content" class="container mx-auto px-4 pt-0 pb-8">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">All Titles</h1>
 
-    <div class="container mx-auto px-4 pt-0 pb-8">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2 text-center">Quiz Titles</h1>
-        <p class="text-gray-600 dark:text-gray-400 text-center mb-8">
-            <span th:text="${subject}">Category</span> > <span th:text="${book}">Topic</span>
-        </p>
+    <!-- Optional Filter/Search -->
+    <div class="mb-8 flex justify-center">
+        <input type="text" id="quizSearch" placeholder="Search quiz titles..." class="w-full max-w-md px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+    </div>
 
-        <!-- Optional Filter/Search -->
-        <div class="mb-8 flex justify-center">
-            <input type="text" id="quizSearch" placeholder="Search quiz titles..." class="w-full max-w-md px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+    <!-- Responsive Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto" id="titlesGrid">
+        <!-- Dynamic Quiz Cards -->
+        <div th:each="quiz, iterStat : ${quizzes}"
+             class="group bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 overflow-hidden hover:scale-105 quiz-card">
+            <div class="p-3">
+                <div class="mb-3">
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2" th:text="${quiz.title}">Quiz Title</h2>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
+                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span th:text="${quiz.totalQuestions}">0</span> Questions
+                    </span>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed">
+                    Test your knowledge with this comprehensive quiz covering various topics and difficulty levels.
+                </p>
+                <button th:attr="data-modal-target='quiz-modal-' + ${quiz.id.replaceAll('[^a-zA-Z0-9]', '-')}, data-modal-toggle='quiz-modal-' + ${quiz.id.replaceAll('[^a-zA-Z0-9]', '-')}"
+                        class="w-full inline-block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200"
+                        type="button">
+                    Start Quiz
+                </button>
+            </div>
         </div>
 
-        <!-- Responsive Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto" id="quizzesGrid">
-            <!-- Dynamic Quiz Cards -->
-            <div th:each="quiz, iterStat : ${quizzes}"
-                 class="group bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 overflow-hidden hover:scale-105 quiz-card">
-                <div class="p-5">
-                    <div class="mb-3">
-                        <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2" th:text="${quiz.title}">Quiz Title</h2>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
-                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span th:text="${quiz.totalQuestions}">0</span> Questions
-                        </span>
-                    </div>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed">
-                        Test your knowledge with this comprehensive quiz covering various topics and difficulty levels.
-                    </p>
-                    <a th:href="@{'/quiz/' + ${subject} + '/' + ${book} + '/' + ${quiz.title}}"
-                       class="w-full inline-block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200">
-                        Start Quiz
-                    </a>
+        <!-- Empty State -->
+        <div th:if="${#lists.isEmpty(quizzes)}" class="col-span-full">
+            <div class="text-center py-12">
+                <div class="mx-auto h-24 w-24 text-gray-400 mb-4">
+                    <svg stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                    </svg>
                 </div>
-            </div>
-
-            <!-- Empty State -->
-            <div th:if="${#lists.isEmpty(quizzes)}" class="col-span-full">
-                <div class="text-center py-12">
-                    <div class="mx-auto h-24 w-24 text-gray-400 mb-4">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No Quizzes Available</h3>
-                    <p class="text-gray-500 dark:text-gray-400 mb-4">
-                        <span th:if="${book != null && subject != null}">No quizzes found for <span class="capitalize font-medium" th:text="${book}"></span> in <span class="capitalize font-medium" th:text="${subject}"></span>.</span>
-                        <span th:if="${book == null || subject == null}">No quizzes are currently available.</span>
-                    </p>
-                    <a th:href="@{'/quiz/' + ${subject}}"
-                       class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                        </svg>
-                        Back to Topics
-                    </a>
-                </div>
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No Quizzes Available</h3>
+                <p class="text-gray-500 dark:text-gray-400 mb-4">
+                    <span th:if="${topic != null && category != null}">No quizzes found for <span class="capitalize font-medium" th:text="${topic}"></span> in <span class="capitalize font-medium" th:text="${category}"></span>.</span>
+                    <span th:if="${topic == null || category == null}">No quizzes are currently available.</span>
+                </p>
+                <a th:href="@{'/quiz/' + ${category}}"
+                   class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Back to Topics
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- Import Footer -->
-    <div th:replace="~{fragments/footer :: footer}"></div>
+    <!-- Quiz Configuration Modals -->
+    <div th:each="quiz, iterStat : ${quizzes}">
+        <div th:replace="~{fragments/quiz-modal :: quiz-modal(${quiz}, ${category}, ${topic})}"></div>
+    </div>
 
-    <!-- Search Functionality -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('quizSearch');
-            const quizCards = document.querySelectorAll('.quiz-card');
+<!-- Include external JavaScript file -->
+<script th:src="@{/js/titles.js}"></script>
+</div>
 
-            searchInput.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
-
-                quizCards.forEach(card => {
-                    const quizTitle = card.querySelector('h2').textContent.toLowerCase();
-                    const shouldShow = quizTitle.includes(searchTerm);
-                    
-                    if (shouldShow) {
-                        card.style.display = 'block';
-                        card.classList.remove('hidden');
-                    } else {
-                        card.style.display = 'none';
-                        card.classList.add('hidden');
-                    }
-                });
-            });
-        });
-    </script>
-</body>
 </html>
