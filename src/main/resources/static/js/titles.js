@@ -344,19 +344,11 @@ function initializeAccordions() {
             const icon = button.querySelector('[data-accordion-icon]');
             
             if (target) {
-                // First accordion item is open by default, others are closed
-                if (index === 0) {
-                    target.classList.remove('hidden');
-                    button.setAttribute('aria-expanded', 'true');
-                    if (icon) {
-                        icon.classList.add('rotate-180');
-                    }
-                } else {
-                    target.classList.add('hidden');
-                    button.setAttribute('aria-expanded', 'false');
-                    if (icon) {
-                        icon.classList.remove('rotate-180');
-                    }
+                // All accordion items are closed by default
+                target.classList.add('hidden');
+                button.setAttribute('aria-expanded', 'false');
+                if (icon) {
+                    icon.classList.remove('rotate-180');
                 }
             }
         });

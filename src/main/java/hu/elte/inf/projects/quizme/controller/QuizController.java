@@ -257,19 +257,6 @@ public class QuizController {
         response.put("app", "quizme");
         return response;
     }
-    
-    @GetMapping("/debug/duplicates/{topicId}")
-    @ResponseBody
-    public Map<String, Object> checkDuplicates(@PathVariable String topicId) {
-        Map<String, Object> response = new HashMap<>();
-        List<hu.elte.inf.projects.quizme.repository.dto.Topic> duplicateTopics = 
-                quizService.findTopicsTitleByName(topicId); // This will help us debug
-        
-        response.put("topicId", topicId);
-        response.put("duplicateCount", duplicateTopics.size());
-        
-        return response;
-    }
 
     @PostMapping("/quiz/start/topic/{topicId}")
     public String startTopicQuiz(@PathVariable String topicId,
