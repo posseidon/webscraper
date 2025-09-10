@@ -11,7 +11,9 @@
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <script th:src="@{/js/language.js}"></script>
+    <!-- Conditional JS loading: minified for production, full for development -->
+    <script th:if="${@environment.acceptsProfiles('prod')}" th:src="@{/js/min/language.min.js}" defer></script>
+    <script th:unless="${@environment.acceptsProfiles('prod')}" th:src="@{/js/language.js}" defer></script>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 pt-5 md:pt-24 pb-5">
     <!-- Import Header -->

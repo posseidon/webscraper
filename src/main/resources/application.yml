@@ -1,8 +1,8 @@
 spring:
   application:
-    name: webscraper
+    name: quizme
   datasource:
-    url: jdbc:sqlite:data/webscraper.db
+    url: jdbc:sqlite:${DATABASE_PATH:/tmp/quizme.db}
     driver-class-name: org.sqlite.JDBC
   jpa:
     database-platform: org.hibernate.community.dialect.SQLiteDialect
@@ -38,3 +38,11 @@ spring:
       port: 35729
     remote:
       secret: mysecret
+
+server:
+  undertow:
+    threads:
+      worker: 8
+      io: 2
+    buffer-size: 1024
+    direct-buffers: true

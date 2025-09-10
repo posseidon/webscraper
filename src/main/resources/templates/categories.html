@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
-      th:replace="~{fragments/layout :: layout ('Learning Materials - Quiz Categories', ~{::content})}">
+      th:replace="~{fragments/layout :: layout (null, ~{::content})}">
 
 <div th:fragment="content" class="container mx-auto px-4 pt-0 pb-8">
     <!-- Responsive Grid -->
@@ -13,13 +13,7 @@
             <div class="p-5">
                 <h2 class="text-xl font-bold text-gray-900 dark:text-white capitalize mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300" 
                     th:text="${category}">Category Name</h2>
-                
-                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-5"
-                   th:text="'Explore ' + ${#strings.toLowerCase(category)} + ' topics and test your knowledge with interactive quizzes.'"
-                   data-translate="categories.explore_desc">
-                    Explore this subject and test your knowledge with interactive quizzes.
-                </p>
-                
+
                 <!-- Action Button -->
                 <a th:href="@{'/quiz/' + ${category}}"
                    th:class="'w-full inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 text-white ' + 

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{fragments/layout :: layout ('User Manual - Quiz Application', ~{::content})}">
+
+<div th:fragment="content" class="container mx-auto px-4 pt-0 pb-8">
+    <!-- Header -->
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4" data-translate="manual.title">Quiz Application User Manual</h1>
+            <p class="text-lg text-gray-600 dark:text-gray-300" data-translate="manual.subtitle">Complete guide to using all features of the quiz application</p>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4" data-translate="manual.toc_title">Table of Contents</h2>
+            <nav class="space-y-2">
+                <a href="#getting-started" class="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300" data-translate="manual.toc_getting_started">1. Getting Started</a>
+                <a href="#categories" class="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300" data-translate="manual.toc_categories">2. Quiz Categories</a>
+                <a href="#quiz-selection" class="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300" data-translate="manual.toc_quiz_selection">3. Quiz Selection and Configuration</a>
+                <a href="#quiz-play" class="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300" data-translate="manual.toc_quiz_play">4. Taking a Quiz</a>
+                <a href="#results" class="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300" data-translate="manual.toc_results">5. Quiz Results and Review</a>
+                <a href="#features" class="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300" data-translate="manual.toc_features">6. Additional Features</a>
+                <a href="#troubleshooting" class="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300" data-translate="manual.toc_troubleshooting">7. Troubleshooting</a>
+            </nav>
+        </div>
+
+        <!-- Getting Started -->
+        <section id="getting-started" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4" data-translate="manual.getting_started">1. Getting Started</h2>
+            <div class="prose dark:prose-invert max-w-none">
+                <p class="text-gray-700 dark:text-gray-300 mb-4" data-translate="manual.getting_started_desc">Welcome to the Quiz Application! This interactive learning platform allows you to test your knowledge across various subjects with customizable quiz experiences.</p>
+                
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.accessing_app">Accessing the Application</h3>
+                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
+                    <li data-translate="manual.access_browser">Open your web browser and navigate to the application URL</li>
+                    <li data-translate="manual.access_responsive">The application is fully responsive and works on desktop, tablet, and mobile devices</li>
+                    <li data-translate="manual.access_support">Supports modern web browsers with JavaScript enabled</li>
+                </ul>
+
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 mt-4" data-translate="manual.language_support">Language Support</h3>
+                <p class="text-gray-700 dark:text-gray-300" data-translate="manual.language_desc">The application supports multiple languages including English, Hungarian, and Vietnamese. You can change the language using the user menu in the top navigation.</p>
+            </div>
+        </section>
+
+        <!-- Quiz Categories -->
+        <section id="categories" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4" data-translate="manual.categories_title">2. Quiz Categories</h2>
+            <div class="prose dark:prose-invert max-w-none">
+                <p class="text-gray-700 dark:text-gray-300 mb-4" data-translate="manual.categories_desc">The application organizes quizzes into different categories to help you find relevant content easily.</p>
+                
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.category_features">Category Features</h3>
+                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
+                    <li data-translate="manual.category_grid">Categories are displayed in an attractive grid layout with color-coded cards</li>
+                    <li data-translate="manual.category_responsive">Responsive design adapts to different screen sizes (1 column on mobile, 2 on tablet, 3 on desktop)</li>
+                    <li data-translate="manual.category_hover">Interactive hover effects provide visual feedback</li>
+                    <li data-translate="manual.category_navigation">Click "Start Learning" to explore quizzes in that category</li>
+                </ul>
+
+                <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mt-4">
+                    <p class="text-blue-800 dark:text-blue-200" data-translate="manual.category_tip">💡 <strong>Tip:</strong> Each category has a unique color theme to help you quickly identify different subject areas.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Selection -->
+        <section id="quiz-selection" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4" data-translate="manual.quiz_selection_title">3. Quiz Selection and Configuration</h2>
+            <div class="prose dark:prose-invert max-w-none">
+                <p class="text-gray-700 dark:text-gray-300 mb-4" data-translate="manual.quiz_selection_desc">After selecting a category, you'll see available quizzes with detailed information and customization options.</p>
+                
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.quiz_card_info">Quiz Information Cards</h3>
+                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
+                    <li data-translate="manual.quiz_title_desc"><strong>Title and Description:</strong> Clear overview of the quiz content</li>
+                    <li data-translate="manual.quiz_objectives"><strong>Learning Objectives:</strong> Expandable section showing what you'll learn</li>
+                    <li data-translate="manual.quiz_study_tips"><strong>Study Tips:</strong> Helpful recommendations for preparation</li>
+                    <li data-translate="manual.quiz_start_button"><strong>Start Quiz Button:</strong> Opens the configuration modal</li>
+                </ul>
+
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 mt-4" data-translate="manual.quiz_configuration">Quiz Configuration Modal</h3>
+                <p class="text-gray-700 dark:text-gray-300 mb-3" data-translate="manual.config_desc">Before starting a quiz, you can customize your experience:</p>
+                
+                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
+                    <h4 class="font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.time_estimator">⏱️ Time Estimator</h4>
+                    <p class="text-gray-700 dark:text-gray-300 text-sm" data-translate="manual.time_estimator_desc">Shows estimated completion time based on number of questions (approximately 10 seconds per question)</p>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
+                    <h4 class="font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.difficulty_levels">🎯 Difficulty Levels</h4>
+                    <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 text-sm space-y-1">
+                        <li data-translate="manual.difficulty_easy"><strong>Easy:</strong> Beginner-friendly questions</li>
+                        <li data-translate="manual.difficulty_medium"><strong>Medium:</strong> Intermediate level challenges</li>
+                        <li data-translate="manual.difficulty_hard"><strong>Hard:</strong> Advanced level questions</li>
+                        <li data-translate="manual.difficulty_mixed"><strong>Mixed (Default):</strong> Questions from all difficulty levels</li>
+                    </ul>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
+                    <h4 class="font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.question_count">📊 Number of Questions</h4>
+                    <p class="text-gray-700 dark:text-gray-300 text-sm" data-translate="manual.question_count_desc">Use the range slider to select how many questions you want (minimum 10, maximum varies by quiz)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Play -->
+        <section id="quiz-play" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4" data-translate="manual.quiz_play_title">4. Taking a Quiz</h2>
+            <div class="prose dark:prose-invert max-w-none">
+                <p class="text-gray-700 dark:text-gray-300 mb-4" data-translate="manual.quiz_play_desc">The quiz interface is designed for an optimal learning experience with comprehensive tracking and feedback.</p>
+                
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.quiz_header">Quiz Header Interface</h3>
+                
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.timer_display">⏰ Timer Display</h4>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                            <li data-translate="manual.timer_circular">• Circular progress indicator showing remaining time</li>
+                            <li data-translate="manual.timer_clickable">• Click to pause/resume the timer</li>
+                            <li data-translate="manual.timer_visual">• Visual countdown with color-coded progress</li>
+                            <li data-translate="manual.timer_play">• Play icon appears when paused</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.progress_tracker">📈 Progress Tracker</h4>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                            <li data-translate="manual.progress_current">• Shows current question number</li>
+                            <li data-translate="manual.progress_total">• Displays total questions</li>
+                            <li data-translate="manual.progress_circular">• Circular progress bar fills as you advance</li>
+                            <li data-translate="manual.progress_visual">• Green color indicates completion progress</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.question_interface">Question Interface</h3>
+                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1 mb-4">
+                    <li data-translate="manual.question_card">Questions are displayed in clean, readable cards</li>
+                    <li data-translate="manual.question_options">Multiple choice options with hover effects</li>
+                    <li data-translate="manual.question_submit">Submit Answer button to confirm your selection</li>
+                    <li data-translate="manual.question_feedback">Immediate feedback after each answer</li>
+                </ul>
+
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.language_helper">Language Helper (Speed Dial)</h3>
+                <p class="text-gray-700 dark:text-gray-300 mb-3" data-translate="manual.helper_desc">The floating help button in the bottom-right corner provides language filtering options:</p>
+                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
+                    <li data-translate="manual.helper_vietnamese">🇻🇳 <strong>Vietnamese Only:</strong> Show questions in Vietnamese</li>
+                    <li data-translate="manual.helper_hungarian">🇭🇺 <strong>Hungarian Only:</strong> Show questions in Hungarian</li>
+                    <li data-translate="manual.helper_all">🌐 <strong>All Languages (Default):</strong> Show questions in all languages</li>
+                </ul>
+
+                <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 mt-4">
+                    <p class="text-green-800 dark:text-green-200" data-translate="manual.quiz_tip">💡 <strong>Pro Tip:</strong> You can pause the timer at any time by clicking on it, giving you flexibility to take breaks without penalty.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results -->
+        <section id="results" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4" data-translate="manual.results_title">5. Quiz Results and Review</h2>
+            <div class="prose dark:prose-invert max-w-none">
+                <p class="text-gray-700 dark:text-gray-300 mb-4" data-translate="manual.results_desc">After completing a quiz, you'll receive comprehensive results and the opportunity to review your performance.</p>
+                
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.score_summary">Score Summary</h3>
+                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1 mb-4">
+                    <li data-translate="manual.score_circle">Large circular display showing your percentage score</li>
+                    <li data-translate="manual.score_breakdown">Clear breakdown of correct vs. total questions</li>
+                    <li data-translate="manual.score_visual">Gradient background for visual appeal</li>
+                </ul>
+
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.wrong_answers">Wrong Answers Review</h3>
+                <p class="text-gray-700 dark:text-gray-300 mb-3" data-translate="manual.wrong_answers_desc">The application automatically compiles all questions you answered incorrectly for review:</p>
+                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1 mb-4">
+                    <li data-translate="manual.wrong_list">Complete list of incorrect questions</li>
+                    <li data-translate="manual.wrong_correct">Shows the correct answers</li>
+                    <li data-translate="manual.wrong_your">Displays your selected answers</li>
+                    <li data-translate="manual.wrong_explanations">Detailed explanations when available</li>
+                </ul>
+
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.explanation_modal">Explanation Modal</h3>
+                <p class="text-gray-700 dark:text-gray-300 mb-3" data-translate="manual.explanation_desc">For wrong answers with explanations, a detailed modal provides:</p>
+                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
+                    <li data-translate="manual.explanation_detailed">Detailed explanation of the correct answer</li>
+                    <li data-translate="manual.explanation_continue">Continue button to proceed through review</li>
+                    <li data-translate="manual.explanation_close">Close option to exit explanation</li>
+                </ul>
+
+                <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mt-4">
+                    <p class="text-blue-800 dark:text-blue-200" data-translate="manual.results_tip">📚 <strong>Learning Tip:</strong> Use the wrong answers review to identify knowledge gaps and focus your future study efforts.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Additional Features -->
+        <section id="features" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4" data-translate="manual.features_title">6. Additional Features</h2>
+            <div class="prose dark:prose-invert max-w-none">
+                
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.dark_mode">🌙 Dark Mode Support</h3>
+                <p class="text-gray-700 dark:text-gray-300 mb-4" data-translate="manual.dark_mode_desc">The application automatically adapts to your system's dark/light mode preference, providing comfortable viewing in any lighting condition.</p>
+
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.multilingual">🌍 Multilingual Interface</h3>
+                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1 mb-4">
+                    <li data-translate="manual.multilingual_switch">Switch between English, Hungarian, and Vietnamese</li>
+                    <li data-translate="manual.multilingual_persistent">Language preference is remembered</li>
+                    <li data-translate="manual.multilingual_content">Both interface and quiz content support multiple languages</li>
+                </ul>
+
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.responsive_design">📱 Responsive Design</h3>
+                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1 mb-4">
+                    <li data-translate="manual.responsive_mobile">Optimized for mobile, tablet, and desktop</li>
+                    <li data-translate="manual.responsive_touch">Touch-friendly interface on mobile devices</li>
+                    <li data-translate="manual.responsive_adaptive">Adaptive layouts for different screen sizes</li>
+                </ul>
+
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.navigation">🧭 Navigation Features</h3>
+                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
+                    <li data-translate="manual.navigation_breadcrumb">Clear navigation breadcrumbs in the header</li>
+                    <li data-translate="manual.navigation_back">Easy return to previous sections</li>
+                    <li data-translate="manual.navigation_home">Home button to return to categories</li>
+                    <li data-translate="manual.navigation_context">Context-aware navigation based on current location</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Troubleshooting -->
+        <section id="troubleshooting" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4" data-translate="manual.troubleshooting_title">7. Troubleshooting</h2>
+            <div class="prose dark:prose-invert max-w-none">
+                
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.common_issues">Common Issues</h3>
+                
+                <div class="space-y-4">
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.issue_timer">Timer Not Working</h4>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                            <li data-translate="manual.fix_javascript">• Ensure JavaScript is enabled in your browser</li>
+                            <li data-translate="manual.fix_refresh">• Refresh the page and try again</li>
+                            <li data-translate="manual.fix_click">• Try clicking on the timer to start/resume</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.issue_questions">Questions Not Loading</h4>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                            <li data-translate="manual.fix_connection">• Check your internet connection</li>
+                            <li data-translate="manual.fix_browser">• Try a different browser or update your current one</li>
+                            <li data-translate="manual.fix_cache">• Clear browser cache and cookies</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-gray-900 dark:text-white mb-2" data-translate="manual.issue_mobile">Mobile Display Issues</h4>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                            <li data-translate="manual.fix_rotate">• Try rotating your device orientation</li>
+                            <li data-translate="manual.fix_zoom">• Ensure browser zoom is at 100%</li>
+                            <li data-translate="manual.fix_fullscreen">• Exit full-screen mode if active</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 mt-6" data-translate="manual.browser_requirements">Browser Requirements</h3>
+                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
+                    <li data-translate="manual.browser_modern">Modern web browser (Chrome, Firefox, Safari, Edge)</li>
+                    <li data-translate="manual.browser_javascript">JavaScript enabled</li>
+                    <li data-translate="manual.browser_cookies">Cookies enabled for language preferences</li>
+                    <li data-translate="manual.browser_internet">Stable internet connection</li>
+                </ul>
+
+                <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mt-4">
+                    <p class="text-yellow-800 dark:text-yellow-200" data-translate="manual.support_note">📞 <strong>Need Help?</strong> If you continue to experience issues, please contact support through the footer links or check for updates to the application.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer Navigation -->
+        <div class="text-center mt-8">
+            <a href="/quiz/categories" class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                <span data-translate="manual.back_to_quizzes">Back to Quizzes</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+</html>

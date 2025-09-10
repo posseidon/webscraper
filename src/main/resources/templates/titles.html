@@ -1,36 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
-      th:replace="~{fragments/layout :: layout ('Quiz Titles - Quiz Application', ~{::content})}" lang="en">
+      th:replace="~{fragments/layout :: layout (null, ~{::content})}" lang="en">
 
 <div th:fragment="content" class="container mx-auto px-4 pt-0 pb-8">
     <!-- Responsive Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto" id="titlesGrid">
         <!-- Dynamic Quiz Cards -->
-        <div th:each="quiz, iterStat : ${quizzes}"
+        <div th:each="title, iterStat : ${titles}"
              class="group bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 overflow-hidden hover:scale-105 quiz-card">
             <div class="p-3">
                 <div class="mb-3">
-                    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2" th:text="${quiz.title}">Quiz Title</h2>
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
-                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span th:text="${quiz.totalQuestions}">0</span> <span data-translate="titles.questions">Questions</span>
-                    </span>
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2" th:text="${title.name}">Quiz Title</h2>
                 </div>
-                <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed">
-                    Test your knowledge with this comprehensive quiz covering various topics and difficulty levels.
-                </p>
-                <button th:attr="data-modal-target='quiz-modal-' + ${quiz.id.replaceAll('[^a-zA-Z0-9]', '-')}, data-modal-toggle='quiz-modal-' + ${quiz.id.replaceAll('[^a-zA-Z0-9]', '-')}"
-                        class="w-full inline-block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200"
-                        type="button">
-                    <span data-translate="titles.start_quiz">Start Quiz</span>
-                </button>
+                <hr class="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded-sm md:my-10 dark:bg-gray-700">
+                <p th:text="${title.description}" class="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed"></p>
+                <div th:id="'objectives-and-tips-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}" th:data-custom-accordion="'quiz-objectives-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
+                    <h2 th:id="'accordion-open-heading-1-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
+                        <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" th:data-accordion-target="'#accordion-open-body-1-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}" aria-expanded="true" th:aria-controls="'accordion-open-body-1-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
+                            <span data-translate="titles.learning_objectives" class="flex items-center">
+                            </span>
+                            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                            </svg>
+                        </button>
+                    </h2>
+                    <div th:id="'accordion-open-body-1-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}" class="" th:aria-labelledby="'accordion-open-heading-1-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
+                        <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                            <ul class="space-y-2 text-gray-700 dark:text-gray-300 text-sm">
+                                <div th:each="objective, iterStat : ${title.learningObjectives}">
+                                    <li class="flex items-start">
+                                        <span class="mr-2 text-green-500">✔</span>
+                                        <p th:text="${objective}"></p>
+                                    </li>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                    <h2 th:id="'accordion-open-heading-2-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
+                        <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 rounded-b-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" th:data-accordion-target="'#accordion-open-body-2-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}" aria-expanded="false" th:aria-controls="'accordion-open-body-2-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
+                            <span data-translate="titles.study_tips" class="flex items-center">
+                            </span>
+                            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                            </svg>
+                        </button>
+                    </h2>
+                    <div th:id="'accordion-open-body-2-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}" class="hidden" th:aria-labelledby="'accordion-open-heading-2-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
+                        <div class="p-5 border border-gray-200 dark:border-gray-700 rounded-b-xl">
+                            <ul class="list-disc pl-5 space-y-2 text-sm text-gray-700 dark:text-gray-300">
+                                <div th:each="studyTip, iterStat : ${title.studyTips}">
+                                    <li><p th:text="${studyTip}"></p></li>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+                <br/>
+                <a th:href="@{'/quiz/' + ${category} + '/' + ${subcategory} + '/' + ${title.name}}"
+                   class="w-full inline-block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200">
+                    <span data-translate="titles.view_topics">View Topics</span>
+                </a>
             </div>
         </div>
 
         <!-- Empty State -->
-        <div th:if="${#lists.isEmpty(quizzes)}" class="col-span-full">
+        <div th:if="${#lists.isEmpty(titles)}" class="col-span-full">
             <div class="text-center py-12">
                 <div class="mx-auto h-24 w-24 text-gray-400 mb-4">
                     <svg stroke="currentColor" viewBox="0 0 24 24">
@@ -39,8 +75,8 @@
                 </div>
                 <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2" data-translate="titles.no_quizzes">No Quizzes Available</h3>
                 <p class="text-gray-500 dark:text-gray-400 mb-4">
-                    <span th:if="${topic != null && category != null}" data-translate="titles.no_quizzes_desc">There are no quizzes available for this topic yet.</span>
-                    <span th:if="${topic == null || category == null}" data-translate="titles.no_quizzes_desc">There are no quizzes available for this topic yet.</span>
+                    <span th:if="${subcategory != null && category != null}" data-translate="titles.no_quizzes_desc">There are no quizzes available for this topic yet.</span>
+                    <span th:if="${subcategory == null || category == null}" data-translate="titles.no_quizzes_desc">There are no quizzes available for this topic yet.</span>
                 </p>
                 <a th:href="@{'/quiz/' + ${category}}"
                    class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
@@ -53,13 +89,11 @@
         </div>
     </div>
 
-    <!-- Quiz Configuration Modals -->
-    <div th:each="quiz, iterStat : ${quizzes}">
-        <div th:replace="~{fragments/quiz-modal :: quiz-modal(${quiz}, ${category}, ${topic})}"></div>
-    </div>
 
 <!-- Include external JavaScript file -->
-<script th:src="@{/js/titles.js}"></script>
+<!-- Conditional JS loading: minified for production, full for development -->
+<script th:if="${@environment.acceptsProfiles('prod')}" th:src="@{/js/titles.js}" defer></script>
+<script th:unless="${@environment.acceptsProfiles('prod')}" th:src="@{/js/titles.js}" defer></script>
 </div>
 
 </html>

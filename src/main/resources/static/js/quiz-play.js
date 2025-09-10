@@ -16,6 +16,10 @@ let quizResults = {};
 let isTimerPaused = false;
 let pausedTime = 0;
 
+// Language filter state
+let currentLanguageFilter = 'all'; // 'vietnamese', 'hungarian', 'all'
+let speedDialMenuJustOpened = false;
+
 // Initialize quiz data from window object (set by Thymeleaf)
 function initializeQuizData(questionsData) {
     questions = questionsData || [];
@@ -36,14 +40,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Wait a bit for the language manager to be ready
     function initializeQuiz() {
         
+        // Debug logging to understand what data we have
+        console.log('Quiz questions data available:', window.quizQuestionsData);
+        console.log('Type of data:', typeof window.quizQuestionsData);
+        console.log('Is array?', Array.isArray(window.quizQuestionsData));
+        console.log('Length:', window.quizQuestionsData ? window.quizQuestionsData.length : 'undefined');
+        
         // Questions data will be passed from the HTML template
-        if (window.quizQuestionsData && window.quizQuestionsData.length > 0) {
+        if (window.quizQuestionsData && Array.isArray(window.quizQuestionsData) && window.quizQuestionsData.length > 0) {
             initializeQuizData(window.quizQuestionsData);
             
             if (questions.length > 0) {
+                console.log('Loading first question with data:', questions[0]);
                 loadQuestion(0);
                 initializeTimer();
             } else {
+                console.error('No questions in initialized data');
                 const questionText = document.getElementById('questionText');
                 questionText.removeAttribute('data-translate');
                 if (window.languageManager) {
@@ -53,6 +65,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         } else {
+            console.error('Quiz data initialization failed:', {
+                hasData: !!window.quizQuestionsData,
+                isArray: Array.isArray(window.quizQuestionsData),
+                length: window.quizQuestionsData ? window.quizQuestionsData.length : 'undefined'
+            });
             const questionText = document.getElementById('questionText');
             questionText.removeAttribute('data-translate');
             if (window.languageManager) {
@@ -64,6 +81,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add event listeners for buttons
         setupEventListeners();
+        
+        // Setup language filter event listeners - wait for Flowbite to initialize
+        setTimeout(() => {
+            setupLanguageFilterListeners();
+        }, 100);
     }
     
     // Check if language manager is ready, otherwise wait longer
@@ -93,44 +115,7 @@ function setupEventListeners() {
         actionBtn.addEventListener('click', handleActionButton);
     }
     
-    // Timer control button (embedded in timer circle)
-    const timerControl = document.getElementById('timerControl');
-    const timerIcon = document.getElementById('timerIcon');
-    const timerSvg = document.querySelector('.w-24.h-24');
-    
-    // Multiple approaches to ensure click detection works
-    if (timerControl) {
-        timerControl.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleTimer();
-        });
-    }
-    
-    if (timerIcon) {
-        timerIcon.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleTimer();
-        });
-    }
-    
-    // Fallback: listen on entire SVG and detect timer control area
-    if (timerSvg) {
-        timerSvg.addEventListener('click', function(e) {
-            const rect = timerSvg.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            const clickX = e.clientX;
-            const clickY = e.clientY;
-            
-            // Check if click is within 20px radius of center (timer control area)
-            const distance = Math.sqrt(Math.pow(clickX - centerX, 2) + Math.pow(clickY - centerY, 2));
-            if (distance <= 20) {
-                toggleTimer();
-            }
-        });
-    }
+    // Timer is now controlled by onclick attribute on the timer container div
     
     // Finish quiz button
     const finishQuizBtn = document.getElementById('finishQuizBtn');
@@ -223,7 +208,7 @@ function loadQuestion(index) {
         optionCard.innerHTML = `
             <div class="flex items-center">
                 <input type="radio" name="answer" value="${optionIndex}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <label class="ml-3 text-gray-900 dark:text-white font-medium cursor-pointer">${option}</label>
+                <label class="ml-3 text-sm text-gray-900 dark:text-white font-medium cursor-pointer">${option}</label>
             </div>
         `;
         
@@ -281,7 +266,7 @@ function submitAnswer() {
 
     const selectedIndex = parseInt(selectedOption.value);
     const currentQuestion = questions[currentQuestionIndex];
-    const correctIndex = currentQuestion.correct_answer;
+    const correctIndex = currentQuestion.correctAnswer || currentQuestion.correct_answer;
     
     selectedAnswers[currentQuestionIndex] = selectedIndex;
 
@@ -385,7 +370,22 @@ function submitAnswer() {
     }
 }
 
-function handleActionButton() {
+function handleActionButton(event) {
+    // Check if the clicked element is related to speed dial - if so, ignore
+    if (event && event.target && (
+        event.target.id === 'language-speed-dial-btn' || 
+        event.target.closest('#language-speed-dial-btn') ||
+        event.target.closest('#helper-speed-dial') ||
+        event.target.closest('#speed-dial-menu-bottom-right') ||
+        event.target.id === 'vietnamese-filter-btn' ||
+        event.target.id === 'hungarian-filter-btn' ||
+        event.target.id === 'all-filter-btn'
+    )) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+    }
+    
     const actionBtn = document.getElementById('actionBtn');
     const mode = actionBtn.dataset.mode;
     
@@ -410,6 +410,19 @@ function showExplanationModal(explanation) {
     
     if (!modal || !modalText) {
         return;
+    }
+    
+    // Pause the timer when showing explanation modal
+    if (!isTimerPaused && timerInterval) {
+        isTimerPaused = true;
+        clearInterval(timerInterval);
+        timerInterval = null;
+        
+        // Hide timer display, show play icon overlay
+        const timerDisplay = document.getElementById('timerDisplay');
+        const timerPlayIcon = document.getElementById('timerPlayIcon');
+        if (timerDisplay) timerDisplay.classList.add('hidden');
+        if (timerPlayIcon) timerPlayIcon.classList.remove('hidden');
     }
     
     // Clear any existing content and translation attributes
@@ -443,6 +456,28 @@ function hideExplanationModal() {
         modal.classList.remove('flex');
         modal.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('overflow-hidden');
+        
+        // Resume the timer when hiding explanation modal
+        if (isTimerPaused && remainingSeconds > 0) {
+            isTimerPaused = false;
+            if (!timerInterval) {
+                timerInterval = setInterval(() => {
+                    remainingSeconds--;
+                    updateTimerDisplay();
+                    
+                    if (remainingSeconds <= 0) {
+                        stopTimer();
+                        showEvaluation();
+                    }
+                }, 1000);
+            }
+            
+            // Show timer display, hide play icon overlay
+            const timerDisplay = document.getElementById('timerDisplay');
+            const timerPlayIcon = document.getElementById('timerPlayIcon');
+            if (timerDisplay) timerDisplay.classList.remove('hidden');
+            if (timerPlayIcon) timerPlayIcon.classList.add('hidden');
+        }
     }
 }
 
@@ -486,7 +521,7 @@ function displayWrongAnswers() {
         
         wrongAnswerCard.innerHTML = `
             <div class="mb-4">
-                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                <h4 class="text-base font-semibold text-gray-900 dark:text-white mb-2">
                     ${window.languageManager ? window.languageManager.translate('quiz.question_label') : 'Question'} ${wrongAnswer.questionIndex + 1}:
                 </h4>
                 <p class="text-gray-700 dark:text-gray-300">${wrongAnswer.question.question}</p>
@@ -612,25 +647,40 @@ function finishQuiz() {
     })
     .then(response => response.json())
     .then(data => {
-        // Redirect to categories page
-        window.location.href = '/quiz/categories';
+        // Extract category and subcategory from current URL to redirect to titles page
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        const topic = urlParams.get('subcategory');
+        
+        if (category && topic) {
+            window.location.href = `/quiz/${category}/${topic}/titles`;
+        } else {
+            // Fallback to categories if params not available
+            window.location.href = '/quiz/categories';
+        }
     })
     .catch(error => {
-        // Still redirect on error
-        window.location.href = '/quiz/categories';
+        // Extract category and subcategory from current URL for error case too
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        const topic = urlParams.get('subcategory');
+        
+        if (category && topic) {
+            window.location.href = `/quiz/${category}/${topic}/titles`;
+        } else {
+            // Fallback to categories if params not available
+            window.location.href = '/quiz/categories';
+        }
     });
 }
 
 // Timer control function for embedded control
 function toggleTimer() {
-    const timerIcon = document.getElementById('timerIcon');
-    
-    if (!timerIcon) {
-        return;
-    }
+    const timerDisplay = document.getElementById('timerDisplay');
+    const timerPlayIcon = document.getElementById('timerPlayIcon');
     
     if (isTimerPaused) {
-        // Resume timer - restart the interval and show pause icon
+        // Resume timer - restart the interval
         isTimerPaused = false;
         if (!timerInterval) {
             timerInterval = setInterval(() => {
@@ -643,15 +693,21 @@ function toggleTimer() {
                 }
             }, 1000);
         }
-        timerIcon.innerHTML = '<rect x="0.5" y="0.5" width="0.8" height="2" fill="#3B82F6"/><rect x="1.7" y="0.5" width="0.8" height="2" fill="#3B82F6"/>';
+        
+        // Show timer display, hide play icon overlay
+        if (timerDisplay) timerDisplay.classList.remove('hidden');
+        if (timerPlayIcon) timerPlayIcon.classList.add('hidden');
     } else {
-        // Pause timer - stop the interval and show play icon
+        // Pause timer - stop the interval
         isTimerPaused = true;
         if (timerInterval) {
             clearInterval(timerInterval);
             timerInterval = null;
         }
-        timerIcon.innerHTML = '<polygon points="0.5,0.5 0.5,2.5 2.5,1.5" fill="#3B82F6"/>';
+        
+        // Hide timer display, show play icon overlay
+        if (timerDisplay) timerDisplay.classList.add('hidden');
+        if (timerPlayIcon) timerPlayIcon.classList.remove('hidden');
     }
 }
 
@@ -662,4 +718,214 @@ window.toggleTimer = toggleTimer;
 window.addEventListener('beforeunload', function() {
     stopTimer();
 });
+
+// Language Filter Functions
+function setupLanguageFilterListeners() {
+    // Setup manual toggle for speed dial main button
+    const speedDialToggle = document.getElementById('language-speed-dial-btn');
+    const speedDialMenu = document.getElementById('speed-dial-menu-bottom-right');
+    const helperSpeedDial = document.getElementById('helper-speed-dial');
+    
+    
+    if (speedDialToggle && speedDialMenu) {
+        // Ensure menu starts hidden - use inline styles to override any CSS conflicts
+        speedDialMenu.classList.remove('flex');
+        speedDialMenu.classList.add('hidden');
+        speedDialMenu.style.display = 'none';
+        speedDialMenu.style.pointerEvents = 'none';
+        speedDialToggle.setAttribute('aria-expanded', 'false');
+        
+        // Simple click handler for speed dial toggle
+        speedDialToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleSpeedDialMenu();
+        });
+        
+    }
+    
+    // Language filter buttons
+    const vietnameseBtn = document.getElementById('vietnamese-filter-btn');
+    const hungarianBtn = document.getElementById('hungarian-filter-btn');
+    const allBtn = document.getElementById('all-filter-btn');
+    
+    if (vietnameseBtn) {
+        vietnameseBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            setLanguageFilter('vietnamese');
+        });
+    }
+    
+    if (hungarianBtn) {
+        hungarianBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            setLanguageFilter('hungarian');
+        });
+    }
+    
+    if (allBtn) {
+        allBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            setLanguageFilter('all');
+        });
+    }
+}
+
+function toggleSpeedDialMenu() {
+    const speedDialMenu = document.getElementById('speed-dial-menu-bottom-right');
+    const speedDialToggle = document.getElementById('language-speed-dial-btn');
+    
+    
+    if (speedDialMenu && speedDialToggle) {
+        const isHidden = speedDialMenu.classList.contains('hidden');
+        const computedStyle = window.getComputedStyle(speedDialMenu);
+        const isDisplayNone = computedStyle.display === 'none';
+        
+        
+        if (isHidden || isDisplayNone) {
+            // Show the menu - remove hidden and add flex with inline style
+            speedDialMenu.classList.remove('hidden');
+            speedDialMenu.classList.add('flex');
+            speedDialMenu.style.display = 'flex';
+            speedDialMenu.style.pointerEvents = 'auto';
+            speedDialToggle.setAttribute('aria-expanded', 'true');
+            
+            // Set flag to prevent immediate clicks
+            speedDialMenuJustOpened = true;
+            setTimeout(() => {
+                speedDialMenuJustOpened = false;
+            }, 100); // 100ms delay
+        } else {
+            // Hide the menu - remove flex and add hidden with inline style
+            speedDialMenu.classList.remove('flex');
+            speedDialMenu.classList.add('hidden');
+            speedDialMenu.style.display = 'none';
+            speedDialMenu.style.pointerEvents = 'none';
+            speedDialToggle.setAttribute('aria-expanded', 'false');
+        }
+    }
+}
+
+function setLanguageFilter(filterType) {
+    
+    // Ignore clicks that happen immediately after menu opens
+    if (speedDialMenuJustOpened) {
+        return;
+    }
+    
+    currentLanguageFilter = filterType;
+    
+    // Update button states
+    updateFilterButtonStates();
+    
+    // Apply filter to current question and options
+    applyLanguageFilter();
+    
+    // Hide the speed dial menu after selection
+    hideSpeedDialMenu();
+}
+
+function hideSpeedDialMenu() {
+    const speedDialMenu = document.getElementById('speed-dial-menu-bottom-right');
+    const speedDialToggle = document.getElementById('language-speed-dial-btn');
+    
+    if (speedDialMenu && speedDialToggle) {
+        // Hide the menu - remove flex and add hidden with inline style
+        speedDialMenu.classList.remove('flex');
+        speedDialMenu.classList.add('hidden');
+        speedDialMenu.style.display = 'none';
+        speedDialMenu.style.pointerEvents = 'none';
+        // Update aria-expanded attribute
+        speedDialToggle.setAttribute('aria-expanded', 'false');
+    }
+}
+
+function updateFilterButtonStates() {
+    const buttons = ['vietnamese-filter-btn', 'hungarian-filter-btn', 'all-filter-btn'];
+    
+    // Remove active state from all buttons
+    buttons.forEach(buttonId => {
+        const button = document.getElementById(buttonId);
+        if (button) {
+            button.classList.remove('ring-2', 'ring-blue-500');
+        }
+    });
+    
+    // Add active state to current filter
+    let activeButtonId = 'all-filter-btn'; // default
+    if (currentLanguageFilter === 'vietnamese') {
+        activeButtonId = 'vietnamese-filter-btn';
+    } else if (currentLanguageFilter === 'hungarian') {
+        activeButtonId = 'hungarian-filter-btn';
+    }
+    
+    const activeButton = document.getElementById(activeButtonId);
+    if (activeButton) {
+        activeButton.classList.add('ring-2', 'ring-blue-500');
+    }
+}
+
+function applyLanguageFilter() {
+    // Apply filter to question text
+    const questionTextElement = document.getElementById('questionText');
+    if (questionTextElement && questions[currentQuestionIndex]) {
+        const filteredQuestion = filterText(questions[currentQuestionIndex].question);
+        questionTextElement.textContent = filteredQuestion;
+    }
+    
+    // Apply filter to answer options
+    const optionCards = document.querySelectorAll('.option-card');
+    optionCards.forEach((card, index) => {
+        const label = card.querySelector('label');
+        if (label && questions[currentQuestionIndex] && questions[currentQuestionIndex].options[index]) {
+            const filteredOption = filterText(questions[currentQuestionIndex].options[index]);
+            // Update the text content, preserving any icons
+            const icons = label.querySelectorAll('.correct-icon, .wrong-icon');
+            label.innerHTML = filteredOption;
+            icons.forEach(icon => label.appendChild(icon));
+        }
+    });
+}
+
+function filterText(text) {
+    if (!text) return '';
+    
+    switch (currentLanguageFilter) {
+        case 'vietnamese':
+            // Show only content within parentheses
+            const vietnameseMatch = text.match(/\(([^)]+)\)/g);
+            if (vietnameseMatch) {
+                return vietnameseMatch.map(match => match.slice(1, -1)).join(' ');
+            }
+            return text; // Return original if no parentheses found
+            
+        case 'hungarian':
+            // Show only content outside parentheses
+            return text.replace(/\s*\([^)]*\)/g, '').trim();
+            
+        case 'all':
+        default:
+            // Show original content
+            return text;
+    }
+}
+
+// Override loadQuestion to apply current filter
+const originalLoadQuestion = loadQuestion;
+loadQuestion = function(index) {
+    // Call original loadQuestion first
+    originalLoadQuestion.call(this, index);
+    
+    // Then apply current language filter
+    setTimeout(() => {
+        applyLanguageFilter();
+        updateFilterButtonStates();
+    }, 50); // Small delay to ensure DOM is updated
+};
 

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{fragments/layout :: layout (null, ~{::content})}">
+
+<div th:fragment="content" class="container mx-auto px-4 pt-0 pb-8">
+    <!-- Hero Section -->
+    <div class="text-center mb-16 max-w-6xl mx-auto">
+        <div class="relative">
+            <!-- Background decoration -->
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-100 via-purple-50 to-amber-100 dark:from-blue-900/20 dark:via-purple-900/20 dark:to-amber-900/20 rounded-3xl transform -rotate-1"></div>
+            <div class="relative bg-white dark:bg-gray-800 p-8 md:p-12 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-700">
+                <!-- Main title with animated icon -->
+                <div class="flex items-center justify-center mb-6">
+                    <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-4 rounded-full mr-6 animate-pulse">
+                        <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-amber-600 bg-clip-text text-transparent">
+                        <span data-translate="landing.hero_title">Szabadítsd fel tudásod!</span>
+                    </h1>
+                </div>
+                
+                <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-4xl mx-auto">
+                    <span data-translate="landing.hero_subtitle">🇭🇺 Fedezd fel Magyarország gazdag történelmét, jogrendszerét és kultúráját interaktív kvízekkel. Minden kérdés egy új kaland a tudás világában!</span>
+                </p>
+
+                <!-- Motivational quote -->
+                <div class="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 p-6 rounded-2xl border border-indigo-200 dark:border-indigo-700 mb-8">
+                    <p class="text-lg font-medium text-gray-700 dark:text-gray-300 italic">
+                        <span data-translate="landing.quote">"A tudás a legnagyobb kincs, amit senki sem vehet el tőled. Minden nap tanulj valamit újat!"</span>
+                    </p>
+                </div>
+
+                <!-- Statistics with animations -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+                    <div class="text-center group">
+                        <div class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2 group-hover:scale-110 transition-transform duration-300">500+</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 font-medium" data-translate="landing.stats_questions">Izgalmas kérdés</div>
+                    </div>
+                    <div class="text-center group">
+                        <div class="text-4xl font-bold text-green-600 dark:text-green-400 mb-2 group-hover:scale-110 transition-transform duration-300">4</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 font-medium" data-translate="landing.stats_categories">Fő kategória</div>
+                    </div>
+                    <div class="text-center group">
+                        <div class="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2 group-hover:scale-110 transition-transform duration-300">15+</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 font-medium" data-translate="landing.stats_topics">Témakör</div>
+                    </div>
+                    <div class="text-center group">
+                        <div class="text-4xl font-bold text-amber-600 dark:text-amber-400 mb-2 group-hover:scale-110 transition-transform duration-300">3</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 font-medium" data-translate="landing.stats_languages">Nyelv</div>
+                    </div>
+                </div>
+
+                <!-- Primary CTA -->
+                <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                    <a href="/quiz/categories" 
+                       class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold px-10 py-5 rounded-2xl shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 text-lg">
+                        <span data-translate="landing.start_journey">🚀 Kezdd el a tanulási utadat!</span>
+                    </a>
+                    <button onclick="document.getElementById('categories-section').scrollIntoView({behavior: 'smooth'})" 
+                            class="bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-bold px-10 py-5 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-300 text-lg">
+                        <span data-translate="landing.explore_topics">📚 Témakörök felfedezése</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievement/Gamification Section -->
+    <div id="achievements-section" class="mb-16 max-w-6xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-4">
+            <span data-translate="landing.achievements_title">🏆 Teljesítmények & Motiváció</span>
+        </h2>
+        <p class="text-center text-lg text-gray-600 dark:text-gray-300 mb-12 max-w-2xl mx-auto">
+            <span data-translate="landing.achievements_subtitle">Kövesd nyomon haladásodat, gyűjts pontokat és érj el újabb szinteket!</span>
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Learning streak -->
+            <div class="bg-gradient-to-br from-orange-50 to-red-100 dark:from-orange-900/20 dark:to-red-900/20 p-8 rounded-3xl border border-orange-200 dark:border-orange-800 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                <div class="text-center">
+                    <div class="text-6xl mb-4 animate-bounce">🔥</div>
+                    <h3 class="font-bold text-xl text-gray-900 dark:text-white mb-3" data-translate="landing.streak_title">Tanulási Sorozat</h3>
+                    <div class="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-2">7 nap</div>
+                    <p class="text-gray-600 dark:text-gray-400" data-translate="landing.streak_description">Egymást követő aktív napok. Tartsd fenn a lendületet!</p>
+                </div>
+            </div>
+
+            <!-- Knowledge level -->
+            <div class="bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20 p-8 rounded-3xl border border-green-200 dark:border-green-800 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                <div class="text-center">
+                    <div class="text-6xl mb-4">🧠</div>
+                    <h3 class="font-bold text-xl text-gray-900 dark:text-white mb-3" data-translate="landing.knowledge_title">Tudás Szinted</h3>
+                    <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-3">Középhaladó</div>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-3">
+                        <div class="bg-green-600 h-3 rounded-full transition-all duration-1000" style="width: 65%"></div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400">
+                        <span class="font-semibold">65% teljesítve</span> <br/>
+                        <span data-translate="landing.knowledge_progress">Szuper munka! Folytatás következik...</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Next goal -->
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/20 dark:to-indigo-900/20 p-8 rounded-3xl border border-blue-200 dark:border-blue-800 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                <div class="text-center">
+                    <div class="text-6xl mb-4">🎯</div>
+                    <h3 class="font-bold text-xl text-gray-900 dark:text-white mb-3" data-translate="landing.goal_title">Következő Cél</h3>
+                    <div class="text-xl font-semibold text-blue-600 dark:text-blue-400 mb-3" data-translate="landing.goal_description">⭐ Történelem Mester</div>
+                    <p class="text-gray-600 dark:text-gray-400">
+                        <span data-translate="landing.goal_progress">Még 15 kvíz a teljesítéshez</span><br/>
+                        <span class="text-sm font-medium text-blue-500">Hajrá, már közel vagy!</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories Showcase Section -->
+    <div id="categories-section" class="mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-4">
+            <span data-translate="landing.categories_title">📚 Válaszd ki kedvenc témaköröd</span>
+        </h2>
+        <p class="text-center text-lg text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto">
+            <span data-translate="landing.categories_subtitle">Négy izgalmas kategóriában mélyedhetsz el: történelem, jog, kultúra és az Európai Unió</span>
+        </p>
+        
+        <!-- Enhanced Category Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            
+            <!-- Történelem Category -->
+            <div class="group bg-white dark:bg-gray-800 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-700 overflow-hidden hover:-translate-y-2 hover:scale-105">
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-8 text-center">
+                    <div class="text-7xl mb-4">🏛️</div>
+                    <h3 class="text-3xl font-bold text-white mb-2">Történelem</h3>
+                    <p class="text-blue-100 text-lg">1000 év magyar történelem</p>
+                </div>
+                <div class="p-8">
+                    <p class="text-gray-600 dark:text-gray-300 mb-6 text-center leading-relaxed">
+                        Fedezd fel Magyarország ezeréves történelmét az államalapítástól a rendszerváltásig. 
+                        12 fontos korszak vár rád!
+                    </p>
+                    
+                    <!-- Topics preview -->
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">🗓️ Főbb témakörök:</h4>
+                        <div class="grid grid-cols-2 gap-2 text-sm">
+                            <div class="bg-blue-50 dark:bg-blue-900/30 p-2 rounded-lg">• Államalapítás</div>
+                            <div class="bg-blue-50 dark:bg-blue-900/30 p-2 rounded-lg">• 1848-49 forradalom</div>
+                            <div class="bg-blue-50 dark:bg-blue-900/30 p-2 rounded-lg">• Trianoni békeszerződés</div>
+                            <div class="bg-blue-50 dark:bg-blue-900/30 p-2 rounded-lg">• 1956 forradalom</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400 mb-2">
+                            <span>Haladás</span>
+                            <span>45%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                            <div class="bg-blue-500 h-3 rounded-full transition-all duration-500" style="width: 45%"></div>
+                        </div>
+                    </div>
+
+                    <a href="/quiz/Történelem" 
+                       class="w-full inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transform hover:-translate-y-1 transition-all duration-300">
+                        <span>Történelem Tanulása</span>
+                        <svg class="ml-3 w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5-5 5M6 12h12"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Állam és Jog Category -->
+            <div class="group bg-white dark:bg-gray-800 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-700 overflow-hidden hover:-translate-y-2 hover:scale-105">
+                <div class="bg-gradient-to-r from-green-500 to-green-600 p-8 text-center">
+                    <div class="text-7xl mb-4">⚖️</div>
+                    <h3 class="text-3xl font-bold text-white mb-2">Állam és Jog</h3>
+                    <p class="text-green-100 text-lg">Jogrendszer és alkotmány</p>
+                </div>
+                <div class="p-8">
+                    <p class="text-gray-600 dark:text-gray-300 mb-6 text-center leading-relaxed">
+                        Ismerd meg az Alaptörvényt és az állampolgári jogokat. 
+                        Légy tudatos állampolgár!
+                    </p>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">📋 Főbb témakörök:</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="bg-green-50 dark:bg-green-900/30 p-2 rounded-lg">• Az Alaptörvény alapvető intézményei</div>
+                            <div class="bg-green-50 dark:bg-green-900/30 p-2 rounded-lg">• Állampolgári jogok és kötelezettségek</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400 mb-2">
+                            <span>Haladás</span>
+                            <span>30%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                            <div class="bg-green-500 h-3 rounded-full transition-all duration-500" style="width: 30%"></div>
+                        </div>
+                    </div>
+
+                    <a href="/quiz/Állam%20és%20Jog" 
+                       class="w-full inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-xl bg-green-600 hover:bg-green-700 text-white shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transform hover:-translate-y-1 transition-all duration-300">
+                        <span>Jog Tanulása</span>
+                        <svg class="ml-3 w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5-5 5M6 12h12"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Kultúra és Identitás Category -->
+            <div class="group bg-white dark:bg-gray-800 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-700 overflow-hidden hover:-translate-y-2 hover:scale-105">
+                <div class="bg-gradient-to-r from-amber-500 to-amber-600 p-8 text-center">
+                    <div class="text-7xl mb-4">🎭</div>
+                    <h3 class="text-3xl font-bold text-white mb-2">Kultúra és Identitás</h3>
+                    <p class="text-amber-100 text-lg">Magyar kultúra és irodalom</p>
+                </div>
+                <div class="p-8">
+                    <p class="text-gray-600 dark:text-gray-300 mb-6 text-center leading-relaxed">
+                        Merülj el a magyar kultúrában, irodalomban és zenében. 
+                        Ismerd meg nemzeti identitásunk!
+                    </p>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">🎨 Főbb témakörök:</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="bg-amber-50 dark:bg-amber-900/30 p-2 rounded-lg">• Nemzeti jelképek és ünnepek</div>
+                            <div class="bg-amber-50 dark:bg-amber-900/30 p-2 rounded-lg">• Magyar irodalom és zenetörténet</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400 mb-2">
+                            <span>Haladás</span>
+                            <span>60%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                            <div class="bg-amber-500 h-3 rounded-full transition-all duration-500" style="width: 60%"></div>
+                        </div>
+                    </div>
+
+                    <a href="/quiz/Kultúra%20és%20Identitás" 
+                       class="w-full inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-xl bg-amber-600 hover:bg-amber-700 text-white shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transform hover:-translate-y-1 transition-all duration-300">
+                        <span>Kultúra Tanulása</span>
+                        <svg class="ml-3 w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5-5 5M6 12h12"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Európai Unió és a Mindennapok Category -->
+            <div class="group bg-white dark:bg-gray-800 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-700 overflow-hidden hover:-translate-y-2 hover:scale-105">
+                <div class="bg-gradient-to-r from-purple-500 to-purple-600 p-8 text-center">
+                    <div class="text-7xl mb-4">🇪🇺</div>
+                    <h3 class="text-3xl font-bold text-white mb-2">Európai Unió</h3>
+                    <p class="text-purple-100 text-lg">EU és a mindennapok</p>
+                </div>
+                <div class="p-8">
+                    <p class="text-gray-600 dark:text-gray-300 mb-6 text-center leading-relaxed">
+                        Tanuld meg, hogyan hat az Európai Unió mindennapjainkra. 
+                        Légy európai állampolgár!
+                    </p>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">🌍 Főbb témakörök:</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="bg-purple-50 dark:bg-purple-900/30 p-2 rounded-lg">• Európa és Magyarország a mindennapokban</div>
+                            <div class="bg-purple-50 dark:bg-purple-900/30 p-2 rounded-lg">• EU intézmények és jogok</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400 mb-2">
+                            <span>Haladás</span>
+                            <span>25%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                            <div class="bg-purple-500 h-3 rounded-full transition-all duration-500" style="width: 25%"></div>
+                        </div>
+                    </div>
+
+                    <a href="/quiz/Európai%20Unió%20és%20a%20Mindennapok" 
+                       class="w-full inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-xl bg-purple-600 hover:bg-purple-700 text-white shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transform hover:-translate-y-1 transition-all duration-300">
+                        <span>EU Tanulása</span>
+                        <svg class="ml-3 w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5-5 5M6 12h12"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daily Challenge Section -->
+    <div class="mb-16 max-w-4xl mx-auto">
+        <div class="bg-gradient-to-r from-rose-50 via-pink-50 to-red-50 dark:from-rose-900/20 dark:via-pink-900/20 dark:to-red-900/20 p-8 md:p-12 rounded-3xl border border-rose-200 dark:border-rose-800">
+            <div class="text-center">
+                <div class="text-6xl mb-6">⚡</div>
+                <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                    <span data-translate="landing.daily_challenge_title">Napi Kihívás</span>
+                </h3>
+                <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">
+                    <span data-translate="landing.daily_challenge_description">Minden nap új kihívás vár! Teljesítsd a mai feladatot és gyűjts extra pontokat.</span>
+                </p>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg mb-6">
+                    <h4 class="font-bold text-lg text-gray-900 dark:text-white mb-2">Mai kihívás: "Aranycsapat"</h4>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Válaszolj helyesen 5 sport-történeti kérdésre!</p>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-3">
+                        <div class="bg-gradient-to-r from-yellow-400 to-orange-500 h-3 rounded-full transition-all duration-500" style="width: 40%"></div>
+                    </div>
+                    <p class="text-sm text-gray-500">2/5 kérdés teljesítve</p>
+                </div>
+                <button class="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white font-bold px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                    <span data-translate="landing.continue_challenge">Kihívás folytatása</span>
+                    <svg class="inline ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3-3 3m-6 0a9 9 0 1118 0 9 9 0 01-18 0"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Motivational Footer -->
+    <div class="text-center max-w-4xl mx-auto">
+        <div class="bg-gradient-to-r from-indigo-50 via-blue-50 to-purple-50 dark:from-indigo-900/20 dark:via-blue-900/20 dark:to-purple-900/20 p-8 md:p-12 rounded-3xl border border-indigo-200 dark:border-indigo-800">
+            <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">
+                <span data-translate="landing.motivational_title">💪 Minden nap egy lépéssel közelebb a sikerhez!</span>
+            </h3>
+            <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                <span data-translate="landing.motivational_description">A tudás a legnagyobb kincs, amit senki sem vehet el tőled. Kezdj el ma és lásd, milyen messzire juthatsz!</span>
+            </p>
+            
+            <!-- Features grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="flex items-center justify-center space-x-3 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm">
+                    <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="font-medium text-gray-700 dark:text-gray-300" data-translate="landing.feature_interactive">Interaktív kvízek</span>
+                </div>
+                <div class="flex items-center justify-center space-x-3 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm">
+                    <svg class="w-6 h-6 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="font-medium text-gray-700 dark:text-gray-300" data-translate="landing.feature_progress">Haladás követés</span>
+                </div>
+                <div class="flex items-center justify-center space-x-3 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm">
+                    <svg class="w-6 h-6 text-purple-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="font-medium text-gray-700 dark:text-gray-300" data-translate="landing.feature_multilingual">Többnyelvű</span>
+                </div>
+            </div>
+
+            <!-- Final CTA -->
+            <div class="space-y-4">
+                <a href="/quiz/categories" 
+                   class="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold px-12 py-4 rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 text-lg">
+                    <span data-translate="landing.final_cta">🎓 Indítsuk el a tanulást most!</span>
+                </a>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                    <span data-translate="landing.no_registration">Nincs szükség regisztrációra • Ingyenes • Azonnal kezdheted</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

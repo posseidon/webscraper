@@ -1,0 +1,80 @@
+spring:
+  application:
+    name: quizme
+  datasource:
+    url: jdbc:sqlite:${AZURE_DATA_DIR:/tmp}/quizme.db
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate.dialect: org.hibernate.community.dialect.SQLiteDialect
+      hibernate:
+        format_sql: false
+  sql:
+    init:
+      mode: never
+  thymeleaf:
+    cache: true
+    prefix: classpath:/templates/
+    suffix: .html
+  web:
+    resources:
+      static-locations: classpath:/static/
+      cache:
+        period: 31536000  # 1 year for static resources
+        cachecontrol:
+          max-age: 31536000
+          cache-public: true
+  devtools:
+    restart:
+      enabled: false
+    livereload:
+      enabled: false
+
+server:
+  port: ${PORT:8080}  # Use Azure's PORT env var, fallback to 8080
+  compression:
+    enabled: true
+    mime-types: 
+      - text/html
+      - text/css
+      - text/javascript
+      - application/javascript
+      - application/json
+      - text/xml
+      - application/xml
+    min-response-size: 1024
+  http2:
+    enabled: true
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  undertow:
+    threads:
+      worker: 4        # Reduced for production efficiency
+      io: 2            # Optimized for I/O operations
+    buffer-size: 1024  # 1KB buffer size
+    direct-buffers: true
+    accesslog:
+      enabled: false   # Disable access logging for performance
+    options:
+      server:
+        RECORD_REQUEST_START_TIME: false
+      socket:
+        BACKLOG: 1024
+
+logging:
+  level:
+    org.hibernate.SQL: WARN
+    org.hibernate.type.descriptor.sql.BasicBinder: WARN
+    org.springframework: WARN
+    org.apache.catalina: WARN
+    org.eclipse.jetty: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

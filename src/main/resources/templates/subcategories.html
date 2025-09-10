@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{fragments/layout :: layout (null, ~{::content})}">
+
+<div th:fragment="content" class="container mx-auto px-4 pt-0 pb-8">
+    <!-- Responsive Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto" id="subcategoriesGrid">
+        <!-- Dynamic Subcategory Cards -->
+        <div th:each="subcategory, iterStat : ${subCategories}"
+             class="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 overflow-hidden hover:-translate-y-1 subcategory-card">
+            
+            <!-- Content Section -->
+            <div class="p-5">
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white capitalize mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 line-clamp-2" 
+                    th:text="${subcategory}">Subcategory Name</h2>
+                
+                <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed">
+                    <span data-translate="subcategories.explore_quizzes">Explore quizzes and test your knowledge in this specialized area.</span>
+                </p>
+
+                <!-- Action Button -->
+                <a th:href="@{'/quiz/' + ${category} + '/' + ${subcategory}}"
+                   class="w-full inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 text-white"
+                   th:class="'w-full inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 text-white ' + 
+                            ${iterStat.index % 6 == 0 ? 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500' :
+                             (iterStat.index % 6 == 1 ? 'bg-green-600 hover:bg-green-700 focus:ring-green-500' :
+                             (iterStat.index % 6 == 2 ? 'bg-amber-600 hover:bg-amber-700 focus:ring-amber-500' :
+                             (iterStat.index % 6 == 3 ? 'bg-purple-600 hover:bg-purple-700 focus:ring-purple-500' :
+                             (iterStat.index % 6 == 4 ? 'bg-red-600 hover:bg-red-700 focus:ring-red-500' :
+                             'bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500'))))}">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                    <span data-translate="subcategories.view_titles">View Titles</span>
+                    <svg class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5-5 5M6 12h12"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div th:if="${#lists.isEmpty(subCategories)}" class="col-span-full">
+            <div class="text-center py-12">
+                <div class="mx-auto h-24 w-24 text-gray-400 mb-4">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2" data-translate="subcategories.no_subcategories">No Subcategories Available</h3>
+                <p class="text-gray-500 dark:text-gray-400 mb-4">
+                    <span th:if="${category != null}" data-translate="subcategories.no_subcategories_desc">There are no subcategories available for this category yet.</span>
+                    <span th:if="${category == null}" data-translate="subcategories.no_subcategories_desc">There are no subcategories available for this category yet.</span>
+                </p>
+                <a th:href="@{/quiz/categories}"
+                   class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    <span data-translate="subcategories.back_to_categories">Back to Categories</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Functionality (Optional Enhancement) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add search functionality if needed in the future
+            const subcategoryCards = document.querySelectorAll('.subcategory-card');
+            
+            // Add hover effects for the quick access buttons
+            const quickAccessButtons = document.querySelectorAll('.subcategory-card .w-8.h-8');
+            quickAccessButtons.forEach(button => {
+                const card = button.closest('.subcategory-card');
+                const link = card.querySelector('a[href]');
+                
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (link) {
+                        window.location.href = link.href;
+                    }
+                });
+            });
+        });
+    </script>
+</div>
+
+</html>

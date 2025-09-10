@@ -1,0 +1,20 @@
+{
+  "name": "Quiz-App",
+  "version": "1.0.0",
+  "scripts": {
+    "preminify": "shx mkdir -p src/main/resources/static/js/min src/main/resources/static/css/min && shx rm -f src/main/resources/static/js/min/*.min.js src/main/resources/static/css/min/*.min.css",
+    "minify:js": "uglifyjs \"src/main/resources/static/js/*.js\" --compress --mangle --output \"src/main/resources/static/js/min/app.min.js\"",
+    "minify:css": "cleancss -o \"src/main/resources/static/css/min/styles.min.css\" \"src/main/resources/static/css/*.css\"",
+    "minify:html": "html-minifier-terser --input-dir \"src/main/resources/static\" --output-dir \"src/main/resources/static\" --file-ext \"html\" --collapse-whitespace --remove-comments --minify-css true --minify-js true",
+    "minify": "npm-run-all -s preminify minify:js minify:css minify:html",
+    "obfuscate": "javascript-obfuscator src/main/resources/static/js/*.js --output src/main/resources/static/js/obfuscated/"
+  },
+  "devDependencies": {
+    "uglify-js": "^3.17.4",
+    "javascript-obfuscator": "^4.0.1",
+    "clean-css-cli": "^5.6.3",
+    "html-minifier-terser": "^7.2.0",
+    "npm-run-all": "^4.1.5",
+    "shx": "^0.3.4"
+  }
+}

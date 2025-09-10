@@ -1,0 +1,762 @@
+{
+  "quiz_metadata": {
+    "category": "Magyar kulturális ismeret",
+    "sub_category": "Kultúra és Identitás",
+    "title": "Magyar és Európai Irodalom és Zenetörténet",
+    "description": "Bài kiểm tra toàn diện về các nhân vật nổi bật trong lịch sử văn học và âm nhạc Hungary và Châu Âu, bao gồm từ thời kỳ Phục hưng đến thế kỷ 20",
+    "version": "1.0",
+    "created_date": "2025-01-08",
+    "language": "hu",
+    "total_questions": 45,
+    "time_limit_minutes": 60,
+    "difficulty_levels": ["könnyű", "közepes", "nehéz"],
+    "difficulty_distribution": {
+      "könnyű": 15,
+      "közepes": 20,
+      "nehéz": 10
+    },
+    "topic_distribution": {
+      "Magyar zenetörténet": 8,
+      "Reneszánsz irodalom": 3,
+      "Barokk irodalom": 2,
+      "Felvilágosodás irodalma": 4,
+      "Klasszicista irodalom": 4,
+      "Romantika": 12,
+      "20. századi irodalom": 8,
+      "Európai irodalom": 4
+    },
+    "learning_objectives": [
+      "Nhận biết và phân tích các nhân vật quan trọng trong lịch sử văn học Hungary từ thời Phục hưng đến thế kỷ 20",
+      "Hiểu được đóng góp của các nhà soạn nhạc Hungary nổi tiếng như Bartók Béla, Kodály Zoltán, Erkel Ferenc và Liszt Ferenc",
+      "Phân biệt các tác phẩm văn học tiêu biểu của từng thời kỳ và tác giả",
+      "Nắm vững kiến thức về các nhà văn và nhạc sĩ Châu Âu có ảnh hưởng lớn",
+      "Hiểu được mối liên hệ giữa các trào lưu văn học và bối cảnh lịch sử"
+    ],
+    "study_tips": [
+      "Tạo sơ đồ tư duy cho từng thời kỳ văn học với các tác giả và tác phẩm chính",
+      "Học thuộc các cặp tác giả-tác phẩm quan trọng nhất",
+      "Chú ý đến niên đại và thứ tự thời gian của các sự kiện văn học",
+      "Luyện tập phân biệt đặc điểm của từng trào lưu văn học",
+      "Tìm hiểu thêm về bối cảnh lịch sử để hiểu rõ hơn về các tác phẩm"
+    ]
+  },
+  "topics": [
+    {
+      "topic_id": "T001",
+      "topic_name": "Magyar zenetörténet",
+      "description": "Lịch sử âm nhạc Hungary bao gồm âm nhạc dân gian, nghiên cứu dân ca, opera và các nhà soạn nhạc nổi tiếng"
+    },
+    {
+      "topic_id": "T002",
+      "topic_name": "Reneszánsz irodalom",
+      "description": "Văn học thời Phục hưng Hungary với những tác giả tiêu biểu như Janus Pannonius và Balassi Bálint"
+    },
+    {
+      "topic_id": "T003",
+      "topic_name": "Barokk irodalom", 
+      "description": "Văn học thời Baroque với tác phẩm sử thi nổi tiếng của Zrínyi Miklós"
+    },
+    {
+      "topic_id": "T004",
+      "topic_name": "Felvilágosodás irodalma",
+      "description": "Văn học thời Khai sáng với các tác giả như Csokonai Vitéz Mihály và Batsányi János"
+    },
+    {
+      "topic_id": "T005",
+      "topic_name": "Klasszicista irodalom",
+      "description": "Văn học thời Cổ điển với phong trào cải cách ngôn ngữ của Kazinczy Ferenc"
+    },
+    {
+      "topic_id": "T006",
+      "topic_name": "Romantika",
+      "description": "Trào lưu Lãng mạn với những tác giả và tác phẩm quan trọng nhất của văn học Hungary"
+    },
+    {
+      "topic_id": "T007",
+      "topic_name": "20. századi irodalom",
+      "description": "Văn học thế kỷ 20 với những nhà thơ và nhà văn hiện đại nổi tiếng"
+    },
+    {
+      "topic_id": "T008",
+      "topic_name": "Európai irodalom",
+      "description": "Văn học Châu Âu với các tác giả kinh điển như Shakespeare, Voltaire và Goethe"
+    }
+  ],
+  "questions": [
+    {
+      "question_id": "Q001",
+      "topic_id": "T001",
+      "question": "Ki volt a magyar népzenekutatás két leghíresebb képviselője? (Ai là hai đại diện nổi tiếng nhất của nghiên cứu âm nhạc dân gian Hungary?)",
+      "options": [
+        "Bartók Béla és Kodály Zoltán (Bartók Béla và Kodály Zoltán)",
+        "Erkel Ferenc és Liszt Ferenc (Erkel Ferenc và Liszt Ferenc)",
+        "Mozart és Beethoven (Mozart và Beethoven)",
+        "Petőfi Sándor és Arany János (Petőfi Sándor và Arany János)"
+      ],
+      "correct_answer": 0,
+      "difficulty": "könnyű",
+      "keywords": ["Bartók Béla", "Kodály Zoltán", "nghiên cứu dân ca", "âm nhạc dân gian"],
+      "explanation": "Bartók Béla và Kodály Zoltán là hai nhà nghiên cứu âm nhạc dân gian nổi tiếng nhất của Hungary, họ đã có những đóng góp quan trọng trong việc thu thập và nghiên cứu dân ca Hungary."
+    },
+    {
+      "question_id": "Q002",
+      "topic_id": "T001",
+      "question": "Mikor kezdték gyűjteni a magyar népdalokat? (Khi nào bắt đầu thu thập các bài dân ca Hungary?)",
+      "options": [
+        "1700-as évektől (Từ những năm 1700)",
+        "1800-as évektől (Từ những năm 1800)",
+        "1900-as évektől (Từ những năm 1900)",
+        "1600-as évektől (Từ những năm 1600)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "közepes",
+      "keywords": ["dân ca", "thu thập", "thế kỷ 19", "lịch sử âm nhạc"],
+      "explanation": "Việc thu thập dân ca Hungary bắt đầu từ những năm 1800, khi người ta bắt đầu ghi chép lại giai điệu và lời ca của các bài dân ca truyền thống."
+    },
+    {
+      "question_id": "Q003",
+      "topic_id": "T001",
+      "question": "Melyik operát írta Erkel Ferenc? (Erkel Ferenc đã viết vở opera nào?)",
+      "options": [
+        "A kékszakállú herceg vára (Lâu đài của Công tước Xanh)",
+        "Bánk bán (Bánk bán)",
+        "Háry János (Háry János)",
+        "A varázsfuvola (Cây sáo thần)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "könnyű",
+      "keywords": ["Erkel Ferenc", "opera", "Bánk bán", "nhạc kịch Hungary"],
+      "explanation": "Erkel Ferenc đã sáng tác vở opera 'Bánk bán', một trong những tác phẩm opera quan trọng nhất của Hungary."
+    },
+    {
+      "question_id": "Q004",
+      "topic_id": "T001",
+      "question": "Melyik mű Liszt Ferenc alkotása? (Tác phẩm nào là của Liszt Ferenc?)",
+      "options": [
+        "Bánk bán opera (Opera Bánk bán)",
+        "Magyar rapszódiák (Những bản Rhapsody Hungary)",
+        "A hattyúk tava (Hồ thiên nga)",
+        "IX. szimfónia (Giao hưởng số 9)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "könnyű",
+      "keywords": ["Liszt Ferenc", "Hungarian Rhapsodies", "nhạc cổ điển", "piano"],
+      "explanation": "Liszt Ferenc nổi tiếng với tác phẩm 'Magyar rapszódiák' (Hungarian Rhapsodies), một trong những tác phẩm piano nổi tiếng nhất thế giới."
+    },
+    {
+      "question_id": "Q005",
+      "topic_id": "T001",
+      "question": "Ki komponálta 'A kékszakállú herceg vára' operát? (Ai đã sáng tác vở opera 'Lâu đài của Công tước Xanh'?)",
+      "options": [
+        "Kodály Zoltán (Kodály Zoltán)",
+        "Erkel Ferenc (Erkel Ferenc)",
+        "Bartók Béla (Bartók Béla)",
+        "Liszt Ferenc (Liszt Ferenc)"
+      ],
+      "correct_answer": 2,
+      "difficulty": "közepes",
+      "keywords": ["Bartók Béla", "opera", "Bluebeard's Castle", "âm nhạc hiện đại"],
+      "explanation": "Bartók Béla đã sáng tác vở opera 'A kékszakállú herceg vára' (Lâu đài của Công tước Xanh), một tác phẩm opera hiện đại quan trọng."
+    },
+    {
+      "question_id": "Q006",
+      "topic_id": "T001",
+      "question": "Melyik mű Kodály Zoltán alkotása? (Tác phẩm nào là của Kodály Zoltán?)",
+      "options": [
+        "Bánk bán (Bánk bán)",
+        "Magyar rapszódiák (Những bản Rhapsody Hungary)",
+        "Háry János (Háry János)",
+        "A kékszakállú herceg vára (Lâu đài của Công tước Xanh)"
+      ],
+      "correct_answer": 2,
+      "difficulty": "könnyű",
+      "keywords": ["Kodály Zoltán", "Háry János", "opera", "nhạc dân gian"],
+      "explanation": "Kodály Zoltán đã sáng tác 'Háry János', một tác phẩm opera nổi tiếng dựa trên các giai điệu dân gian Hungary."
+    },
+    {
+      "question_id": "Q007",
+      "topic_id": "T001",
+      "question": "Mi a kiemelkedő jelentősége a magyar népzenének? (Tầm quan trọng đặc biệt của âm nhạc dân gian Hungary là gì?)",
+      "options": [
+        "Európai színvonalú (Đạt trình độ Châu Âu)",
+        "Kiemelkedő jelentőségű (Có ý nghĩa nổi bật)",
+        "Világszínvonalú (Đạt trình độ thế giới)",
+        "Helyi jelentőségű (Có ý nghĩa địa phương)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "közepes",
+      "keywords": ["âm nhạc dân gian", "ý nghĩa văn hóa", "di sản", "truyền thống"],
+      "explanation": "Âm nhạc dân gian Hungary có ý nghĩa đặc biệt nổi bật trong văn hóa dân tộc và đã được các nhà nghiên cứu như Bartók và Kodály ghi nhận và bảo tồn."
+    },
+    {
+      "question_id": "Q008",
+      "topic_id": "T001",
+      "question": "Milyen színvonalú a magyar opera? (Trình độ của opera Hungary như thế nào?)",
+      "options": [
+        "Helyi színvonalú (Trình độ địa phương)",
+        "Európai színvonalú (Trình độ Châu Âu)",
+        "Világszínvonalú (Trình độ thế giới)",
+        "Alacsony színvonalú (Trình độ thấp)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "könnyű",
+      "keywords": ["opera Hungary", "trình độ Châu Âu", "chất lượng nghệ thuật"],
+      "explanation": "Opera Hungary đạt trình độ Châu Âu, với những tác phẩm như 'Bánk bán' của Erkel Ferenc được công nhận quốc tế."
+    },
+    {
+      "question_id": "Q009",
+      "topic_id": "T002",
+      "question": "Ki írta a 'Pannónia dicsérete' című művet? (Ai đã viết tác phẩm 'Lời ca ngợi Pannonia'?)",
+      "options": [
+        "Balassi Bálint (Balassi Bálint)",
+        "Janus Pannonius (Janus Pannonius)",
+        "Zrínyi Miklós (Zrínyi Miklós)",
+        "Kazinczy Ferenc (Kazinczy Ferenc)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "könnyű",
+      "keywords": ["Janus Pannonius", "Pannonia", "thời Phục hưng", "thơ ca Latin"],
+      "explanation": "Janus Pannonius đã viết 'Pannónia dicsérete' (Lời ca ngợi Pannonia), một tác phẩm tiêu biểu của văn học thời Phục hưng Hungary."
+    },
+    {
+      "question_id": "Q010",
+      "topic_id": "T002",
+      "question": "Melyik mű Balassi Bálint alkotása? (Tác phẩm nào là của Balassi Bálint?)",
+      "options": [
+        "Pannónia dicsérete (Lời ca ngợi Pannonia)",
+        "Szigeti veszedelem (Thảm họa Sziget)",
+        "Hogy Júliára talála, így köszöne néki (Khi gặp Julia, anh chào cô ấy như thế này)",
+        "A reményhez (Gửi đến hy vọng)"
+      ],
+      "correct_answer": 2,
+      "difficulty": "közepes",
+      "keywords": ["Balassi Bálint", "Julia", "thơ tình", "thời Phục hưng"],
+      "explanation": "Balassi Bálint đã viết 'Hogy Júliára talála, így köszöne néki', một trong những bài thơ tình nổi tiếng nhất của văn học Hungary thời Phục hưng."
+    },
+    {
+      "question_id": "Q011",
+      "topic_id": "T002",
+      "question": "Melyik irodalmi korszakhoz tartozik Janus Pannonius? (Janus Pannonius thuộc thời kỳ văn học nào?)",
+      "options": [
+        "Barokk (Baroque)",
+        "Reneszánsz (Phục hưng)",
+        "Klasszicizmus (Cổ điển)",
+        "Romantika (Lãng mạn)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "könnyű",
+      "keywords": ["Janus Pannonius", "thời Phục hưng", "văn học cổ điển"],
+      "explanation": "Janus Pannonius là một trong những đại diện tiêu biểu của văn học thời Phục hưng (Reneszánsz) Hungary."
+    },
+    {
+      "question_id": "Q012",
+      "topic_id": "T003",
+      "question": "Ki írta a 'Szigeti veszedelem' című eposzát? (Ai đã viết sử thi 'Thảm họa Sziget'?)",
+      "options": [
+        "Balassi Bálint (Balassi Bálint)",
+        "Janus Pannonius (Janus Pannonius)",
+        "Zrínyi Miklós (Zrínyi Miklós)",
+        "Csokonai Vitéz Mihály (Csokonai Vitéz Mihály)"
+      ],
+      "correct_answer": 2,
+      "difficulty": "könnyű",
+      "keywords": ["Zrínyi Miklós", "sử thi", "Sziget", "thời Baroque"],
+      "explanation": "Zrínyi Miklós đã viết sử thi 'Szigeti veszedelem' (Thảm họa Sziget), một tác phẩm tiêu biểu của văn học thời Baroque Hungary."
+    },
+    {
+      "question_id": "Q013",
+      "topic_id": "T003",
+      "question": "Melyik irodalmi műfaj a 'Szigeti veszedelem'? (Thể loại văn học của 'Szigeti veszedelem' là gì?)",
+      "options": [
+        "Lírai költemény (Thơ trữ tình)",
+        "Dráma (Kịch)",
+        "Eposz (Sử thi)",
+        "Regény (Tiểu thuyết)"
+      ],
+      "correct_answer": 2,
+      "difficulty": "közepes",
+      "keywords": ["sử thi", "eposz", "thể loại văn học", "tác phẩm anh hùng ca"],
+      "explanation": "'Szigeti veszedelem' là một sử thi (eposz), thể loại văn học kể về những sự kiện lịch sử và anh hùng ca."
+    },
+    {
+      "question_id": "Q014",
+      "topic_id": "T004",
+      "question": "Ki írta 'A reményhez' című költeményt? (Ai đã viết bài thơ 'Gửi đến hy vọng'?)",
+      "options": [
+        "Batsányi János (Batsányi János)",
+        "Csokonai Vitéz Mihály (Csokonai Vitéz Mihály)",
+        "Kazinczy Ferenc (Kazinczy Ferenc)",
+        "Berzsenyi Dániel (Berzsenyi Dániel)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "könnyű",
+      "keywords": ["Csokonai Vitéz Mihály", "hy vọng", "thời Khai sáng", "thơ ca"],
+      "explanation": "Csokonai Vitéz Mihály đã viết bài thơ 'A reményhez' (Gửi đến hy vọng), một tác phẩm tiêu biểu của văn học thời Khai sáng."
+    },
+    {
+      "question_id": "Q015",
+      "topic_id": "T004",
+      "question": "Melyik mű Batsányi János alkotása? (Tác phẩm nào là của Batsányi János?)",
+      "options": [
+        "A reményhez (Gửi đến hy vọng)",
+        "A franciaországi változásokra (Về những thay đổi ở Pháp)",
+        "Az első szerelem (Tình yêu đầu)",
+        "Himnusz (Quốc ca)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "közepes",
+      "keywords": ["Batsányi János", "Cách mạng Pháp", "chính trị", "thời Khai sáng"],
+      "explanation": "Batsányi János đã viết 'A franciaországi változásokra' (Về những thay đổi ở Pháp), phản ánh ảnh hưởng của Cách mạng Pháp đến văn học Hungary."
+    },
+    {
+      "question_id": "Q016",
+      "topic_id": "T004",
+      "question": "Melyik irodalmi korszakhoz tartozik Csokonai Vitéz Mihály? (Csokonai Vitéz Mihály thuộc thời kỳ văn học nào?)",
+      "options": [
+        "Barokk (Baroque)",
+        "Felvilágosodás (Khai sáng)",
+        "Klasszicizmus (Cổ điển)",
+        "Romantika (Lãng mạn)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "könnyű",
+      "keywords": ["Csokonai", "thời Khai sáng", "văn học 18-19", "Enlightenment"],
+      "explanation": "Csokonai Vitéz Mihály là đại diện tiêu biểu của văn học thời Khai sáng (Felvilágosodás) Hungary."
+    },
+    {
+      "question_id": "Q017",
+      "topic_id": "T004",
+      "question": "Mi jellemezte a felvilágosodás irodalmát? (Đặc điểm của văn học thời Khai sáng là gì?)",
+      "options": [
+        "Érzelmi túlfűtöttség (Cảm xúc thái quá)",
+        "Ésszerűség és okosság (Lý trí và khôn ngoan)",
+        "Misztikus elemek (Yếu tố thần bí)",
+        "Népi hagyományok (Truyền thống dân gian)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "nehéz",
+      "keywords": ["thời Khai sáng", "lý trí", "khôn ngoan", "đặc điểm văn học"],
+      "explanation": "Văn học thời Khai sáng được đặc trưng bởi lý trí và khôn ngoan, nhấn mạnh vào việc giáo dục và cải cách xã hội."
+    },
+    {
+      "question_id": "Q018",
+      "topic_id": "T005",
+      "question": "Ki volt a hazai nyelvújítás vezéralakja? (Ai là nhân vật chủ chốt của phong trào cải cách ngôn ngữ Hungary?)",
+      "options": [
+        "Berzsenyi Dániel (Berzsenyi Dániel)",
+        "Kazinczy Ferenc (Kazinczy Ferenc)",
+        "Csokonai Vitéz Mihály (Csokonai Vitéz Mihály)",
+        "Kölcsey Ferenc (Kölcsey Ferenc)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "könnyű",
+      "keywords": ["Kazinczy Ferenc", "cải cách ngôn ngữ", "đổi mới văn học", "thời Cổ điển"],
+      "explanation": "Kazinczy Ferenc là nhân vật chủ chốt của phong trào cải cách ngôn ngữ Hungary, đã có đóng góp quan trọng trong việc hiện đại hóa tiếng Hungary."
+    },
+    {
+      "question_id": "Q019",
+      "topic_id": "T005",
+      "question": "Ki írta 'Az első szerelem' című költeményt? (Ai đã viết bài thơ 'Tình yêu đầu'?)",
+      "options": [
+        "Kazinczy Ferenc (Kazinczy Ferenc)",
+        "Berzsenyi Dániel (Berzsenyi Dániel)",
+        "Csokonai Vitéz Mihály (Csokonai Vitéz Mihály)",
+        "Vörösmarty Mihály (Vörösmarty Mihály)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "közepes",
+      "keywords": ["Berzsenyi Dániel", "tình yêu đầu", "thơ tình", "thời Cổ điển"],
+      "explanation": "Berzsenyi Dániel đã viết bài thơ 'Az első szerelem' (Tình yêu đầu), một tác phẩm thơ tình nổi tiếng của thời kỳ Cổ điển."
+    },
+    {
+      "question_id": "Q020",
+      "topic_id": "T005",
+      "question": "Mi volt a nyelvújítás célja? (Mục đích của phong trào cải cách ngôn ngữ là gì?)",
+      "options": [
+        "A latin nyelv terjesztése (Phổ biến tiếng Latin)",
+        "A magyar nyelv gazdagítása (Làm giàu tiếng Hungary)",
+        "A német nyelv átvétele (Tiếp nhận tiếng Đức)",
+        "A francia nyelv bevezetése (Giới thiệu tiếng Pháp)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "közepes",
+      "keywords": ["cải cách ngôn ngữ", "làm giàu", "tiếng Hungary", "hiện đại hóa"],
+      "explanation": "Mục đích của phong trào cải cách ngôn ngữ là làm giàu và hiện đại hóa tiếng Hungary để phục vụ cho văn học và khoa học."
+    },
+    {
+      "question_id": "Q021",
+      "topic_id": "T005",
+      "question": "Melyik irodalmi korszakhoz tartozik a klasszicizmus? (Thời kỳ Cổ điển thuộc khoảng thời gian nào?)",
+      "options": [
+        "18. század vége - 19. század eleje (Cuối thế kỷ 18 - đầu thế kỷ 19)",
+        "17. század (Thế kỷ 17)",
+        "19. század közepe (Giữa thế kỷ 19)",
+        "20. század (Thế kỷ 20)"
+      ],
+      "correct_answer": 0,
+      "difficulty": "nehéz",
+      "keywords": ["thời Cổ điển", "thế kỷ 18-19", "thời gian", "khoảng thời gian"],
+      "explanation": "Thời kỳ Cổ điển (Klasszicizmus) diễn ra từ cuối thế kỷ 18 đến đầu thế kỷ 19, đặc trưng bởi việc theo đuổi các lý tưởng cổ điển."
+    },
+    {
+      "question_id": "Q022",
+      "topic_id": "T006",
+      "question": "Ki írta a Magyar Himnuszt? (Ai đã viết Quốc ca Hungary?)",
+      "options": [
+        "Vörösmarty Mihály (Vörösmarty Mihály)",
+        "Petőfi Sándor (Petőfi Sándor)",
+        "Kölcsey Ferenc (Kölcsey Ferenc)",
+        "Arany János (Arany János)"
+      ],
+      "correct_answer": 2,
+      "difficulty": "könnyű",
+      "keywords": ["Kölcsey Ferenc", "Quốc ca", "Himnusz", "biểu tượng quốc gia"],
+      "explanation": "Kölcsey Ferenc đã viết Himnusz (Quốc ca Hungary), một trong những tác phẩm quan trọng nhất của văn học và văn hóa Hungary."
+    },
+    {
+      "question_id": "Q023",
+      "topic_id": "T006",
+      "question": "Ki írta a Szózatot? (Ai đã viết bài 'Szózat'?)",
+      "options": [
+        "Kölcsey Ferenc (Kölcsey Ferenc)",
+        "Vörösmarty Mihály (Vörösmarty Mihály)",
+        "Petőfi Sándor (Petőfi Sándor)",
+        "Jókai Mór (Jókai Mór)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "könnyű",
+      "keywords": ["Vörösmarty Mihály", "Szózat", "quốc ca thứ hai", "thơ ca yêu nước"],
+      "explanation": "Vörösmarty Mihály đã viết 'Szózat', được coi như quốc ca thứ hai của Hungary và là biểu tượng của lòng yêu nước."
+    },
+    {
+      "question_id": "Q024",
+      "topic_id": "T006",
+      "question": "Melyik mű Petőfi Sándor alkotása? (Tác phẩm nào là của Petőfi Sándor?)",
+      "options": [
+        "Szózat (Szózat)",
+        "Himnusz (Quốc ca)",
+        "Nemzeti dal (Bài ca dân tộc)",
+        "A walesi bárdok (Những nhà thơ Wales)"
+      ],
+      "correct_answer": 2,
+      "difficulty": "könnyű",
+      "keywords": ["Petőfi Sándor", "Nemzeti dal", "cách mạng 1848", "thơ ca cách mạng"],
+      "explanation": "Petőfi Sándor đã viết 'Nemzeti dal' (Bài ca dân tộc), tác phẩm nổi tiếng đã trở thành biểu tượng của cuộc cách mạng 1848."
+    },
+    {
+      "question_id": "Q025",
+      "topic_id": "T006",
+      "question": "Ki írta 'A kőszívű ember fiai' című regényt? (Ai đã viết tiểu thuyết 'Con trai của người đàn ông trái tim đá'?)",
+      "options": [
+        "Petőfi Sándor (Petőfi Sándor)",
+        "Arany János (Arany János)",
+        "Jókai Mór (Jókai Mór)",
+        "Madách Imre (Madách Imre)"
+      ],
+      "correct_answer": 2,
+      "difficulty": "könnyű",
+      "keywords": ["Jókai Mór", "tiểu thuyết", "lịch sử Hungary", "văn học lãng mạn"],
+      "explanation": "Jókai Mór đã viết tiểu thuyết 'A kőszívű ember fiai' (Con trai của người đàn ông trái tim đá), một trong những tác phẩm tiểu thuyết nổi tiếng nhất của văn học Hungary."
+    },
+    {
+      "question_id": "Q026",
+      "topic_id": "T006",
+      "question": "Melyik mű Arany János alkotása? (Tác phẩm nào là của Arany János?)",
+      "options": [
+        "A kőszívű ember fiai (Con trai của người đàn ông trái tim đá)",
+        "A walesi bárdok (Những nhà thơ Wales)",
+        "Az ember tragédiája (Bi kịch của con người)",
+        "Bánk bán (Bánk bán)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "közepes",
+      "keywords": ["Arany János", "Wales", "nhà thơ", "ballad"],
+      "explanation": "Arany János đã viết 'A walesi bárdok' (Những nhà thơ Wales), một trong những ballad nổi tiếng nhất của ông."
+    },
+    {
+      "question_id": "Q027",
+      "topic_id": "T006",
+      "question": "Ki írta a 'Bánk bán' című drámát? (Ai đã viết vở kịch 'Bánk bán'?)",
+      "options": [
+        "Arany János (Arany János)",
+        "Katona József (Katona József)",
+        "Madách Imre (Madách Imre)",
+        "Jókai Mór (Jókai Mór)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "könnyű",
+      "keywords": ["Katona József", "kịch", "Bánk bán", "bi kịch lịch sử"],
+      "explanation": "Katona József đã viết vở kịch 'Bánk bán', một trong những tác phẩm kịch quan trọng nhất của văn học Hungary."
+    },
+    {
+      "question_id": "Q028",
+      "topic_id": "T006",
+      "question": "Ki írta 'Az ember tragédiája' című művet? (Ai đã viết tác phẩm 'Bi kịch của con người'?)",
+      "options": [
+        "Katona József (Katona József)",
+        "Arany János (Arany János)",
+        "Madách Imre (Madách Imre)",
+        "Jókai Mór (Jókai Mór)"
+      ],
+      "correct_answer": 2,
+      "difficulty": "könnyű",
+      "keywords": ["Madách Imre", "bi kịch triết học", "nhân loại", "tác phẩm kinh điển"],
+      "explanation": "Madách Imre đã viết 'Az ember tragédiája' (Bi kịch của con người), một tác phẩm triết học sâu sắc về số phận nhân loại."
+    },
+    {
+      "question_id": "Q029",
+      "topic_id": "T006",
+      "question": "Melyik évtizedben vált Pest-Buda az ország irodalmi középpontjává? (Trong thập kỷ nào Pest-Buda trở thành trung tâm văn học của đất nước?)",
+      "options": [
+        "1810-es évek (Những năm 1810)",
+        "1820-as évek (Những năm 1820)",
+        "1830-as évek (Những năm 1830)",
+        "1840-es évek (Những năm 1840)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "nehéz",
+      "keywords": ["Pest-Buda", "trung tâm văn học", "những năm 1820", "phát triển văn hóa"],
+      "explanation": "Trong những năm 1820, Pest-Buda trở thành trung tâm văn học của đất nước, đánh dấu bởi sự kết hợp chặt chẽ giữa chính trị và văn học."
+    },
+    {
+      "question_id": "Q030",
+      "topic_id": "T006",
+      "question": "Mikor nyitotta meg kapuit a Pesti Magyar Színház? (Khi nào Nhà hát Hungary Pest mở cửa?)",
+      "options": [
+        "1835-ben (Năm 1835)",
+        "1837-ben (Năm 1837)",
+        "1839-ben (Năm 1839)",
+        "1841-ben (Năm 1841)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "nehéz",
+      "keywords": ["Nhà hát Hungary", "1837", "Pest", "văn hóa sân khấu"],
+      "explanation": "Nhà hát Hungary Pest (Pesti Magyar Színház) mở cửa năm 1837, tiền thân của Nhà hát Quốc gia, đánh dấu sự phát triển của văn hóa sân khấu Hungary."
+    },
+    {
+      "question_id": "Q031",
+      "topic_id": "T006",
+      "question": "Mi jellemezte az 1820-as éveket az irodalomban? (Đặc điểm của những năm 1820 trong văn học là gì?)",
+      "options": [
+        "A vallás és irodalom összefonódása (Sự kết hợp giữa tôn giáo và văn học)",
+        "A politikai és az irodalom szoros összefonódása (Sự kết hợp chặt chẽ giữa chính trị và văn học)",
+        "A tudomány és irodalom kapcsolata (Mối liên hệ giữa khoa học và văn học)",
+        "A művészet és irodalom egyesülése (Sự hợp nhất giữa nghệ thuật và văn học)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "közepes",
+      "keywords": ["những năm 1820", "chính trị", "văn học", "đặc điểm thời đại"],
+      "explanation": "Những năm 1820 được đặc trưng bởi sự kết hợp chặt chẽ giữa chính trị và văn học, phản ánh tinh thần dân tộc và khát vọng độc lập."
+    },
+    {
+      "question_id": "Q032",
+      "topic_id": "T006",
+      "question": "Mi történt 1837-ben a magyar kultúra történetében? (Điều gì đã xảy ra năm 1837 trong lịch sử văn hóa Hungary?)",
+      "options": [
+        "Megalakult a Magyar Tudományos Akadémia (Thành lập Viện Hàn lâm Khoa học Hungary)",
+        "Megnyílt a Pesti Magyar Színház (Khai trương Nhà hát Hungary Pest)",
+        "Megjelent az első magyar újság (Ra đời tờ báo Hungary đầu tiên)",
+        "Elkezdődött a nyelvújítás (Bắt đầu phong trào cải cách ngôn ngữ)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "nehéz",
+      "keywords": ["1837", "Nhà hát Hungary", "văn hóa", "cột mốc lịch sử"],
+      "explanation": "Năm 1837, Nhà hát Hungary Pest mở cửa, đây là sự kiện quan trọng trong lịch sử văn hóa Hungary, tạo tiền đề cho sự phát triển của nghệ thuật sân khấu."
+    },
+    {
+      "question_id": "Q033",
+      "topic_id": "T007",
+      "question": "Melyik mű Ady Endre alkotása? (Tác phẩm nào là của Ady Endre?)",
+      "options": [
+        "Tiszta szívvel (Với trái tim trong sạch)",
+        "Elbocsátó, szép üzenet (Lời chia tay, thông điệp đẹp)",
+        "Rokonok (Họ hàng)",
+        "Édes Anna (Anna ngọt ngào)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "könnyű",
+      "keywords": ["Ady Endre", "thơ hiện đại", "thế kỷ 20", "đổi mới văn học"],
+      "explanation": "Ady Endre đã viết 'Elbocsátó, szép üzenet' (Lời chia tay, thông điệp đẹp), một trong những tác phẩm tiêu biểu của thơ hiện đại Hungary."
+    },
+    {
+      "question_id": "Q034",
+      "topic_id": "T007",
+      "question": "Ki írta a 'Rokonok' című regényt? (Ai đã viết tiểu thuyết 'Họ hàng'?)",
+      "options": [
+        "Ady Endre (Ady Endre)",
+        "Móricz Zsigmond (Móricz Zsigmond)",
+        "Kosztolányi Dezső (Kosztolányi Dezső)",
+        "Karinthy Frigyes (Karinthy Frigyes)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "könnyű",
+      "keywords": ["Móricz Zsigmond", "tiểu thuyết", "xã hội Hungary", "chủ nghĩa hiện thực"],
+      "explanation": "Móricz Zsigmond đã viết tiểu thuyết 'Rokonok' (Họ hàng), một tác phẩm quan trọng của văn học hiện thực Hungary thế kỷ 20."
+    },
+    {
+      "question_id": "Q035",
+      "topic_id": "T007",
+      "question": "Melyik mű Kosztolányi Dezső alkotása? (Tác phẩm nào là của Kosztolányi Dezső?)",
+      "options": [
+        "Rokonok (Họ hàng)",
+        "Édes Anna (Anna ngọt ngào)",
+        "Így írtok ti (Các bạn viết như thế này)",
+        "Tiszta szívvel (Với trái tim trong sạch)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "könnyű",
+      "keywords": ["Kosztolányi Dezső", "tiểu thuyết tâm lý", "Anna", "văn học hiện đại"],
+      "explanation": "Kosztolányi Dezső đã viết 'Édes Anna' (Anna ngọt ngào), một tiểu thuyết tâm lý nổi tiếng của văn học Hungary hiện đại."
+    },
+    {
+      "question_id": "Q036",
+      "topic_id": "T007",
+      "question": "Ki írta az 'Így írtok ti' című paródiagyűjteményt? (Ai đã viết tuyển tập nhại 'Các bạn viết như thế này'?)",
+      "options": [
+        "Kosztolányi Dezső (Kosztolányi Dezső)",
+        "Karinthy Frigyes (Karinthy Frigyes)",
+        "József Attila (József Attila)",
+        "Móricz Zsigmond (Móricz Zsigmond)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "közepes",
+      "keywords": ["Karinthy Frigyes", "parody", "hài hước", "phê bình văn học"],
+      "explanation": "Karinthy Frigyes đã viết 'Így írtok ti' (Các bạn viết như thế này), một tuyển tập parody nổi tiếng châm biếm các phong cách văn học."
+    },
+    {
+      "question_id": "Q037",
+      "topic_id": "T007",
+      "question": "Melyik mű József Attila alkotása? (Tác phẩm nào là của József Attila?)",
+      "options": [
+        "Édes Anna (Anna ngọt ngào)",
+        "Így írtok ti (Các bạn viết như thế này)",
+        "Tiszta szívvel (Với trái tim trong sạch)",
+        "Nem tudhatom… (Tôi không thể biết...)"
+      ],
+      "correct_answer": 2,
+      "difficulty": "könnyű",
+      "keywords": ["József Attila", "thơ ca xã hội", "trái tim trong sạch", "nhà thơ vĩ đại"],
+      "explanation": "József Attila đã viết 'Tiszta szívvel' (Với trái tim trong sạch), một trong những bài thơ nổi tiếng nhất của ông, thể hiện lý tưởng xã hội cao đẹp."
+    },
+    {
+      "question_id": "Q038",
+      "topic_id": "T007",
+      "question": "Ki írta a 'Nem tudhatom…' című költeményt? (Ai đã viết bài thơ 'Tôi không thể biết...'?)",
+      "options": [
+        "József Attila (József Attila)",
+        "Radnóti Miklós (Radnóti Miklós)",
+        "Márai Sándor (Márai Sándor)",
+        "Ady Endre (Ady Endre)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "közepes",
+      "keywords": ["Radnóti Miklós", "thơ chiến tranh", "Holocaust", "bi kịch"],
+      "explanation": "Radnóti Miklós đã viết 'Nem tudhatom…' (Tôi không thể biết...), một trong những bài thơ cảm động về số phận bi thảm của ông trong thời kỳ chiến tranh."
+    },
+    {
+      "question_id": "Q039",
+      "topic_id": "T007",
+      "question": "Melyik mű Márai Sándor alkotása? (Tác phẩm nào là của Márai Sándor?)",
+      "options": [
+        "Tiszta szívvel (Với trái tim trong sạch)",
+        "Nem tudhatom… (Tôi không thể biết...)",
+        "Egy polgár vallomása (Lời thú tội của một công dân)",
+        "Rokonok (Họ hàng)"
+      ],
+      "correct_answer": 2,
+      "difficulty": "közepes",
+      "keywords": ["Márai Sándor", "hồi ký", "công dân", "văn học hiện đại"],
+      "explanation": "Márai Sándor đã viết 'Egy polgár vallomása' (Lời thú tội của một công dân), một tác phẩm hồi ký quan trọng của văn học Hungary."
+    },
+    {
+      "question_id": "Q040",
+      "topic_id": "T007",
+      "question": "Melyik évszázadban alkottak ezek az írók? (Các nhà văn này sáng tác trong thế kỷ nào?)",
+      "options": [
+        "19. század (Thế kỷ 19)",
+        "20. század (Thế kỷ 20)",
+        "18. század (Thế kỷ 18)",
+        "21. század (Thế kỷ 21)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "könnyű",
+      "keywords": ["thế kỷ 20", "văn học hiện đại", "thời đại"],
+      "explanation": "Các nhà văn như Ady Endre, Móricz Zsigmond, József Attila đều sáng tác trong thế kỷ 20, đại diện cho văn học Hungary hiện đại."
+    },
+    {
+      "question_id": "Q041",
+      "topic_id": "T008",
+      "question": "Ki írta a 'Rómeó és Júlia' című drámát? (Ai đã viết vở kịch 'Romeo và Juliet'?)",
+      "options": [
+        "Voltaire (Voltaire)",
+        "Goethe (Goethe)",
+        "William Shakespeare (William Shakespeare)",
+        "Dante (Dante)"
+      ],
+      "correct_answer": 2,
+      "difficulty": "könnyű",
+      "keywords": ["Shakespeare", "Romeo và Juliet", "kịch Anh", "tình yêu bi thảm"],
+      "explanation": "William Shakespeare đã viết vở kịch 'Rómeó és Júlia' (Romeo và Juliet), một trong những tác phẩm tình yêu bi thảm nổi tiếng nhất thế giới."
+    },
+    {
+      "question_id": "Q042",
+      "topic_id": "T008",
+      "question": "Melyik mű Voltaire alkotása? (Tác phẩm nào là của Voltaire?)",
+      "options": [
+        "Faust (Faust)",
+        "Candide (Candide)",
+        "Rómeó és Júlia (Romeo và Juliet)",
+        "Hamlet (Hamlet)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "könnyű",
+      "keywords": ["Voltaire", "Candide", "triết học", "thời Khai sáng"],
+      "explanation": "Voltaire đã viết 'Candide', một tác phẩm triết học nổi tiếng của thời kỳ Khai sáng Châu Âu."
+    },
+    {
+      "question_id": "Q043",
+      "topic_id": "T008",
+      "question": "Ki írta a 'Faust' című művet? (Ai đã viết tác phẩm 'Faust'?)",
+      "options": [
+        "William Shakespeare (William Shakespeare)",
+        "Voltaire (Voltaire)",
+        "Johann Wolfgang von Goethe (Johann Wolfgang von Goethe)",
+        "Schiller (Schiller)"
+      ],
+      "correct_answer": 2,
+      "difficulty": "könnyű",
+      "keywords": ["Goethe", "Faust", "văn học Đức", "bi kịch triết học"],
+      "explanation": "Johann Wolfgang von Goethe đã viết 'Faust', một trong những tác phẩm vĩ đại nhất của văn học Đức và thế giới."
+    },
+    {
+      "question_id": "Q044",
+      "topic_id": "T008",
+      "question": "Ki komponálta az Európai Unió himnuszát? (Ai đã sáng tác quốc ca Liên minh Châu Âu?)",
+      "options": [
+        "Mozart (Mozart)",
+        "Ludwig van Beethoven (Ludwig van Beethoven)",
+        "Csajkovszkij (Tchaikovsky)",
+        "Bach (Bach)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "könnyű",
+      "keywords": ["Beethoven", "Giao hưởng số 9", "Liên minh Châu Âu", "Ode to Joy"],
+      "explanation": "Ludwig van Beethoven đã sáng tác Giao hưởng số 9, trong đó có 'Ode to Joy' (Khúc ca hân hoan) trở thành quốc ca của Liên minh Châu Âu."
+    },
+    {
+      "question_id": "Q045",
+      "topic_id": "T008",
+      "question": "Mikor mutatta be Beethoven a IX. szimfóniát? (Beethoven ra mắt Giao hưởng số 9 khi nào?)",
+      "options": [
+        "1822-ben (Năm 1822)",
+        "1824-ben (Năm 1824)",
+        "1826-ben (Năm 1826)",
+        "1828-ban (Năm 1828)"
+      ],
+      "correct_answer": 1,
+      "difficulty": "nehéz",
+      "keywords": ["Beethoven", "1824", "Giao hưởng số 9", "ra mắt"],
+      "explanation": "Beethoven ra mắt Giao hưởng số 9 năm 1824, đây là một trong những tác phẩm âm nhạc vĩ đại nhất mọi thời đại và sau này trở thành biểu tượng của Liên minh Châu Âu."
+    }
+  ]
+}

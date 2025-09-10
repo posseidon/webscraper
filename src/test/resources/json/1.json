@@ -1,0 +1,925 @@
+{
+  "quiz_metadata": {
+    "category": "Magyar kulturális ismeret",
+    "sub_category": "Kultúra és Identitás",
+    "title": "Magyarország nemzeti jelképei és ünnepei",
+    "description": "Bài kiểm tra toàn diện về quyền và nghĩa vụ cơ bản của công dân Hungary, sự phát triển quyền con người và các nguyên tắc hiến pháp",
+    "difficulty_level": "közepes-haladó",
+    "estimated_time_minutes": 40,
+    "total_questions": 50,
+    "passing_score_percentage": 70,
+    "language": "magyar",
+    "version": "1.0",
+    "created_date": "2025-09-06",
+    "difficulty_distribution": {
+      "könnyű": 18,
+      "közepes": 22,
+      "nehéz": 10
+    },
+    "topic_distribution": {
+      "nemzeti_jelképek": 15,
+      "himnusz_és_szózat": 12,
+      "nemzeti_ünnepek": 8,
+      "történelmi_háttér": 10,
+      "jogi_és_alkotmányos_vonatkozások": 5
+    },
+    "learning_objectives": [
+      "Hiểu biết sâu sắc về các biểu tượng quốc gia Hungary",
+      "Nắm vững lịch sử và ý nghĩa của Quốc ca và bài Szózat",
+      "Biết rõ về các ngày lễ quốc gia và ý nghĩa lịch sử của chúng",
+      "Hiểu được vai trò của Vương miện Thánh trong văn hóa Hungary",
+      "Nắm được kiến thức về các thành phố đăng quang cũ và sự hình thành Budapest"
+    ],
+    "study_tips": [
+      "Tập trung vào các năm quan trọng: 1823 (Quốc ca), 1836 (Szózat), 1873 (thành lập Budapest)",
+      "Ghi nhớ các tác giả: Kölcsey Ferenc (Quốc ca), Vörösmarty Mihály (Szózat)",
+      "Học thuộc ý nghĩa các màu sắc trên quốc kỳ: đỏ (sức mạnh), trắng (lòng trung thành), xanh lá (hy vọng)",
+      "Nhớ các ngày lễ quốc gia và sự kiện lịch sử tương ứng",
+      "Hiểu được cấu trúc của quốc huy và các biểu tượng đăng quang"
+    ]
+  },
+  "topics": [
+    {
+      "topic_id": "nemzeti_jelképek",
+      "topic_name": "Nemzeti jelképek",
+      "description": "Các biểu tượng quốc gia Hungary bao gồm quốc kỳ, quốc huy, Vương miện Thánh và các yếu tố tượng trưng khác",
+      "weight_percentage": 30
+    },
+    {
+      "topic_id": "himnusz_és_szózat",
+      "topic_name": "Himnusz és Szózat",
+      "description": "Quốc ca Hungary và bài Szózat, bao gồm tác giả, nhạc sĩ, năm sáng tác và ý nghĩa văn hóa",
+      "weight_percentage": 24
+    },
+    {
+      "topic_id": "nemzeti_ünnepek",
+      "topic_name": "Nemzeti ünnepek",
+      "description": "Các ngày lễ quốc gia Hungary: 15 tháng 3, 20 tháng 8, 23 tháng 10 và ý nghĩa lịch sử của chúng",
+      "weight_percentage": 16
+    },
+    {
+      "topic_id": "történelmi_háttér",
+      "topic_name": "Történelmi háttér",
+      "description": "Bối cảnh lịch sử của các biểu tượng quốc gia, các thành phố đăng quang và sự hình thành Budapest",
+      "weight_percentage": 20
+    },
+    {
+      "topic_id": "jogi_és_alkotmányos_vonatkozások",
+      "topic_name": "Jogi és alkotmányos vonatkozások",
+      "description": "Các quy định pháp lý và hiến pháp về các biểu tượng quốc gia, đặc biệt là Vương miện Thánh",
+      "weight_percentage": 10
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "Melyek Magyarország legfontosabb nemzeti jelképei? (Các biểu tượng quốc gia quan trọng nhất của Hungary là gì?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "nemzeti_jelképek",
+      "options": [
+        "Zászló, Szent Korona, Himnusz, Címer (Quốc kỳ, Vương miện Thánh, Quốc ca, Quốc huy)",
+        "Zászló, Parlament, Himnusz, Címer (Quốc kỳ, Quốc hội, Quốc ca, Quốc huy)",
+        "Korona, Szózat, Zászló, Parlament (Vương miện, Szózat, Quốc kỳ, Quốc hội)",
+        "Himnusz, Címer, Országház, Korona (Quốc ca, Quốc huy, Tòa nhà Quốc hội, Vương miện)"
+      ],
+      "correct_answer": 0,
+      "explanation": "các biểu tượng quốc gia quan trọng nhất của Hungary là quốc kỳ, Vương miện Thánh, Quốc ca và quốc huy.",
+      "keywords": ["biểu tượng quốc gia", "quốc kỳ", "vương miện thánh", "quốc ca", "quốc huy"],
+      "points": 1
+    },
+    {
+      "id": 2,
+      "question": "Mit jelképez a magyar zászló piros sávja? (Sọc đỏ trên quốc kỳ Hungary tượng trưng cho điều gì?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "nemzeti_jelképek",
+      "options": [
+        "Reményt (Hy vọng)",
+        "Erőt (Sức mạnh)",
+        "Hűséget (Lòng trung thành)",
+        "Bátorságot (Lòng dũng cảm)"
+      ],
+      "correct_answer": 1,
+      "explanation": "sọc đỏ trên quốc kỳ Hungary tượng trưng cho 'sức mạnh'.",
+      "keywords": ["quốc kỳ", "sọc đỏ", "sức mạnh", "màu sắc tượng trưng"],
+      "points": 1
+    },
+    {
+      "id": 3,
+      "question": "Mit jelképez a magyar zászló fehér sávja? (Sọc trắng trên quốc kỳ Hungary tượng trưng cho điều gì?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "nemzeti_jelképek",
+      "options": [
+        "Erőt (Sức mạnh)",
+        "Reményt (Hy vọng)",
+        "Hűséget (Lòng trung thành)",
+        "Tisztaságot (Sự thuần khiết)"
+      ],
+      "correct_answer": 2,
+      "explanation": "sọc trắng trên quốc kỳ Hungary tượng trưng cho 'lòng trung thành'.",
+      "keywords": ["quốc kỳ", "sọc trắng", "lòng trung thành", "màu sắc tượng trưng"],
+      "points": 1
+    },
+    {
+      "id": 4,
+      "question": "Mit jelképez a magyar zászló zöld sávja? (Sọc xanh lá cây trên quốc kỳ Hungary tượng trưng cho điều gì?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "nemzeti_jelképek",
+      "options": [
+        "Reményt (Hy vọng)",
+        "Természetet (Thiên nhiên)",
+        "Hűséget (Lòng trung thành)",
+        "Erőt (Sức mạnh)"
+      ],
+      "correct_answer": 0,
+      "explanation": "sọc xanh lá cây trên quốc kỳ Hungary tượng trưng cho 'hy vọng'.",
+      "keywords": ["quốc kỳ", "sọc xanh lá", "hy vọng", "màu sắc tượng trưng"],
+      "points": 1
+    },
+    {
+      "id": 5,
+      "question": "Hol tekinthető meg a Szent Korona? (Vương miện Thánh có thể được xem ở đâu?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "nemzeti_jelképek",
+      "options": [
+        "Magyar Nemzeti Múzeumban (Bảo tàng Quốc gia Hungary)",
+        "Országházban (Tòa nhà Quốc hội)",
+        "Budavári Palotában (Cung điện Buda)",
+        "Szent István Bazilikában (Vương cung thánh đường Thánh Stephen)"
+      ],
+      "correct_answer": 1,
+      "explanation": "Vương miện Thánh có thể được xem tại Tòa nhà Quốc hội.",
+      "keywords": ["vương miện thánh", "tòa nhà quốc hội", "trưng bày", "biểu tượng quốc gia"],
+      "points": 1
+    },
+    {
+      "id": 6,
+      "question": "Milyen elemek találhatók Magyarország címerében? (Những yếu tố nào có trong quốc huy Hungary?)",
+      "type": "multiple_choice",
+      "difficulty": "közepes",
+      "topic_id": "nemzeti_jelképek",
+      "options": [
+        "Kettős kereszt, hármas halom koronával, vörössel és ezüsttel hétszer vágott mező (Thập tự kép đôi, ba ngọn đồi có vương miện, vùng được chia bảy lần bằng màu đỏ và bạc)",
+        "Egyszerű kereszt, négyes halom, kék-fehér sávok (Thập tự giản đơn, bốn ngọn đồi, sọc xanh-trắng)",
+        "Hármas kereszt, kettős halom, piros-zöld sávok (Thập tự ba, đồi đôi, sọc đỏ-xanh)",
+        "Korona, sas, arany sávok (Vương miện, đại bàng, sọc vàng)"
+      ],
+      "correct_answer": 0,
+      "explanation": "quốc huy Hungary bao gồm thập tự kép đôi, ba ngọn đồi có vương miện, và vùng được chia bảy lần bằng màu đỏ và bạc.",
+      "keywords": ["quốc huy", "thập tự kép đôi", "ba ngọn đồi", "vương miện", "sọc đỏ bạc"],
+      "points": 2
+    },
+    {
+      "id": 7,
+      "question": "Melyek a koronázási jelvények? (Các biểu tượng đăng quang là gì?)",
+      "type": "multiple_choice",
+      "difficulty": "közepes",
+      "topic_id": "nemzeti_jelképek",
+      "options": [
+        "Szent Korona, országalma, koronázási kard, koronázási jogar, koronázási palást (Vương miện Thánh, quả cầu hoàng gia, gươm đăng quang, quyền trượng đăng quang, áo choàng đăng quang)",
+        "Szent Korona, jogar, palást (Vương miện Thánh, quyền trượng, áo choàng)",
+        "Korona, kard, gyűrű (Vương miện, gươm, nhẫn)",
+        "Korona, országalma, zászló (Vương miện, quả cầu hoàng gia, cờ)"
+      ],
+      "correct_answer": 0,
+      "explanation": "các biểu tượng đăng quang bao gồm: Vương miện Thánh, quả cầu hoàng gia, gươm đăng quang, quyền trượng đăng quang và áo choàng đăng quang.",
+      "keywords": ["biểu tượng đăng quang", "vương miện thánh", "quả cầu hoàng gia", "gươm đăng quang", "quyền trượng", "áo choàng"],
+      "points": 2
+    },
+    {
+      "id": 8,
+      "question": "Melyek voltak az egykori magyar koronázó városok? (Những thành phố đăng quang Hungary xưa là gì?)",
+      "type": "multiple_choice",
+      "difficulty": "közepes",
+      "topic_id": "történelmi_háttér",
+      "options": [
+        "Budapest, Debrecen, Szeged, Pécs, Győr",
+        "Buda, Esztergom, Pozsony, Sopron, Székesfehérvár",
+        "Esztergom, Vác, Visegrád, Buda",
+        "Pozsony, Buda, Pest, Debrecen"
+      ],
+      "correct_answer": 1,
+      "explanation": "các thành phố đăng quang Hungary xưa là: Buda, Esztergom, Pozsony, Sopron và Székesfehérvár.",
+      "keywords": ["thành phố đăng quang", "lịch sử", "buda", "esztergom", "pozsony", "sopron", "székesfehérvár"],
+      "points": 2
+    },
+    {
+      "id": 9,
+      "question": "Ki írta a magyar Himnuszt? (Ai đã viết Quốc ca Hungary?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "Vörösmarty Mihály",
+        "Petőfi Sándor",
+        "Kölcsey Ferenc",
+        "Arany János"
+      ],
+      "correct_answer": 2,
+      "explanation": "Quốc ca Hungary được viết bởi Kölcsey Ferenc.",
+      "keywords": ["quốc ca", "tác giả", "kölcsey ferenc", "văn học"],
+      "points": 1
+    },
+    {
+      "id": 10,
+      "question": "Mikor írta Kölcsey Ferenc a Himnuszt? (Kölcsey Ferenc viết Quốc ca khi nào?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "1823-ban (năm 1823)",
+        "1825-ben (năm 1825)",
+        "1820-ban (năm 1820)",
+        "1830-ban (năm 1830)"
+      ],
+      "correct_answer": 0,
+      "explanation": "Kölcsey Ferenc viết Quốc ca vào năm 1823.",
+      "keywords": ["quốc ca", "năm sáng tác", "kölcsey ferenc", "1823"],
+      "points": 1
+    },
+    {
+      "id": 11,
+      "question": "Ki zenésítette meg a Himnuszt? (Ai đã phổ nhạc cho Quốc ca?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "Liszt Ferenc",
+        "Erkel Ferenc",
+        "Bartók Béla",
+        "Kodály Zoltán"
+      ],
+      "correct_answer": 1,
+      "explanation": "Erkel Ferenc đã phổ nhạc cho Quốc ca Hungary.",
+      "keywords": ["quốc ca", "nhạc sĩ", "erkel ferenc", "phổ nhạc"],
+      "points": 1
+    },
+    {
+      "id": 12,
+      "question": "Ki írta a Szózatot? (Ai đã viết bài Szózat?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "Kölcsey Ferenc",
+        "Petőfi Sándor",
+        "Vörösmarty Mihály",
+        "Arany János"
+      ],
+      "correct_answer": 2,
+      "explanation": "bài Szózat được viết bởi Vörösmarty Mihály.",
+      "keywords": ["szózat", "tác giả", "vörösmarty mihály", "văn học"],
+      "points": 1
+    },
+    {
+      "id": 13,
+      "question": "Mikor írta Vörösmarty Mihály a Szózatot? (Vörösmarty Mihály viết Szózat khi nào?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "1823-ban (năm 1823)",
+        "1830-ban (năm 1830)",
+        "1836-ban (năm 1836)",
+        "1840-ben (năm 1840)"
+      ],
+      "correct_answer": 2,
+      "explanation": "Vörösmarty Mihály viết Szózat vào năm 1836.",
+      "keywords": ["szózat", "năm sáng tác", "vörösmarty mihály", "1836"],
+      "points": 1
+    },
+    {
+      "id": 14,
+      "question": "Ki zenésítette meg a Szózatot? (Ai đã phổ nhạc cho Szózat?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "Erkel Ferenc",
+        "Egressy Béni",
+        "Liszt Ferenc",
+        "Mosonyi Mihály"
+      ],
+      "correct_answer": 1,
+      "explanation": "Egressy Béni đã phổ nhạc cho bài Szózat.",
+      "keywords": ["szózat", "nhạc sĩ", "egressy béni", "phổ nhạc"],
+      "points": 1
+    },
+    {
+      "id": 15,
+      "question": "Mikor van március 15-e, és mit ünneplünk? (Ngày 15 tháng 3 là gì và chúng ta kỷ niệm điều gì?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "nemzeti_ünnepek",
+      "options": [
+        "Az 1956-os forradalom emlékére (Kỷ niệm cuộc cách mạng 1956)",
+        "Az 1848-49-es forradalom és szabadságharc emlékére (Kỷ niệm cuộc cách mạng và chiến tranh giải phóng 1848-49)",
+        "Az államalapítás emlékére (Kỷ niệm việc thành lập nhà nước)",
+        "A rendszerváltás emlékére (Kỷ niệm việc thay đổi chế độ)"
+      ],
+      "correct_answer": 1,
+      "explanation": "ngày 15 tháng 3 là ngày kỷ niệm cuộc cách mạng và chiến tranh giải phóng 1848-49.",
+      "keywords": ["ngày lễ quốc gia", "15 tháng 3", "cách mạng 1848-49", "chiến tranh giải phóng"],
+      "points": 1
+    },
+    {
+      "id": 16,
+      "question": "Mikor van augusztus 20-a, és mit ünneplünk? (Ngày 20 tháng 8 là gì và chúng ta kỷ niệm điều gì?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "nemzeti_ünnepek",
+      "options": [
+        "Az 1848-49-es forradalom emlékére (Kỷ niệm cuộc cách mạng 1848-49)",
+        "Az 1956-os forradalom emlékére (Kỷ niệm cuộc cách mạng 1956)",
+        "Az államalapítás és Szent István király emlékére (Kỷ niệm việc thành lập nhà nước và Vua Thánh Stephen)",
+        "A kiegyezés emlékére (Kỷ niệm thỏa thuận)"
+      ],
+      "correct_answer": 2,
+      "explanation": "ngày 20 tháng 8 là ngày kỷ niệm việc thành lập nhà nước và Vua Thánh Stephen.",
+      "keywords": ["ngày lễ quốc gia", "20 tháng 8", "thành lập nhà nước", "vua thánh stephen"],
+      "points": 1
+    },
+    {
+      "id": 17,
+      "question": "Mikor van október 23-a, és mit ünneplünk? (Ngày 23 tháng 10 là gì và chúng ta kỷ niệm điều gì?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "nemzeti_ünnepek",
+      "options": [
+        "Az 1848-49-es forradalom emlékére (Kỷ niệm cuộc cách mạng 1848-49)",
+        "Az 1956. évi forradalom és szabadságharc emlékére (Kỷ niệm cuộc cách mạng và chiến tranh giải phóng năm 1956)",
+        "Az államalapítás emlékére (Kỷ niệm việc thành lập nhà nước)",
+        "A trianoni békeszerződés emlékére (Kỷ niệm hiệp ước hòa bình Trianon)"
+      ],
+      "correct_answer": 1,
+      "explanation": "ngày 23 tháng 10 là ngày kỷ niệm cuộc cách mạng và chiến tranh giải phóng năm 1956.",
+      "keywords": ["ngày lễ quốc gia", "23 tháng 10", "cách mạng 1956", "chiến tranh giải phóng"],
+      "points": 1
+    },
+    {
+      "id": 18,
+      "question": "Hogyan kezdődik a Himnusz első sora? (Câu đầu tiên của Quốc ca bắt đầu như thế nào?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "Isten, áldd meg a magyart (Chúa ơi, hãy phù hộ người Hungary)",
+        "Hazádnak rendületlenül (Cho tổ quốc một cách kiên định)",
+        "Magyar vagyok, magyar maradok (Tôi là người Hungary, tôi sẽ mãi là người Hungary)",
+        "Fel a magyar, hí a haza (Đứng lên người Hungary, tổ quốc kêu gọi)"
+      ],
+      "correct_answer": 0,
+      "explanation": "câu đầu tiên của Quốc ca Hungary bắt đầu bằng 'Isten, áldd meg a magyart' (Chúa ơi, hãy phù hộ người Hungary).",
+      "keywords": ["quốc ca", "câu đầu tiên", "isten áldd meg", "lời mở đầu"],
+      "points": 1
+    },
+    {
+      "id": 19,
+      "question": "Hogyan kezdődik a Szózat első sora? (Câu đầu tiên của Szózat bắt đầu như thế nào?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "Isten, áldd meg a magyart (Chúa ơi, hãy phù hộ người Hungary)",
+        "Hazádnak rendületlenül (Cho tổ quốc một cách kiên định)",
+        "Magyar vagyok, magyar maradok (Tôi là người Hungary, tôi sẽ mãi là người Hungary)",
+        "A nagy világon e kívül (Ngoài thế giới rộng lớn này)"
+      ],
+      "correct_answer": 1,
+      "explanation": "câu đầu tiên của Szózat bắt đầu bằng 'Hazádnak rendületlenül' (Cho tổ quốc một cách kiên định).",
+      "keywords": ["szózat", "câu đầu tiên", "hazádnak rendületlenül", "lời mở đầu"],
+      "points": 1
+    },
+    {
+      "id": 20,
+      "question": "Hány kerülettel rendelkezik Budapest 1994 óta? (Budapest có bao nhiêu quận từ năm 1994?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "történelmi_háttér",
+      "options": [
+        "22 kerülettel (22 quận)",
+        "23 kerülettel (23 quận)",
+        "24 kerülettel (24 quận)",
+        "25 kerülettel (25 quận)"
+      ],
+      "correct_answer": 1,
+      "explanation": "Budapest có 23 quận từ năm 1994.",
+      "keywords": ["budapest", "số quận", "23 quận", "1994"],
+      "points": 1
+    },
+    {
+      "id": 21,
+      "question": "Mikor jött létre Budapest egyesítésével? (Budapest được thành lập bằng cách hợp nhất khi nào?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "történelmi_háttér",
+      "options": [
+        "1872. november 17-én (17 tháng 11 năm 1872)",
+        "1873. november 17-én (17 tháng 11 năm 1873)",
+        "1874. november 17-én (17 tháng 11 năm 1874)",
+        "1875. november 17-én (17 tháng 11 năm 1875)"
+      ],
+      "correct_answer": 1,
+      "explanation": "Budapest được thành lập vào ngày 17 tháng 11 năm 1873 bằng cách hợp nhất.",
+      "keywords": ["budapest", "thành lập", "hợp nhất", "1873", "17 tháng 11"],
+      "points": 1
+    },
+    {
+      "id": 22,
+      "question": "Mely városok egyesítésével jött létre Budapest? (Budapest được thành lập bằng cách hợp nhất những thành phố nào?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "történelmi_háttér",
+      "options": [
+        "Buda, Pest",
+        "Buda, Pest, Óbuda",
+        "Buda, Pest, Újbuda (Buda, Pest, Újbuda)",
+        "Pest, Óbuda"
+      ],
+      "correct_answer": 1,
+      "explanation": "Budapest được thành lập bằng cách hợp nhất ba thành phố: Buda, Pest và Óbuda.",
+      "keywords": ["budapest", "hợp nhất", "buda", "pest", "óbuda"],
+      "points": 1
+    },
+    {
+      "id": 23,
+      "question": "Mit jelképez a Szent Korona Magyarország Alaptörvénye szerint? (Vương miện Thánh tượng trưng cho điều gì theo Hiến pháp Hungary?)",
+      "type": "multiple_choice",
+      "difficulty": "közepes",
+      "topic_id": "jogi_és_alkotmányos_vonatkozások",
+      "options": [
+        "Csak a királyi hatalmat (Chỉ quyền lực hoàng gia)",
+        "Magyarország alkotmányos állami folytonosságát és a nemzet egységét (Tính liên tục của nhà nước hiến pháp Hungary và sự thống nhất của dân tộc)",
+        "A vallási hagyományokat (Truyền thống tôn giáo)",
+        "Az európai integrációt (Hội nhập châu Âu)"
+      ],
+      "correct_answer": 1,
+      "explanation": "Theo Hiến pháp Hungary được trích dẫn trong tài liệu, Vương miện Thánh 'thể hiện tính liên tục của nhà nước hiến pháp Hungary và sự thống nhất của dân tộc'.",
+      "keywords": ["vương miện thánh", "hiến pháp", "tính liên tục nhà nước", "thống nhất dân tộc"],
+      "points": 2
+    },
+    {
+      "id": 24,
+      "question": "Hol felvonják a magyar lobogót nemzeti ünnepeken? (Quốc kỳ Hungary được treo ở đâu vào các ngày lễ quốc gia?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "nemzeti_jelképek",
+      "options": [
+        "A Szent István Bazilika előtt (Trước Vương cung thánh đường Thánh Stephen)",
+        "Az Országház előtt (Trước Tòa nhà Quốc hội)",
+        "A Budavári Palota előtt (Trước Cung điện Buda)",
+        "A Hősök terén (Tại Quảng trường Anh hùng)"
+      ],
+      "correct_answer": 1,
+      "explanation": "quốc kỳ Hungary được treo trước Tòa nhà Quốc hội vào các ngày lễ quốc gia.",
+      "keywords": ["quốc kỳ", "ngày lễ quốc gia", "tòa nhà quốc hội", "treo cờ"],
+      "points": 1
+    },
+    {
+      "id": 25,
+      "question": "Mit jelentenek a koronázási jelvények jelenleg? (Các biểu tượng đăng quang hiện tại có ý nghĩa gì?)",
+      "type": "multiple_choice",
+      "difficulty": "közepes",
+      "topic_id": "nemzeti_jelképek",
+      "options": [
+        "Csak történelmi emlékek (Chỉ là kỷ vật lịch sử)",
+        "Az egykori királyi hatalom jelképei, jelenleg nemzeti jelképeink részei (Biểu tượng của quyền lực hoàng gia xưa, hiện là phần của các biểu tượng quốc gia)",
+        "Vallási szimbólumok (Biểu tượng tôn giáo)",
+        "Múzeumi tárgyak (Hiện vật bảo tàng)"
+      ],
+      "correct_answer": 1,
+      "explanation": "các biểu tượng đăng quang là 'biểu tượng của quyền lực hoàng gia xưa, hiện tại là phần của các biểu tượng quốc gia chúng ta'.",
+      "keywords": ["biểu tượng đăng quang", "quyền lực hoàng gia", "biểu tượng quốc gia", "ý nghĩa hiện tại"],
+      "points": 2
+    },
+    {
+      "id": 26,
+      "question": "Mely folyó mentén terül el Budapest? (Budapest nằm dọc theo con sông nào?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "történelmi_háttér",
+      "options": [
+        "Tisza (Sông Tisza)",
+        "Duna (Sông Danube)",
+        "Szamos (Sông Szamos)",
+        "Körös (Sông Körös)"
+      ],
+      "correct_answer": 1,
+      "explanation": "Budapest được hình thành từ việc hợp nhất Pest (bên trái sông Danube) và Buda cùng Óbuda (bên phải sông Danube).",
+      "keywords": ["budapest", "sông danube", "vị trí địa lý", "bờ sông"],
+      "points": 1
+    },
+    {
+      "id": 27,
+      "question": "Mikor énekeljük gyakran a Szózatot? (Chúng ta thường hát Szózat khi nào?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "Csak március 15-én (Chỉ vào ngày 15 tháng 3)",
+        "Nemzeti ünnepeken a Himnusz mellett (Vào các ngày lễ quốc gia cùng với Quốc ca)",
+        "Csak augusztus 20-án (Chỉ vào ngày 20 tháng 8)",
+        "Vallási ünnepeken (Vào các lễ tôn giáo)"
+      ],
+      "correct_answer": 1,
+      "explanation": "bài Szózat thường được hát vào các ngày lễ quốc gia cùng với Quốc ca.",
+      "keywords": ["szózat", "ngày lễ quốc gia", "hát cùng quốc ca", "truyền thống"],
+      "points": 1
+    },
+    {
+      "id": 28,
+      "question": "Milyen típusú vers a Himnusz? (Quốc ca thuộc loại thơ nào?)",
+      "type": "multiple_choice",
+      "difficulty": "közepes",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "Elbeszélő költemény (Thơ tự sự)",
+        "Kölcsey Ferenc költeménye (Bài thơ của Kölcsey Ferenc)",
+        "Drámai mű (Tác phẩm kịch)",
+        "Népballada (Ballad dân gian)"
+      ],
+      "correct_answer": 1,
+      "explanation": "Quốc ca được xác định là 'bài thơ của Kölcsey Ferenc'.",
+      "keywords": ["quốc ca", "loại thơ", "kölcsey ferenc", "bài thơ"],
+      "points": 2
+    },
+    {
+      "id": 29,
+      "question": "Melyik évben lépett hatályba Magyarország Alaptörvénye? (Hiến pháp Hungary có hiệu lực vào năm nào?)",
+      "type": "multiple_choice",
+      "difficulty": "közepes",
+      "topic_id": "jogi_és_alkotmányos_vonatkozások",
+      "options": [
+        "2011-ben (năm 2011)",
+        "2012-ben (năm 2012)",
+        "2010-ben (năm 2010)",
+        "2013-ban (năm 2013)"
+      ],
+      "correct_answer": 1,
+      "explanation": "Hiến pháp Hungary có hiệu lực vào ngày 1 tháng 1 năm 2012.",
+      "keywords": ["hiến pháp", "có hiệu lực", "2012", "ngày 1 tháng 1"],
+      "points": 2
+    },
+    {
+      "id": 30,
+      "question": "Mit tartalmaz a Szózat első versszaka? (Khổ thơ đầu của Szózat chứa nội dung gì?)",
+      "type": "multiple_choice",
+      "difficulty": "közepes",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "Istenhez való fohászkodást (Lời cầu nguyện với Chúa)",
+        "Hazához való hűség kifejezését (Thể hiện lòng trung thành với tổ quốc)",
+        "Történelmi eseményeket (Các sự kiện lịch sử)",
+        "Természet leírását (Mô tả thiên nhiên)"
+      ],
+      "correct_answer": 1,
+      "explanation": "khổ thơ đầu của Szózat thể hiện lòng trung thành với tổ quốc: 'Hazádnak rendületlenül / Légy híve, oh magyar' (Hãy trung thành không lay chuyển với tổ quốc của ngươi, hỡi người Hungary).",
+      "keywords": ["szózat", "khổ thơ đầu", "trung thành tổ quốc", "nội dung"],
+      "points": 2
+    },
+    {
+      "id": 31,
+      "question": "Hány nemzeti ünnep van Magyarországon a forrás szerint? (Hungary có bao nhiêu ngày lễ quốc gia?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "nemzeti_ünnepek",
+      "options": [
+        "Kettő (Hai)",
+        "Három (Ba)",
+        "Négy (Bốn)",
+        "Öt (Năm)"
+      ],
+      "correct_answer": 1,
+      "explanation": "Hungary có ba ngày lễ quốc gia: 15 tháng 3, 20 tháng 8 và 23 tháng 10.",
+      "keywords": ["ngày lễ quốc gia", "số lượng", "ba ngày", "15/3 20/8 23/10"],
+      "points": 1
+    },
+    {
+      "id": 32,
+      "question": "Melyik várost említi a forrás Esztergom kapcsán? (Thành phố nào được đề cập trong tài liệu liên quan đến Esztergom?)",
+      "type": "multiple_choice",
+      "difficulty": "nehéz",
+      "topic_id": "történelmi_háttér",
+      "options": [
+        "Budapest",
+        "Egy koronázó város (Một thành phố đăng quang)",
+        "Debrecen",
+        "Szeged"
+      ],
+      "correct_answer": 1,
+      "explanation": "Esztergom được đề cập như một trong những thành phố đăng quang cũ của Hungary.",
+      "keywords": ["esztergom", "thành phố đăng quang", "lịch sử", "vương triều"],
+      "points": 3
+    },
+    {
+      "id": 33,
+      "question": "Mi a címer középső részének neve? (Phần giữa của quốc huy gọi là gì?)",
+      "type": "multiple_choice",
+      "difficulty": "közepes",
+      "topic_id": "nemzeti_jelképek",
+      "options": [
+        "Kettős kereszt (Thập tự kép đôi)",
+        "Hármas halom (Ba ngọn đồi)",
+        "Korona (Vương miện)",
+        "Pajzs (Khiên)"
+      ],
+      "correct_answer": 1,
+      "explanation": "phần giữa của quốc huy là 'ba ngọn đồi có vương miện'.",
+      "keywords": ["quốc huy", "phần giữa", "ba ngọn đồi", "cấu trúc"],
+      "points": 2
+    },
+    {
+      "id": 34,
+      "question": "Hányszor van vágva a címer alsó része? (Phần dưới của quốc huy được chia bao nhiêu lần?)",
+      "type": "multiple_choice",
+      "difficulty": "nehéz",
+      "topic_id": "nemzeti_jelképek",
+      "options": [
+        "Ötször (Năm lần)",
+        "Hatszor (Sáu lần)",
+        "Hétszer (Bảy lần)",
+        "Nyolcszor (Tám lần)"
+      ],
+      "correct_answer": 2,
+      "explanation": "phần dưới của quốc huy được 'chia bảy lần bằng màu đỏ và bạc'.",
+      "keywords": ["quốc huy", "phần dưới", "chia bảy lần", "đỏ và bạc"],
+      "points": 3
+    },
+    {
+      "id": 35,
+      "question": "Mit jelent a 'Szent' szó a Szent Korona nevében? (Từ 'Szent' trong tên Vương miện Thánh có nghĩa là gì?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "nemzeti_jelképek",
+      "options": [
+        "Nagy (Lớn)",
+        "Szent/Thánh (Thánh)",
+        "Régi (Cũ)",
+        "Magyar (Hungary)"
+      ],
+      "correct_answer": 1,
+      "explanation": "'Szent' trong tiếng Hungary có nghĩa là 'Thánh', do đó 'Szent Korona' có nghĩa là 'Vương miện Thánh'.",
+      "keywords": ["szent korona", "vương miện thánh", "nghĩa từ", "thánh"],
+      "points": 1
+    },
+    {
+      "id": 36,
+      "question": "Melyik történelmi esemény után írták a Himnuszt? (Quốc ca được viết sau sự kiện lịch sử nào?)",
+      "type": "multiple_choice",
+      "difficulty": "nehéz",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "Az 1848-as forradalom után (Sau cuộc cách mạng 1848)",
+        "A romantika korában 1823-ban (Trong thời kỳ lãng mạn năm 1823)",
+        "Az 1956-os forradalom után (Sau cuộc cách mạng 1956)",
+        "A kiegyezés után (Sau thỏa thuận)"
+      ],
+      "correct_answer": 1,
+      "explanation": "Quốc ca được viết vào năm 1823, trong thời kỳ lãng mạn, trước các sự kiện cách mạng lớn.",
+      "keywords": ["quốc ca", "1823", "thời kỳ lãng mạn", "bối cảnh lịch sử"],
+      "points": 3
+    },
+    {
+      "id": 37,
+      "question": "Mi található a hármas halmon? (Có gì trên ba ngọn đồi?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "nemzeti_jelképek",
+      "options": [
+        "Kereszt (Thập tự)",
+        "Korona (Vương miện)",
+        "Csillag (Ngôi sao)",
+        "Sas (Đại bàng)"
+      ],
+      "correct_answer": 1,
+      "explanation": "trên ba ngọn đồi trong quốc huy có vương miện.",
+      "keywords": ["ba ngọn đồi", "vương miện", "quốc huy", "cấu trúc"],
+      "points": 1
+    },
+    {
+      "id": 38,
+      "question": "Melyik szín NEM szerepel a magyar zászlóban? (Màu nào KHÔNG có trong quốc kỳ Hungary?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "nemzeti_jelképek",
+      "options": [
+        "Kék (Xanh dương)",
+        "Piros (Đỏ)",
+        "Fehér (Trắng)",
+        "Zöld (Xanh lá)"
+      ],
+      "correct_answer": 0,
+      "explanation": "quốc kỳ Hungary có ba màu: đỏ, trắng và xanh lá. Màu xanh dương không có trong quốc kỳ.",
+      "keywords": ["quốc kỳ", "màu sắc", "xanh dương", "ba màu"],
+      "points": 1
+    },
+    {
+      "id": 39,
+      "question": "Hol található Budapest a Duna két partján? (Budapest nằm ở đâu trên hai bờ sông Danube?)",
+      "type": "multiple_choice",
+      "difficulty": "közepes",
+      "topic_id": "történelmi_háttér",
+      "options": [
+        "Pest a bal parton, Buda és Óbuda a jobb parton (Pest ở bờ trái, Buda và Óbuda ở bờ phải)",
+        "Buda a bal parton, Pest és Óbuda a jobb parton (Buda ở bờ trái, Pest và Óbuda ở bờ phải)",
+        "Mindhárom város a bal parton (Cả ba thành phố ở bờ trái)",
+        "Mindhárom város a jobb parton (Cả ba thành phố ở bờ phải)"
+      ],
+      "correct_answer": 0,
+      "explanation": "Pest nằm ở bờ trái sông Danube, còn Buda và Óbuda nằm ở bờ phải.",
+      "keywords": ["budapest", "bờ sông danube", "pest bờ trái", "buda óbuda bờ phải"],
+      "points": 2
+    },
+    {
+      "id": 40,
+      "question": "Mit fejez ki a Szózat második sora? (Câu thứ hai của Szózat diễn tả điều gì?)",
+      "type": "multiple_choice",
+      "difficulty": "közepes",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "Légy híve, oh magyar (Hãy trung thành, hỡi người Hungary)",
+        "Bölcsőd az s majdan sírod is (Đó là nôi của ngươi và cũng sẽ là mộ phần)",
+        "A nagy világon e kívül (Ngoài thế giới rộng lớn này)",
+        "Mely ápol s eltakar (Nơi nuôi dưỡng và che chở)"
+      ],
+      "correct_answer": 0,
+      "explanation": "Theo tài liệu trích dẫn, câu thứ hai của Szózat là 'Légy híve, oh magyar' (Hãy trung thành, hỡi người Hungary).",
+      "keywords": ["szózat", "câu thứ hai", "légy híve", "trung thành"],
+      "points": 2
+    },
+    {
+      "id": 41,
+      "question": "Milyen jellegű ünnep az augusztus 20-a? (Ngày 20 tháng 8 là loại lễ gì?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "nemzeti_ünnepek",
+      "options": [
+        "Forradalmi ünnep (Lễ cách mạng)",
+        "Állami és vallási ünnep (Lễ nhà nước và tôn giáo)",
+        "Csak vallási ünnep (Chỉ là lễ tôn giáo)",
+        "Kulturális ünnep (Lễ văn hóa)"
+      ],
+      "correct_answer": 1,
+      "explanation": "ngày 20 tháng 8 vừa là ngày kỷ niệm thành lập nhà nước vừa là ngày kỷ niệm Vua Thánh Stephen, do đó có tính chất cả nhà nước và tôn giáo.",
+      "keywords": ["20 tháng 8", "thành lập nhà nước", "vua thánh stephen", "tính chất kép"],
+      "points": 1
+    },
+    {
+      "id": 42,
+      "question": "Melyik évszázadban írták a Himnuszt és a Szózatot? (Quốc ca và Szózat được viết trong thế kỷ nào?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "18. században (Thế kỷ 18)",
+        "19. században (Thế kỷ 19)",
+        "20. században (Thế kỷ 20)",
+        "17. században (Thế kỷ 17)"
+      ],
+      "correct_answer": 1,
+      "explanation": "Quốc ca được viết năm 1823 và Szózat năm 1836, cả hai đều trong thế kỷ 19.",
+      "keywords": ["quốc ca", "szózat", "thế kỷ 19", "1823", "1836"],
+      "points": 1
+    },
+    {
+      "id": 43,
+      "question": "Mit jelent az Alaptörvény idézet a Szent Koronáról? (Trích dẫn trong Hiến pháp về Vương miện Thánh có nghĩa gì?)",
+      "type": "multiple_choice",
+      "difficulty": "nehéz",
+      "topic_id": "jogi_és_alkotmányos_vonatkozások",
+      "options": [
+        "A korona csak múzeumi tárgy (Vương miện chỉ là hiện vật bảo tàng)",
+        "A korona megtestesíti az alkotmányos folytonosságot és a nemzet egységét (Vương miện thể hiện tính liên tục hiến pháp và sự thống nhất dân tộc)",
+        "A korona csak történelmi emlék (Vương miện chỉ là kỷ vật lịch sử)",
+        "A korona vallási szimbólum (Vương miện là biểu tượng tôn giáo)"
+      ],
+      "correct_answer": 1,
+      "explanation": "Theo trích dẫn từ Hiến pháp Hungary trong tài liệu: 'Vương miện Thánh thể hiện tính liên tục của nhà nước hiến pháp Hungary và sự thống nhất của dân tộc'.",
+      "keywords": ["hiến pháp", "vương miện thánh", "tính liên tục hiến pháp", "thống nhất dân tộc"],
+      "points": 3
+    },
+    {
+      "id": 44,
+      "question": "Hányan írták a Himnuszt és a Szózatot összesen? (Tổng cộng có bao nhiêu người viết Quốc ca và Szózat?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "Egy személy (Một người)",
+        "Két személy (Hai người)",
+        "Három személy (Ba người)",
+        "Négy személy (Bốn người)"
+      ],
+      "correct_answer": 1,
+      "explanation": "Quốc ca được viết bởi Kölcsey Ferenc và Szózat được viết bởi Vörösmarty Mihály, tổng cộng hai người.",
+      "keywords": ["quốc ca", "szózat", "hai tác giả", "kölcsey ferenc", "vörösmarty mihály"],
+      "points": 1
+    },
+    {
+      "id": 45,
+      "question": "Melyik koronázó város szerepel a képen az anyagban? (Thành phố đăng quang nào xuất hiện trong hình ảnh của tài liệu?)",
+      "type": "multiple_choice",
+      "difficulty": "közepes",
+      "topic_id": "történelmi_háttér",
+      "options": [
+        "Buda",
+        "Esztergom",
+        "Pozsony",
+        "Székesfehérvár"
+      ],
+      "correct_answer": 1,
+      "explanation": "Esztergom được minh họa bằng hình ảnh và được đề cập cụ thể như một thành phố đăng quang.",
+      "keywords": ["esztergom", "thành phố đăng quang", "hình ảnh", "minh họa"],
+      "points": 2
+    },
+    {
+      "id": 46,
+      "question": "Milyen sorrendben vannak a magyar zászló színei felülről lefelé? (Các màu của quốc kỳ Hungary theo thứ tự từ trên xuống dưới là gì?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "nemzeti_jelképek",
+      "options": [
+        "Piros, fehér, zöld (Đỏ, trắng, xanh lá)",
+        "Zöld, fehér, piros (Xanh lá, trắng, đỏ)",
+        "Fehér, piros, zöld (Trắng, đỏ, xanh lá)",
+        "Piros, zöld, fehér (Đỏ, xanh lá, trắng)"
+      ],
+      "correct_answer": 0,
+      "explanation": "Theo tài liệu và cấu trúc truyền thống của quốc kỳ Hungary, thứ tự các màu từ trên xuống dưới là: đỏ, trắng, xanh lá.",
+      "keywords": ["quốc kỳ", "thứ tự màu sắc", "đỏ trắng xanh lá", "từ trên xuống"],
+      "points": 1
+    },
+    {
+      "id": 47,
+      "question": "Mit említenek a koronázási jelvényeknél a palást mellett? (Ngoài áo choàng, còn đề cập đến gì trong các biểu tượng đăng quang?)",
+      "type": "multiple_choice",
+      "difficulty": "közepes",
+      "topic_id": "nemzeti_jelképek",
+      "options": [
+        "Szent Korona, országalma, kard, jogar (Vương miện Thánh, quả cầu hoàng gia, gươm, quyền trượng)",
+        "Csak a Szent Korona (Chỉ Vương miện Thánh)",
+        "Korona és kard (Vương miện và gươm)",
+        "Címer (Quốc huy)"
+      ],
+      "correct_answer": 0,
+      "explanation": "các biểu tượng đăng quang bao gồm: Vương miện Thánh, quả cầu hoàng gia, gươm đăng quang, quyền trượng đăng quang và áo choàng đăng quang.",
+      "keywords": ["biểu tượng đăng quang", "vương miện thánh", "quả cầu", "gươm", "quyền trượng"],
+      "points": 2
+    },
+    {
+      "id": 48,
+      "question": "Melyik nemzeti ünnep kapcsolódik az 1848-49-es eseményekhez? (Ngày lễ quốc gia nào liên quan đến các sự kiện 1848-49?)",
+      "type": "multiple_choice",
+      "difficulty": "könnyű",
+      "topic_id": "nemzeti_ünnepek",
+      "options": [
+        "Március 15. (15 tháng 3)",
+        "Augusztus 20. (20 tháng 8)",
+        "Október 23. (23 tháng 10)",
+        "Január 1. (1 tháng 1)"
+      ],
+      "correct_answer": 0,
+      "explanation": "ngày 15 tháng 3 là ngày kỷ niệm cuộc cách mạng và chiến tranh giải phóng 1848-49.",
+      "keywords": ["15 tháng 3", "1848-49", "cách mạng", "chiến tranh giải phóng"],
+      "points": 1
+    },
+    {
+      "id": 49,
+      "question": "Mit jelent a 'rendületlenül' szó a Szózatban? (Từ 'rendületlenül' trong Szózat có nghĩa là gì?)",
+      "type": "multiple_choice",
+      "difficulty": "nehéz",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "Gyorsan (Nhanh chóng)",
+        "Változatlanul, állhatatosan (Không thay đổi, kiên định)",
+        "Lassan (Chậm chạp)",
+        "Boldogan (Vui vẻ)"
+      ],
+      "correct_answer": 1,
+      "explanation": "Trong bối cảnh của Szózat, 'rendületlenül' có nghĩa là 'không lay chuyển, kiên định', thể hiện lòng trung thành bất biến với tổ quốc.",
+      "keywords": ["szózat", "rendületlenül", "kiên định", "không lay chuyển"],
+      "points": 3
+    },
+    {
+      "id": 50,
+      "question": "Hány éves különbség van a Himnusz és a Szózat megírása között? (Có bao nhiêu năm chênh lệch giữa việc viết Quốc ca và Szózat?)",
+      "type": "multiple_choice",
+      "difficulty": "közepes",
+      "topic_id": "himnusz_és_szózat",
+      "options": [
+        "10 év (10 năm)",
+        "13 év (13 năm)",
+        "15 év (15 năm)",
+        "20 év (20 năm)"
+      ],
+      "correct_answer": 1,
+      "explanation": "Quốc ca được viết năm 1823 và Szózat năm 1836, chênh lệch 13 năm (1836 - 1823 = 13).",
+      "keywords": ["quốc ca", "szózat", "chênh lệch thời gian", "1823", "1836", "13 năm"],
+      "points": 2
+    }
+  ]
+}

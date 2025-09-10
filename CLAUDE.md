@@ -4,14 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Spring Boot web scraping application that fetches web content and converts it to PDF format. The application provides REST endpoints to scrape websites and return the content as downloadable PDF files.
+This is a Spring Boot quiz application that provides a web-based interface for taking interactive quizzes. The application manages quiz data, supports multiple languages, and offers an engaging user experience with timed questions and scoring.
 
 ## Key Technologies
 
-- **Spring Boot 3.5.4** with Java 17
-- **JSoup 1.17.2** for web scraping and HTML parsing
+- **Spring Boot 3.5.5** with Java 17
+- **Thymeleaf** for server-side templating
 - **SQLite** database with JPA/Hibernate and community dialects
-- **PDF Generation**: Apache PDFBox 2.0.30 (text-to-PDF) and OpenHTMLtoPDF 1.0.10 (HTML-to-PDF)
+- **Undertow** embedded server for high performance
 - **JSON Processing**: Jackson with streaming API for memory efficiency
 - **Async Processing**: Spring's `@Async` with CompletableFuture
 - **Containerization**: Docker support with volume mounting
@@ -30,7 +30,7 @@ This is a Spring Boot web scraping application that fetches web content and conv
 ./mvnw test
 
 # Run a single test class
-./mvnw test -Dtest=WebscraperApplicationTests
+./mvnw test -Dtest=QuizmeApplicationTests
 
 # Clean and rebuild
 ./mvnw clean compile
@@ -39,70 +39,60 @@ This is a Spring Boot web scraping application that fetches web content and conv
 ### Docker
 ```bash
 # Build Docker image (requires built JAR)
-docker build -t webscraper .
+docker build -t quizme .
 
 # Run with Docker (mount data volume for SQLite)
-docker run -p 8080:8080 -v $(pwd)/data:/data webscraper
+docker run -p 8080:8080 -v $(pwd)/data:/data quizme
 ```
 
 ## Architecture
 
 ### Core Components
 
-1. **WebScraperController** (`controller/WebScraperController.java`):
-   - REST endpoints: `GET /scrape` and `POST /scrape`
-   - Async PDF generation and download
-   - Parameters: `url` (target website), `fileName` (PDF filename)
+1. **QuizController** (`controller/QuizController.java`):
+   - REST endpoints for quiz retrieval and management
+   - Handles quiz gameplay and scoring
+   - Returns quiz data as JSON for frontend consumption
 
-2. **WebScraperService** (`service/web/WebScraperService.java`):
-   - Orchestrates scraping and PDF conversion
-   - `scrape()`: Text extraction → Text-to-PDF
-   - `scrapeHtml()`: HTML extraction → HTML-to-PDF
-
-3. **WebScraper** (`service/web/WebScraper.java`):
-   - JSoup-based web scraping with 5-second timeout
-   - Thread pool for concurrent processing
-   - `scrape()`: Returns text content
-   - `scrapeDocument()`: Returns JSoup Document
-
-4. **PDF Generation**:
-   - **Text2Pdf**: Plain text to PDF with Unicode font support (requires DejaVuSans.ttf in `src/main/resources/fonts/`)
-   - **Html2Pdf**: HTML to PDF using OpenHTMLtoPDF
+2. **UploadController** (`controller/UploadController.java`):
+   - Manages JSON quiz file uploads with validation
+   - Supports batch quiz data import
+   - Handles file upload for different quiz categories
 
 ### Database Layer
 - **Entities**: Question, QuizMetadata, Topic (DTOs in `repository/dto/`)
 - **Repositories**: JPA repositories for each entity
-- **Database**: MongoDb (configurable in application.yml)
-
-### Additional Controllers
-- **QuizController** (`controller/QuizController.java`): Handles quiz retrieval endpoints
-- **UploadController** (`controller/UploadController.java`): Manages JSON quiz file uploads with validation
+- **Database**: SQLite (configurable in application.yml)
 
 ### Services
 - **QuizImportService** (`service/json/QuizImportService.java`): 
   - Streaming JSON parsing for memory efficiency
   - Bulk data persistence with batch processing
   - Async processing for file imports
+- **QuizService** (`service/json/QuizService.java`):
+  - Core quiz business logic
+  - Quiz data management and retrieval
+- **JsonDifficultyService** (`service/JsonDifficultyService.java`):
+  - Handles quiz difficulty levels
+  - Maps difficulty ratings to quiz metadata
 
 ## Configuration
 
 ### Database (application.yml)
-- SQLite database path: `/data/webscraper.db`
+- SQLite database path: `/data/quizme.db`
 - Hibernate DDL: `update` mode
 - SQL logging enabled
 
-### Font Requirements
-Text2Pdf requires a Unicode TTF font at `src/main/resources/fonts/DejaVuSans.ttf` for proper text rendering.
-
 ## API Endpoints
-
-### Web Scraping
-- `GET /scrape?url={url}&fileName={filename}` - Extract text and convert to PDF
-- `POST /scrape?url={url}&fileName={filename}` - Extract HTML and convert to PDF  
 
 ### Quiz Management
 - `GET /quizzes/{title}` - Retrieve quiz by title
 - `POST /upload/chemistry` - Upload JSON quiz file for chemistry topics
+
+### Quiz Gameplay
+- `GET /` - Main quiz selection page
+- `GET /titles` - Quiz titles page
+- `GET /quiz-play` - Quiz gameplay interface
 
 ### Application
 - Default port: `8080`
@@ -110,11 +100,13 @@ Text2Pdf requires a Unicode TTF font at `src/main/resources/fonts/DejaVuSans.ttf
 
 ## Async Processing
 
-The application uses Spring's `@EnableAsync` with CompletableFuture for non-blocking PDF generation. WebScraper creates its own thread pool based on available CPU cores.
+The application uses Spring's `@EnableAsync` with CompletableFuture for non-blocking quiz data processing. Services use asynchronous processing for improved performance during quiz imports and data operations.
 
 ## Development Notes
 
 - The service layer uses constructor injection
-- All PDF operations are asynchronous 
+- Quiz data operations are asynchronous for better performance
 - Error handling returns empty results rather than throwing exceptions
 - The application is designed for containerized deployment
+- Supports multilingual interface (English, Hungarian, Vietnamese)
+- Uses Thymeleaf for server-side rendering with modern JavaScript for interactivity

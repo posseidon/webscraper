@@ -51,8 +51,61 @@ function setProgress(circle, percent) {
 // Make it globally available
 window.updateTimeEstimator = updateTimeEstimator;
 
+// Accordion click handler function
+function handleCustomAccordionClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    
+    const button = this;
+    const targetId = button.getAttribute('data-accordion-target');
+    const target = document.querySelector(targetId);
+    const accordionContainer = button.closest('[data-custom-accordion]');
+    
+    if (!target || !accordionContainer) {
+        return;
+    }
+    
+    const isCurrentlyOpen = !target.classList.contains('hidden');
+    
+    // Close all accordion items in this container first
+    const allButtons = accordionContainer.querySelectorAll('[data-accordion-target]');
+    allButtons.forEach(btn => {
+        const btnTargetId = btn.getAttribute('data-accordion-target');
+        const btnTarget = document.querySelector(btnTargetId);
+        const btnIcon = btn.querySelector('[data-accordion-icon]');
+        
+        if (btnTarget) {
+            btnTarget.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+            
+            if (btnIcon) {
+                btnIcon.classList.remove('rotate-180');
+            }
+        }
+    });
+    
+    // If the clicked item was closed, open it
+    if (!isCurrentlyOpen) {
+        target.classList.remove('hidden');
+        button.setAttribute('aria-expanded', 'true');
+        
+        const currentIcon = button.querySelector('[data-accordion-icon]');
+        if (currentIcon) {
+            currentIcon.classList.add('rotate-180');
+        }
+    }
+}
+
 // Add event listeners for buttons and controls
 document.addEventListener('click', function(e) {
+    // Handle accordion clicks
+    const accordionButton = e.target.closest('[data-accordion-target]');
+    if (accordionButton && accordionButton.closest('[data-custom-accordion]')) {
+        handleCustomAccordionClick.call(accordionButton, e);
+        return;
+    }
+    
     // Check if the clicked element or its parent has the start-quiz-btn class
     const startQuizBtn = e.target.closest('.start-quiz-btn');
     if (startQuizBtn) {
@@ -60,7 +113,7 @@ document.addEventListener('click', function(e) {
         const quizId = startQuizBtn.getAttribute('data-quiz-id');
         const quizTitle = startQuizBtn.getAttribute('data-quiz-title');
         const category = startQuizBtn.getAttribute('data-category');
-        const topic = startQuizBtn.getAttribute('data-topic');
+        const topic = startQuizBtn.getAttribute('data-subcategory');
         startQuiz(quizTitle, quizId, category, topic);
     }
     
@@ -81,48 +134,63 @@ document.addEventListener('click', function(e) {
         }
     }
 
-    // Handle difficulty button selection
-    const difficultyBtn = e.target.closest('.difficulty-btn');
-    if (difficultyBtn) {
-        e.preventDefault();
-        const buttonGroup = difficultyBtn.parentElement;
-        const allButtons = buttonGroup.querySelectorAll('.difficulty-btn');
+    // Handle difficulty selection (radio buttons)
+    const difficultyLabel = e.target.closest('label[for]');
+    if (difficultyLabel) {
+        const radioId = difficultyLabel.getAttribute('for');
+        const radioInput = document.getElementById(radioId);
         
-        // Reset all buttons to their default state by removing active classes
-        allButtons.forEach(btn => {
-            btn.classList.remove('active-difficulty');
-            const difficulty = btn.getAttribute('data-difficulty');
+        if (radioInput && radioInput.classList.contains('difficulty-radio')) {
+            // Check the radio button
+            radioInput.checked = true;
             
-            // Reset each button to its original color scheme
-            if (difficulty === 'easy') {
-                btn.className = 'difficulty-btn flex items-center justify-center px-4 py-3 text-sm font-medium transition-all duration-200 bg-green-50 text-green-700 border border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/40 focus:z-10 focus:ring-2 focus:ring-green-500 data-[active=true]:bg-green-600 data-[active=true]:text-white data-[active=true]:border-green-600';
-            } else if (difficulty === 'medium') {
-                btn.className = 'difficulty-btn flex items-center justify-center px-4 py-3 text-sm font-medium transition-all duration-200 bg-yellow-50 text-yellow-700 border border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-800 hover:bg-yellow-100 dark:hover:bg-yellow-900/40 focus:z-10 focus:ring-2 focus:ring-yellow-500 data-[active=true]:bg-yellow-600 data-[active=true]:text-white data-[active=true]:border-yellow-600';
-            } else if (difficulty === 'hard') {
-                btn.className = 'difficulty-btn flex items-center justify-center px-4 py-3 text-sm font-medium transition-all duration-200 bg-red-50 text-red-700 border border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/40 focus:z-10 focus:ring-2 focus:ring-red-500 data-[active=true]:bg-red-600 data-[active=true]:text-white data-[active=true]:border-red-600';
-            } else if (difficulty === 'mixed') {
-                btn.className = 'difficulty-btn flex items-center justify-center px-4 py-3 text-sm font-medium transition-all duration-200 bg-blue-600 text-white border border-blue-600 hover:bg-blue-700 hover:border-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-500';
-            }
-        });
-        
-        // Set clicked button to active state
-        difficultyBtn.classList.add('active-difficulty');
-        const selectedDifficulty = difficultyBtn.getAttribute('data-difficulty');
-        
-        // Apply active styling based on the button's difficulty level
-        if (selectedDifficulty === 'easy') {
-            difficultyBtn.classList.remove('bg-green-50', 'text-green-700', 'border-green-200');
-            difficultyBtn.classList.add('bg-green-600', 'text-white', 'border-green-600');
-        } else if (selectedDifficulty === 'medium') {
-            difficultyBtn.classList.remove('bg-yellow-50', 'text-yellow-700', 'border-yellow-200');
-            difficultyBtn.classList.add('bg-yellow-600', 'text-white', 'border-yellow-600');
-        } else if (selectedDifficulty === 'hard') {
-            difficultyBtn.classList.remove('bg-red-50', 'text-red-700', 'border-red-200');
-            difficultyBtn.classList.add('bg-red-600', 'text-white', 'border-red-600');
+            // Update visual styling
+            updateDifficultySelection(radioInput);
         }
-        // Mixed button is already styled as active by default
     }
 });
+
+// Function to update difficulty selection styling
+function updateDifficultySelection(selectedRadio) {
+    // Get all difficulty radios in the same group
+    const allRadios = document.querySelectorAll('input[name="difficulty"]');
+    
+    allRadios.forEach(radio => {
+        const label = document.querySelector(`label[for="${radio.id}"]`);
+        if (label) {
+            const difficulty = radio.getAttribute('data-difficulty');
+            
+            // Reset all labels to default state
+            label.classList.remove(
+                'border-green-500', 'bg-green-50', 'dark:border-green-400', 'dark:bg-green-900/20',
+                'border-yellow-500', 'bg-yellow-50', 'dark:border-yellow-400', 'dark:bg-yellow-900/20',
+                'border-red-500', 'bg-red-50', 'dark:border-red-400', 'dark:bg-red-900/20',
+                'border-blue-500', 'bg-blue-50', 'dark:border-blue-400', 'dark:bg-blue-900/20'
+            );
+            label.classList.add('border-gray-200', 'dark:border-gray-600');
+            
+            // If this is the selected radio, apply active styling
+            if (radio.checked) {
+                label.classList.remove('border-gray-200', 'dark:border-gray-600');
+                
+                switch (difficulty) {
+                    case 'easy':
+                        label.classList.add('border-green-500', 'bg-green-50', 'dark:border-green-400', 'dark:bg-green-900/20');
+                        break;
+                    case 'medium':
+                        label.classList.add('border-yellow-500', 'bg-yellow-50', 'dark:border-yellow-400', 'dark:bg-yellow-900/20');
+                        break;
+                    case 'hard':
+                        label.classList.add('border-red-500', 'bg-red-50', 'dark:border-red-400', 'dark:bg-red-900/20');
+                        break;
+                    case 'mixed':
+                        label.classList.add('border-blue-500', 'bg-blue-50', 'dark:border-blue-400', 'dark:bg-blue-900/20');
+                        break;
+                }
+            }
+        }
+    });
+}
 
 // Add event listener for range slider
 document.addEventListener('input', function(e) {
@@ -136,6 +204,9 @@ document.addEventListener('input', function(e) {
         
         // Always update time estimator
         updateTimeEstimator(quizId, value);
+        
+        // Update slider value display
+        updateSliderValueDisplay(e.target, quizId, value);
     } else {
     }
 });
@@ -164,17 +235,133 @@ function updateQuestionCount(quizId, value) {
     }
 }
 
+// Function to update slider value display
+function updateSliderValueDisplay(slider, quizId, value) {
+    const valueDisplay = document.getElementById('slider-value-' + quizId);
+    
+    if (valueDisplay) {
+        // Update the text content
+        valueDisplay.textContent = value;
+        
+        // Calculate the position of the thumb
+        const min = parseFloat(slider.min);
+        const max = parseFloat(slider.max);
+        const val = parseFloat(value);
+        
+        // Calculate percentage position (0-100%)
+        const percent = (val - min) / (max - min);
+        
+        // Get slider width and account for thumb width (20px)
+        const sliderWidth = slider.offsetWidth;
+        const thumbWidth = 20;
+        
+        // Calculate position accounting for thumb being centered
+        const position = percent * (sliderWidth - thumbWidth) + (thumbWidth / 2);
+        
+        // Update position
+        valueDisplay.style.left = position + 'px';
+        
+        // Show the value display when slider is being moved
+        valueDisplay.style.opacity = '1';
+        
+        // Hide after a delay when not actively moving
+        clearTimeout(valueDisplay.hideTimeout);
+        valueDisplay.hideTimeout = setTimeout(() => {
+            if (!slider.matches(':hover') && !slider.matches(':focus')) {
+                valueDisplay.style.opacity = '0';
+            }
+        }, 1500);
+    }
+}
+
 // Initialize question counts and time estimators on page load
 document.addEventListener('DOMContentLoaded', function() {
-    const sliders = document.querySelectorAll('.questions-range-slider');
+    // Look for both old and new slider classes
+    const sliders = document.querySelectorAll('.questions-range-slider, .enhanced-slider');
     sliders.forEach(slider => {
         const quizId = slider.getAttribute('data-quiz-id');
         const value = slider.value;
 
         updateQuestionCount(quizId, value);
         updateTimeEstimator(quizId, value);
+        
+        // Initialize slider value display position
+        if (slider.classList.contains('enhanced-slider')) {
+            updateSliderValueDisplay(slider, quizId, value);
+            
+            // Add hover and focus event listeners
+            const valueDisplay = document.getElementById('slider-value-' + quizId);
+            if (valueDisplay) {
+                slider.addEventListener('mouseenter', () => {
+                    clearTimeout(valueDisplay.hideTimeout);
+                    valueDisplay.style.opacity = '1';
+                });
+                
+                slider.addEventListener('mouseleave', () => {
+                    valueDisplay.hideTimeout = setTimeout(() => {
+                        if (!slider.matches(':focus')) {
+                            valueDisplay.style.opacity = '0';
+                        }
+                    }, 500);
+                });
+                
+                slider.addEventListener('focus', () => {
+                    clearTimeout(valueDisplay.hideTimeout);
+                    valueDisplay.style.opacity = '1';
+                });
+                
+                slider.addEventListener('blur', () => {
+                    valueDisplay.hideTimeout = setTimeout(() => {
+                        valueDisplay.style.opacity = '0';
+                    }, 500);
+                });
+            }
+        }
     });
+    
+    // Initialize accordion functionality immediately and with a longer delay as fallback
+    initializeAccordions();
+    setTimeout(initializeAccordions, 500);
+    
+    // Initialize difficulty selection styling
+    const checkedRadio = document.querySelector('input[name="difficulty"]:checked');
+    if (checkedRadio) {
+        updateDifficultySelection(checkedRadio);
+    }
 });
+
+// Accordion functionality - now handled by the global click listener above
+function initializeAccordions() {
+    // Set initial state for accordion items - second accordion item should be hidden
+    const customAccordions = document.querySelectorAll('[data-custom-accordion]');
+    
+    customAccordions.forEach(accordionContainer => {
+        const buttons = accordionContainer.querySelectorAll('[data-accordion-target]');
+        
+        buttons.forEach((button, index) => {
+            const targetId = button.getAttribute('data-accordion-target');
+            const target = document.querySelector(targetId);
+            const icon = button.querySelector('[data-accordion-icon]');
+            
+            if (target) {
+                // First accordion item is open by default, others are closed
+                if (index === 0) {
+                    target.classList.remove('hidden');
+                    button.setAttribute('aria-expanded', 'true');
+                    if (icon) {
+                        icon.classList.add('rotate-180');
+                    }
+                } else {
+                    target.classList.add('hidden');
+                    button.setAttribute('aria-expanded', 'false');
+                    if (icon) {
+                        icon.classList.remove('rotate-180');
+                    }
+                }
+            }
+        });
+    });
+}
 
 // Quiz start function
 function startQuiz(quizTitle, quizId, category, topic) {
@@ -183,7 +370,7 @@ function startQuiz(quizTitle, quizId, category, topic) {
     const sanitizedQuizId = quizId.replace(/[^a-zA-Z0-9]/g, '-');
     const modalId = 'quiz-modal-' + sanitizedQuizId;
     
-    // Get selected difficulty from button group
+    // Get selected difficulty from radio buttons
     const modal = document.getElementById(modalId);
     if (!modal) {
         // Use default values if modal is not found
@@ -193,8 +380,8 @@ function startQuiz(quizTitle, quizId, category, topic) {
         return;
     }
     
-    const activeDifficultyBtn = modal.querySelector('.difficulty-btn.active-difficulty');
-    const selectedDifficulty = activeDifficultyBtn ? activeDifficultyBtn.getAttribute('data-difficulty') : 'mixed';
+    const selectedDifficultyRadio = modal.querySelector('input[name="difficulty"]:checked');
+    const selectedDifficulty = selectedDifficultyRadio ? selectedDifficultyRadio.getAttribute('data-difficulty') : 'mixed';
     
     // Get number of questions from range slider  
     const rangeSlider = document.getElementById('questions-range-' + sanitizedQuizId);

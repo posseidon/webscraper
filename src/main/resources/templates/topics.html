@@ -1,74 +1,92 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-      th:replace="~{fragments/layout :: layout ('All Topics - Quiz Application', ~{::content})}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      th:replace="~{fragments/layout :: layout (${title} , ~{::content})}" lang="en">
 
-<div th:fragment="content" class="container mx-auto px-4 pt-0 pb-8">
-    <!-- Responsive Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto" id="booksGrid">
-        <!-- Dynamic Book Cards -->
-        <div th:each="topic, iterStat : ${topics}"
-             class="group bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 overflow-hidden hover:scale-105 book-card">
-            <div class="p-3">
-                <div class="mb-3">
-                    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2" th:text="${topic}">Topic Name</h2>
+<div th:fragment="content" class="container mx-auto px-4">
+    <!-- Breadcrumb -->
+    <nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+            <li>
+                <div class="flex items-center">
+                    <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                    </svg>
+                    <a th:href="@{'/quiz/' + ${category}}" class="ms-1 text-xs font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white" th:text="${category}">Category</a>
                 </div>
-                <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed">
-                    Comprehensive quiz collection covering key topics and concepts.
-                </p>
-                <a th:href="@{'/quiz/' + ${category} + '/' + ${topic}}"
-                   class="w-full inline-block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200">
-                    <span data-translate="topics.view_quizzes">View Quizzes</span>
-                </a>
-            </div>
-        </div>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                    </svg>
+                    <a th:href="@{'/quiz/' + ${category} + '/' + ${subcategory}}" class="ms-1 text-xs font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white" th:text="${subcategory}">SubCategory</a>
+                </div>
+            </li>
+        </ol>
+    </nav>
 
-        <!-- Empty State -->
-        <div th:if="${#lists.isEmpty(topics)}" class="col-span-full">
-            <div class="text-center py-12">
-                <div class="mx-auto h-24 w-24 text-gray-400 mb-4">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 10.5v6m0-6V9a3 3 0 013-3v0a3 3 0 013 3v1.5M12 10.5H9.5a1.5 1.5 0 00-1.5 1.5v0a1.5 1.5 0 001.5 1.5h3M12 10.5V9a3 3 0 00-3-3v0a3 3 0 00-3 3v1.5M12 10.5H14.5a1.5 1.5 0 011.5 1.5v0a1.5 1.5 0 01-1.5 1.5h-3"></path>
+    <!-- Topics Timeline -->
+    <div class="py-6" id="topicsTimeline">
+        <ol class="relative border-s border-gray-200 dark:border-gray-700">
+            <li th:each="topic, iterStat : ${topics}" class="mb-10 ms-6">
+                <!-- Timeline Icon -->
+                <span th:id="'play-topic-quiz-' + ${topic.topicId.replaceAll('[^a-zA-Z0-9]', '-')}" th:data-topic-id="${topic.topicId}" th:data-topic-name="${topic.topicName}"
+                        class="play-topic-quiz-btn absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900 cursor-pointer">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
                     </svg>
+                </span>
+                <!-- Topic Content -->
+                <div th:data-topic-id="${topic.topicId}" th:data-topic-name="${topic.topicName}"
+                        class="topic-content-div items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-xs sm:flex dark:bg-gray-700 dark:border-gray-600 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200">
+                <!-- Topic Header -->
+                    <div class="items-center justify-between mb-3 sm:flex">
+                        <div th:text="${topic.topicName}" class="text-sm font-normal text-gray-500 lex dark:text-gray-300">Topic Name</div>
+                    </div>
+                    <div th:text="${topic.description}" th:if="${topic.description != null and !topic.description.empty}"
+                         class="p-3 text-xs italic font-normal text-gray-500 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300">
+                        Topic description goes here...
+                    </div>
+                    <div th:if="${topic.description == null or topic.description.empty}"
+                         class="p-3 text-xs italic font-normal text-gray-500 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300">
+                        Comprehensive quiz collection covering key concepts in this topic.
+                    </div>
                 </div>
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2" data-translate="topics.no_topics">No Topics Available</h3>
-                <p class="text-gray-500 dark:text-gray-400 mb-4">
-                    <span th:if="${category != null}" data-translate="topics.no_topics_desc">There are no topics available for this category yet.</span>
-                    <span th:if="${category == null}" data-translate="topics.no_topics_desc">There are no topics available for this category yet.</span>
-                </p>
-                <a th:href="@{/quiz/categories}"
-                   class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                    </svg>
-                    <span data-translate="topics.back_to_categories">Back to Categories</span>
-                </a>
-            </div>
-        </div>
+            </li>
+        </ol>
     </div>
+
+    <!-- Quiz Modal for title quiz (from header play button) -->
+    <div th:if="${titleObject != null}">
+        <div th:replace="~{fragments/quiz-modal :: quiz-modal(${titleObject}, ${category}, ${subcategory})}"></div>
+    </div>
+
+    <!-- Empty State -->
+    <div th:if="${#lists.isEmpty(topics)}" class="text-center py-12">
+        <div class="mx-auto h-24 w-24 text-gray-400 mb-4">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+            </svg>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2" data-translate="topics.no_topics">No Topics Available</h3>
+        <p class="text-gray-500 dark:text-gray-400 mb-4">
+            <span th:if="${title != null}" data-translate="topics.no_topics_desc">There are no topics available for this quiz yet.</span>
+            <span th:if="${title == null}" data-translate="topics.no_topics_desc">There are no topics available for this quiz yet.</span>
+        </p>
+        <a th:href="@{'/quiz/' + ${category} + '/' + ${subcategory}}"
+           class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            <span data-translate="topics.back_to_titles">Back to Titles</span>
+        </a>
+    </div>
+
+
+
+<!-- Include external JavaScript file -->
+<script th:if="${@environment.acceptsProfiles('prod')}" th:src="@{/js/topics.js}" defer></script>
+<script th:unless="${@environment.acceptsProfiles('prod')}" th:src="@{/js/topics.js}" defer></script>
 </div>
 
-    <!-- Search Functionality -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('bookSearch');
-            const bookCards = document.querySelectorAll('.book-card');
-
-            searchInput.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
-
-                bookCards.forEach(card => {
-                    const bookTitle = card.querySelector('h2').textContent.toLowerCase();
-                    const shouldShow = bookTitle.includes(searchTerm);
-                    
-                    if (shouldShow) {
-                        card.style.display = 'block';
-                        card.classList.remove('hidden');
-                    } else {
-                        card.style.display = 'none';
-                        card.classList.add('hidden');
-                    }
-                });
-            });
-        });
-    </script>
 </html>

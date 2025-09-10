@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" th:fragment="layout (title, content)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title th:text="${title}">Quiz Application</title>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+
+    <!-- External CDN resources -->
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    
+    <!-- Minified JavaScript -->
+    <script th:src="@{/js/min/language.min.js}" defer></script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 pt-5 md:pt-24 pb-5">
+    <!-- Import Header -->
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <br/><br/><br/>
+    
+    <!-- Content placeholder -->
+    <main th:replace="${content}">
+        <!-- Page content will be inserted here -->
+    </main>
+
+    <!-- Import Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
