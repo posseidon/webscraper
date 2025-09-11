@@ -8,6 +8,8 @@ import hu.elte.inf.projects.quizme.repository.dto.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -82,5 +84,15 @@ public class QuizService {
         return topicRepository.findByTopicId(topicId)
                 .map(Topic::getQuestions)
                 .orElseGet(List::of);
+    }
+
+    public void updateTitleAudioOverview(String titleName, String audioOverviewUrl) throws MalformedURLException {
+        List<Title> titles = titleRepository.findByName(titleName);
+        if (CollectionUtils.isEmpty(titles)) {
+            throw new IllegalArgumentException("Title not found: " + titleName);
+        }
+        Title title = titles.get(0); // Assuming titleName is unique or taking the first one
+        title.setAudioOverview(new URL(audioOverviewUrl));
+        titleRepository.save(title);
     }
 }

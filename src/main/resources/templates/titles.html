@@ -11,56 +11,75 @@
             <div class="p-3 flex flex-col flex-grow">
                 <div class="flex-grow">
                     <div class="mb-3">
-                        <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 h-14" th:text="${title.name}">Quiz Title</h2>
+                        <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 h-14"
+                            th:text="${title.name}">Quiz Title</h2>
                         <audio controls class="w-full mt-2">
-                            <source th:src="@{'/audio/' + ${title.name.replace(' ', '_')} + '.mp3'}" type="audio/mpeg">
+                            <source src="https://storageccount2025.blob.core.windows.net/quizme/Magyarorsza%CC%81g%20nemzeti%20jelke%CC%81pei%20e%CC%81s%20u%CC%88nnepei.mp4"
+                                    type="audio/mpeg">
                             Your browser does not support the audio element.
                         </audio>
                     </div>
                     <hr class="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded-sm md:my-10 dark:bg-gray-700">
-                    <p th:text="${title.description}" class="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed"></p>
+                    <p th:text="${title.description}"
+                       class="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed"></p>
                 </div>
-                <div th:id="'objectives-and-tips-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}" th:data-custom-accordion="'quiz-objectives-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}" class="mt-auto">
+                <div th:id="'objectives-and-tips-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}"
+                     th:data-custom-accordion="'quiz-objectives-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}"
+                     class="mt-auto">
                     <h2 th:id="'accordion-open-heading-1-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
-                        <button type="button" class="flex items-center justify-between w-full p-3 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" th:data-accordion-target="'#accordion-open-body-1-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}" aria-expanded="true" th:aria-controls="'accordion-open-body-1-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
+                        <button type="button"
+                                class="flex items-center justify-between w-full p-3 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
+                                th:data-accordion-target="'#accordion-open-body-1-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}"
+                                aria-expanded="true"
+                                th:aria-controls="'accordion-open-body-1-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
                                 <span data-translate="titles.learning_objectives" class="flex items-center">
                                 </span>
-                                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-                                </svg>
-                            </button>
-                        </h2>
-                        <div th:id="'accordion-open-body-1-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}" class="" th:aria-labelledby="'accordion-open-heading-1-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
-                            <div class="p-3 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-                                <ul class="space-y-2 text-gray-700 dark:text-gray-300 text-xs">
-                                    <div th:each="objective, iterStat : ${title.learningObjectives}">
-                                        <li class="flex items-start">
-                                            <span class="mr-2 text-green-500">✔</span>
-                                            <p th:text="${objective}"></p>
-                                        </li>
-                                    </div>
-                                </ul>
-                            </div>
-                        </div>
-                        <h2 th:id="'accordion-open-heading-2-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
-                            <button type="button" class="flex items-center justify-between w-full p-3 font-medium rtl:text-right text-gray-500 border border-gray-200 rounded-b-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" th:data-accordion-target="'#accordion-open-body-2-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}" aria-expanded="false" th:aria-controls="'accordion-open-body-2-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
-                                <span data-translate="titles.study_tips" class="flex items-center">
-                                </span>
-                                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-                                </svg>
-                            </button>
-                        </h2>
-                        <div th:id="'accordion-open-body-2-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}" class="hidden" th:aria-labelledby="'accordion-open-heading-2-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
-                            <div class="p-3 border border-gray-200 dark:border-gray-700 rounded-b-xl">
-                                <ul class="list-disc pl-5 space-y-2 text-xs text-gray-700 dark:text-gray-300">
-                                    <div th:each="studyTip, iterStat : ${title.studyTips}">
-                                        <li><p th:text="${studyTip}"></p></li>
-                                    </div>
-                                </ul>
-                            </div>
+                            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2" d="M9 5 5 1 1 5"/>
+                            </svg>
+                        </button>
+                    </h2>
+                    <div th:id="'accordion-open-body-1-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}" class=""
+                         th:aria-labelledby="'accordion-open-heading-1-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
+                        <div class="p-3 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                            <ul class="space-y-2 text-gray-700 dark:text-gray-300 text-xs">
+                                <div th:each="objective, iterStat : ${title.learningObjectives}">
+                                    <li class="flex items-start">
+                                        <span class="mr-2 text-green-500">✔</span>
+                                        <p th:text="${objective}"></p>
+                                    </li>
+                                </div>
+                            </ul>
                         </div>
                     </div>
+                    <h2 th:id="'accordion-open-heading-2-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
+                        <button type="button"
+                                class="flex items-center justify-between w-full p-3 font-medium rtl:text-right text-gray-500 border border-gray-200 rounded-b-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
+                                th:data-accordion-target="'#accordion-open-body-2-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}"
+                                aria-expanded="false"
+                                th:aria-controls="'accordion-open-body-2-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
+                                <span data-translate="titles.study_tips" class="flex items-center">
+                                </span>
+                            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2" d="M9 5 5 1 1 5"/>
+                            </svg>
+                        </button>
+                    </h2>
+                    <div th:id="'accordion-open-body-2-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}" class="hidden"
+                         th:aria-labelledby="'accordion-open-heading-2-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
+                        <div class="p-3 border border-gray-200 dark:border-gray-700 rounded-b-xl">
+                            <ul class="list-disc pl-5 space-y-2 text-xs text-gray-700 dark:text-gray-300">
+                                <div th:each="studyTip, iterStat : ${title.studyTips}">
+                                    <li><p th:text="${studyTip}"></p></li>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
                 <a th:href="@{'/quiz/' + ${category} + '/' + ${subcategory} + '/' + ${title.name}}"
                    class="w-full inline-block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 mt-4">
                     <span data-translate="titles.view_topics">View Topics</span>
@@ -73,10 +92,12 @@
             <div class="text-center py-12">
                 <div class="mx-auto h-24 w-24 text-gray-400 mb-4">
                     <svg stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                              d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
                     </svg>
                 </div>
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2" data-translate="titles.no_quizzes">No Quizzes Available</h3>
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2" data-translate="titles.no_quizzes">No
+                    Quizzes Available</h3>
                 <p class="text-gray-500 dark:text-gray-400 mb-4">
                     <span th:if="${subcategory != null && category != null}" data-translate="titles.no_quizzes_desc">There are no quizzes available for this topic yet.</span>
                     <span th:if="${subcategory == null || category == null}" data-translate="titles.no_quizzes_desc">There are no quizzes available for this topic yet.</span>
@@ -84,7 +105,8 @@
                 <a th:href="@{'/quiz/' + ${category}}"
                    class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
                     <span data-translate="titles.back_to_topics">Back to Topics</span>
                 </a>
@@ -93,10 +115,10 @@
     </div>
 
 
-<!-- Include external JavaScript file -->
-<!-- Conditional JS loading: minified for production, full for development -->
-<script th:if="${@environment.acceptsProfiles('prod')}" th:src="@{/js/titles.js}" defer></script>
-<script th:unless="${@environment.acceptsProfiles('prod')}" th:src="@{/js/titles.js}" defer></script>
+    <!-- Include external JavaScript file -->
+    <!-- Conditional JS loading: minified for production, full for development -->
+    <script th:if="${@environment.acceptsProfiles('prod')}" th:src="@{/js/titles.js}" defer></script>
+    <script th:unless="${@environment.acceptsProfiles('prod')}" th:src="@{/js/titles.js}" defer></script>
 </div>
 
 </html>

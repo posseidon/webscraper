@@ -3,6 +3,7 @@ package hu.elte.inf.projects.quizme.repository.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -40,7 +41,10 @@ public class Title {
 
     private String version;
 
+    private URL audioOverview;
+
     public Title() {}
+
     public Title(String name) {
         this.name = name;
     }
@@ -69,7 +73,7 @@ public class Title {
         this.topics = topics;
     }
 
-    public void addTopic(Topic topic){
+    public void addTopic(Topic topic) {
         this.topics.add(topic);
         topic.setTitle(this);
     }
@@ -130,4 +134,11 @@ public class Title {
         this.version = version;
     }
 
+    public URL getAudioOverview() {
+        return audioOverview;
+    }
+
+    public void setAudioOverview(URL audioOverview) {
+        this.audioOverview = audioOverview;
+    }
 }
