@@ -202,5 +202,7 @@
   "footer.how_to": "Útmutató",
   "footer.study_guide": "Segédanyag",
   "footer.exam_info": "Vizsga",
-  "footer.contact": "Kapcsolat"
+  "footer.contact": "Kapcsolat",
+  "landing.quiz_me": "Kvíz indítása",
+  "landing.quiz_me_desc": "Egy egyszerű kvíz a tudásod tesztelésére."
 }

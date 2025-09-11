@@ -202,5 +202,7 @@
   "footer.how_to": "Hướng dẫn",
   "footer.study_guide": "Tài liệu học tập",
   "footer.exam_info": "Thông tin kỳ thi",
-  "footer.contact": "Liên hệ"
+  "footer.contact": "Liên hệ",
+  "landing.quiz_me": "Bắt đầu trắc nghiệm",
+  "landing.quiz_me_desc": "Một bài kiểm tra đơn giản để kiểm tra kiến thức của bạn."
 }

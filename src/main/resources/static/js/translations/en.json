@@ -202,5 +202,7 @@
   "footer.how_to": "How to",
   "footer.study_guide": "Study Guide",
   "footer.exam_info": "Exam Info",
-  "footer.contact": "Contact"
+  "footer.contact": "Contact",
+  "landing.quiz_me": "Quiz me",
+  "landing.quiz_me_desc": "A simple quiz to test your knowledge."
 }

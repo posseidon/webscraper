@@ -25,7 +25,6 @@ public class QuizController {
     private final QuizService quizService;
     private final JsonDifficultyService difficultyService;
 
-    @Autowired
     public QuizController(QuizService quizService, JsonDifficultyService difficultyService) {
         this.quizService = quizService;
         this.difficultyService = difficultyService;
@@ -70,7 +69,7 @@ public class QuizController {
 
     @GetMapping(QUIZ_CATEGORY_SUB_TITLE)
     public String showTopics(@PathVariable String category, @PathVariable String subcategory,
-                             @PathVariable String title, Model model) {
+            @PathVariable String title, Model model) {
         List<Topic> topics = quizService.findTopicsTitleByName(title);
 
         // Get the full Title object for the modal
@@ -114,9 +113,9 @@ public class QuizController {
 
     @PostMapping(QUIZ_START)
     public String startQuiz(@PathVariable String titleId,
-                            @RequestParam(name = PARAM_QUESTION_COUNT, defaultValue = "0") int questionCount,
-                            @RequestParam(name = PARAM_DIFFICULTY, defaultValue = DIFFICULTY_MIXED) String difficulty,
-                            Model model) {
+            @RequestParam(name = PARAM_QUESTION_COUNT, defaultValue = "0") int questionCount,
+            @RequestParam(name = PARAM_DIFFICULTY, defaultValue = DIFFICULTY_MIXED) String difficulty,
+            Model model) {
         List<Question> questions = quizService.findQuestionsByTitle(titleId);
         if (!CollectionUtils.isEmpty(questions)) {
             List<Question> balancedQuestions = selectBalancedQuestions(questions, questionCount, DIFFICULTY_MIXED);
@@ -134,7 +133,8 @@ public class QuizController {
     }
 
     private List<Question> selectBalancedQuestions(List<Question> questions, int requestedCount, String difficulty) {
-        // Special handling for "mixed" difficulty - distribute evenly across all difficulty levels
+        // Special handling for "mixed" difficulty - distribute evenly across all
+        // difficulty levels
         if (DIFFICULTY_MIXED.equalsIgnoreCase(difficulty)) {
             return selectMixedDifficultyQuestions(questions, requestedCount);
         }
@@ -149,13 +149,15 @@ public class QuizController {
             allQuestions = questions;
         }
 
-        // If no limit specified or limit >= total, return all filtered questions shuffled
+        // If no limit specified or limit >= total, return all filtered questions
+        // shuffled
         if (requestedCount <= 0 || requestedCount >= allQuestions.size()) {
             Collections.shuffle(allQuestions);
             return allQuestions;
         }
 
-        // Calculate questions per subcategory (ensure each subcategory gets at least 1 question)
+        // Calculate questions per subcategory (ensure each subcategory gets at least 1
+        // question)
         Map<String, List<Question>> questionsByTopicName = questions.stream()
                 .filter(q -> difficultyService.matchesDifficulty(q.getDifficulty(), difficulty))
                 .collect(Collectors.groupingBy(Question::getTopicName));
@@ -175,7 +177,8 @@ public class QuizController {
             selectedQuestions.addAll(questionsList.subList(0, questionsFromThisTopic));
         }
 
-        // If we still need more questions (some topics had fewer questions), fill from remaining
+        // If we still need more questions (some topics had fewer questions), fill from
+        // remaining
         if (selectedQuestions.size() < requestedCount) {
             List<Question> remaining = allQuestions.stream()
                     .filter(q -> !selectedQuestions.contains(q))
@@ -230,7 +233,8 @@ public class QuizController {
             selectedQuestions.addAll(questionsForLevel.subList(0, questionsFromThisLevel));
         }
 
-        // If we still need more questions (some levels had fewer questions), fill from remaining
+        // If we still need more questions (some levels had fewer questions), fill from
+        // remaining
         if (selectedQuestions.size() < requestedCount) {
             List<Question> remaining = new ArrayList<>();
             for (String level : difficultyLevels) {
@@ -251,7 +255,6 @@ public class QuizController {
         Collections.shuffle(selectedQuestions);
         return selectedQuestions;
     }
-
 
     @PostMapping(QUIZ_SUBMIT_RESULTS)
     @ResponseBody
@@ -274,7 +277,9 @@ public class QuizController {
             } catch (IllegalArgumentException e) {
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
             } catch (MalformedURLException e) {
-                return new ResponseEntity<>("Invalid URL for title " + update.getTitleName() + ": " + update.getAudioOverview(), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(
+                        "Invalid URL for title " + update.getTitleName() + ": " + update.getAudioOverview(),
+                        HttpStatus.BAD_REQUEST);
             }
         }
         return new ResponseEntity<>("Title audio overviews updated successfully!", HttpStatus.OK);

@@ -1,4 +1,50 @@
 
+// Accordion click handler function
+function handleCustomAccordionClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    
+    const button = this;
+    const targetId = button.getAttribute('data-accordion-target');
+    const target = document.querySelector(targetId);
+    const accordionContainer = button.closest('[data-custom-accordion]');
+    
+    if (!target || !accordionContainer) {
+        return;
+    }
+    
+    const isCurrentlyOpen = !target.classList.contains('hidden');
+    
+    // Close all accordion items in this container first
+    const allButtons = accordionContainer.querySelectorAll('[data-accordion-target]');
+    allButtons.forEach(btn => {
+        const btnTargetId = btn.getAttribute('data-accordion-target');
+        const btnTarget = document.querySelector(btnTargetId);
+        const btnIcon = btn.querySelector('[data-accordion-icon]');
+        
+        if (btnTarget) {
+            btnTarget.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+            
+            if (btnIcon) {
+                btnIcon.classList.remove('rotate-180');
+            }
+        }
+    });
+    
+    // If the clicked item was closed, open it
+    if (!isCurrentlyOpen) {
+        target.classList.remove('hidden');
+        button.setAttribute('aria-expanded', 'true');
+        
+        const currentIcon = button.querySelector('[data-accordion-icon]');
+        if (currentIcon) {
+            currentIcon.classList.add('rotate-180');
+        }
+    }
+}
+
 // Function to update time estimator - MUST be available immediately for inline handlers
 function updateTimeEstimator(quizId, numberOfQuestions) {
     const timeDisplayElement = document.getElementById('time-display-' + quizId);
@@ -51,54 +97,12 @@ function setProgress(circle, percent) {
 // Make it globally available
 window.updateTimeEstimator = updateTimeEstimator;
 
-// Accordion click handler function
-function handleCustomAccordionClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    
-    const button = this;
-    const targetId = button.getAttribute('data-accordion-target');
-    const target = document.querySelector(targetId);
-    const accordionContainer = button.closest('[data-custom-accordion]');
-    
-    if (!target || !accordionContainer) {
-        return;
-    }
-    
-    const isCurrentlyOpen = !target.classList.contains('hidden');
-    
-    // Close all accordion items in this container first
-    const allButtons = accordionContainer.querySelectorAll('[data-accordion-target]');
-    allButtons.forEach(btn => {
-        const btnTargetId = btn.getAttribute('data-accordion-target');
-        const btnTarget = document.querySelector(btnTargetId);
-        const btnIcon = btn.querySelector('[data-accordion-icon]');
-        
-        if (btnTarget) {
-            btnTarget.classList.add('hidden');
-            btn.setAttribute('aria-expanded', 'false');
-            
-            if (btnIcon) {
-                btnIcon.classList.remove('rotate-180');
-            }
-        }
-    });
-    
-    // If the clicked item was closed, open it
-    if (!isCurrentlyOpen) {
-        target.classList.remove('hidden');
-        button.setAttribute('aria-expanded', 'true');
-        
-        const currentIcon = button.querySelector('[data-accordion-icon]');
-        if (currentIcon) {
-            currentIcon.classList.add('rotate-180');
-        }
-    }
-}
+
 
 // Add event listeners for buttons and controls
 document.addEventListener('click', function(e) {
+    
+    
     // Handle accordion clicks
     const accordionButton = e.target.closest('[data-accordion-target]');
     if (accordionButton && accordionButton.closest('[data-custom-accordion]')) {
@@ -319,16 +323,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    
+    
     // Initialize accordion functionality immediately and with a longer delay as fallback
     initializeAccordions();
     setTimeout(initializeAccordions, 500);
-    
+
     // Initialize difficulty selection styling
     const checkedRadio = document.querySelector('input[name="difficulty"]:checked');
     if (checkedRadio) {
         updateDifficultySelection(checkedRadio);
     }
 });
+
+
 
 // Accordion functionality - now handled by the global click listener above
 function initializeAccordions() {

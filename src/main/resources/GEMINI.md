@@ -1,0 +1,1 @@
+This is the front-end code of a spring boot application using Thymeleaf template engine. Therefore the html files contains thymeleaf tags, which should not be modified.
