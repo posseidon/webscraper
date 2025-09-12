@@ -1,0 +1,153 @@
+<!-- Breadcrumb Navigation -->
+<nav class="flex px-4 py-3 text-gray-600 text-sm bg-white shadow-sm">
+    <ol class="inline-flex items-center space-x-1">
+        <li class="inline-flex items-center">
+            <a href="#" class="inline-flex items-center hover:text-blue-600">
+                Category
+            </a>
+        </li>
+        <li>
+            <div class="flex items-center">
+                <span class="mx-2">›</span>
+                <a href="#" class="hover:text-blue-600">Subcategory</a>
+            </div>
+        </li>
+        <li>
+            <div class="flex items-center">
+                <span class="mx-2">›</span>
+                <span class="text-gray-900">Title</span>
+            </div>
+        </li>
+    </ol>
+</nav>
+
+<!-- Topic Cards -->
+<div class="max-w-3xl mx-auto mt-6 space-y-4 px-4">
+    <!-- Topic Card -->
+    <div class="bg-white rounded-xl shadow p-5">
+        <h2 class="text-lg font-semibold text-gray-900">Topic Name</h2>
+        <p class="mt-2 text-gray-600">This is a short description of the topic. It gives users a quick overview
+            before they start the quiz.</p>
+        <div class="mt-4">
+            <button
+                class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-300">
+                Play Quiz
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Speed Dial -->
+<div class="fixed bottom-6 right-6 group">
+    <!-- Main FAB -->
+    <button type="button"
+        class="flex items-center justify-center w-14 h-14 bg-blue-600 rounded-full text-white shadow-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+        </svg>
+    </button>
+
+    <!-- FAB Items -->
+    <div class="flex flex-col items-center mb-4 space-y-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <!-- Audio -->
+        <button data-modal-target="audioModal" data-modal-toggle="audioModal"
+            class="flex items-center justify-center w-12 h-12 rounded-full bg-white text-gray-700 hover:bg-gray-100 shadow">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path d="M9 18V5l12-2v14l-12-2zM3 9v6" />
+            </svg>
+        </button>
+        <!-- Video -->
+        <button data-modal-target="videoModal" data-modal-toggle="videoModal"
+            class="flex items-center justify-center w-12 h-12 rounded-full bg-white text-gray-700 hover:bg-gray-100 shadow">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path
+                    d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14m-6 0a2 2 0 01-2-2V8a2 2 0 012-2h6a2 2 0 012 2v4a2 2 0 01-2 2H9z" />
+            </svg>
+        </button>
+        <!-- Mindmap -->
+        <button data-modal-target="mindmapModal" data-modal-toggle="mindmapModal"
+            class="flex items-center justify-center w-12 h-12 rounded-full bg-white text-gray-700 hover:bg-gray-100 shadow">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="3" />
+                <path
+                    d="M19.4 15a1.65 1.65 0 01.6 1.3v2a1.65 1.65 0 01-1.65 1.65H17M4.6 9A1.65 1.65 0 014 7.7V6a1.65 1.65 0 011.65-1.65H7" />
+            </svg>
+        </button>
+        <!-- Notes -->
+        <button data-modal-target="notesModal" data-modal-toggle="notesModal"
+            class="flex items-center justify-center w-12 h-12 rounded-full bg-white text-gray-700 hover:bg-gray-100 shadow">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path d="M4 4h16v12H4z" />
+                <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
+            </svg>
+        </button>
+        <!-- Tips -->
+        <button data-modal-target="tipsModal" data-modal-toggle="tipsModal"
+            class="flex items-center justify-center w-12 h-12 rounded-full bg-white text-gray-700 hover:bg-gray-100 shadow">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path
+                    d="M12 2a10 10 0 0110 10c0 3.866-2.238 7.163-5.5 8.65V22h-9v-1.35C4.238 19.163 2 15.866 2 12A10 10 0 0112 2z" />
+            </svg>
+        </button>
+    </div>
+</div>
+
+<!-- Modals -->
+<div id="audioModal" tabindex="-1" aria-hidden="true"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <h3 class="text-lg font-semibold">Audio Overview</h3>
+        <p class="mt-2 text-gray-600">Audio content goes here...</p>
+        <button data-modal-hide="audioModal" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">Close</button>
+    </div>
+</div>
+
+<div id="videoModal" tabindex="-1" aria-hidden="true"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <h3 class="text-lg font-semibold">Video Overview</h3>
+        <p class="mt-2 text-gray-600">Video content goes here...</p>
+        <button data-modal-hide="videoModal" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">Close</button>
+    </div>
+</div>
+
+<div id="mindmapModal" tabindex="-1" aria-hidden="true"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <h3 class="text-lg font-semibold">Mind Map</h3>
+        <p class="mt-2 text-gray-600">Mind map visualization goes here...</p>
+        <button data-modal-hide="mindmapModal" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">Close</button>
+    </div>
+</div>
+
+<div id="notesModal" tabindex="-1" aria-hidden="true"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <h3 class="text-lg font-semibold">Summary Notes</h3>
+        <p class="mt-2 text-gray-600">Notes content goes here...</p>
+        <button data-modal-hide="notesModal" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">Close</button>
+    </div>
+</div>
+
+<div id="tipsModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <h3 class="text-lg font-semibold">Study Tips</h3>
+        <p class="mt-2 text-gray-600">Tips content goes here...</p>
+        <button data-modal-hide="tipsModal" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">Close</button>
+    </div>
+</div>
+
+<div id="titleQuizModal" tabindex="-1" aria-hidden="true"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <h3 class="text-lg font-semibold">Title-Level Quiz</h3>
+        <p class="mt-2 text-gray-600">Start a quiz that covers all topics in this title.</p>
+        <button data-modal-hide="titleQuizModal" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">Close</button>
+    </div>
+</div>

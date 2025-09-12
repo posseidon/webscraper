@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class QuizConstants {
-    private QuizConstants() {}
+    private QuizConstants() {
+    }
 
     // Paths
     public static final String ROOT = "/";
@@ -33,7 +34,7 @@ public final class QuizConstants {
     public static final String ATTR_SUBCATEGORY = "subcategory";
     public static final String ATTR_TITLES = "titles";
     public static final String ATTR_TOPICS = "topics";
-    public static final String ATTR_TITLE = "title";
+    public static final String ATTR_TITLE = "currentTitle";
     public static final String ATTR_TITLE_OBJECT = "titleObject";
     public static final String ATTR_QUESTIONS = "questions";
     public static final String ATTR_TOTAL = "total";

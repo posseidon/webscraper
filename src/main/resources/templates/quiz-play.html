@@ -1,107 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
-      th:replace="~{fragments/layout :: layout (null, ~{::content})}" lang="en">
+    th:replace="~{fragments/layout :: layout (null, ~{::content})}" lang="en">
 
 <div th:fragment="content" class="container mx-auto px-4 pt-0 pb-48">
-    <!-- Quiz Header Section -->
-    <div class="flex justify-between items-center mb-6">
-        <!-- Timer Display with SVG Circle Progress -->
-        <div class="flex items-center space-x-4">
-            <div class="relative w-16 h-16 cursor-pointer" onclick="toggleTimer()">
-                <!-- Timer text positioned relative to centered control -->
-                <div class="absolute inset-0 flex flex-col items-center justify-center z-10 text-center">
-                    <!-- Time display positioned above the control -->
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <span id="timerDisplay" class="text-sm font-bold text-gray-800 dark:text-gray-100">00:00</span>
-                    </div>
-                    <div id="timerPlayIcon" class="absolute inset-0 flex items-center justify-center hidden">
-                        <svg class="w-12 h-12 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z"/>
-                        </svg>
-                    </div>
+    <!-- Breadcrumb Navigation -->
+    <nav id="breadcrumb" class="flex justify-center mb-6" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+            <li>
+                <div class="flex items-center">
+                    <a th:href="@{'/quiz/' + ${category} + '/' + ${subcategory}}"
+                        class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                        <span th:text="${subcategory}">Subcategory</span>
+                    </a>
                 </div>
-                <!-- SVG Circle Progress -->
-                <svg class="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
-                    <!-- Background circle -->
-                    <circle
-                            cx="18" cy="18" r="15.9155"
-                            stroke="#E5E7EB"
-                            stroke-width="3"
-                            fill="none"
-                            class="dark:stroke-gray-600"/>
-                    <!-- Progress circle -->
-                    <circle
-                            id="timerProgressCircle"
-                            cx="18" cy="18" r="15.9155"
-                            stroke="#3B82F6"
-                            stroke-width="3"
-                            stroke-linecap="round"
-                            fill="none"
-                            style="stroke-dasharray: 100 100; stroke-dashoffset: 0;"
-                            transform="rotate(-90 18 18)"/>
-                </svg>
-            </div>
-            <div class="text-left">
-                <div class="text-sm font-medium text-gray-600 dark:text-gray-300" data-translate="quiz.remaining_time">Remaining Time</div>
-            </div>
-        </div>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 9 4-4-4-4" />
+                    </svg>
+                    <a th:href="@{'/quiz/' + ${category} + '/' + ${subcategory} + '/' + ${currentTitle}}"
+                        class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                        <span id="title-breadcrumb" th:text="${currentTitle}">Title</span>
+                    </a>
+                </div>
+            </li>
+        </ol>
+    </nav>
 
-        <!-- Question Counter with Modern Design -->
-        <div class="flex items-center space-x-4">
-            <div class="text-right">
-                <div class="text-sm font-medium text-gray-600 dark:text-gray-300" data-translate="quiz.progress">Progress</div>
-            </div>
-            <div class="relative w-16 h-16">
-                <!-- Centered question counter -->
-                <div class="absolute inset-0 flex items-center justify-center z-10">
-                    <div class="flex flex-col items-center text-center">
-                        <span id="currentQuestionNum" class="text-sm font-bold text-gray-800 dark:text-gray-100">1</span>
-                        <div class="w-4 h-px bg-gray-400 dark:bg-gray-500 my-0.5"></div>
-                        <span id="totalQuestions" class="text-sm font-bold text-gray-800 dark:text-gray-100" th:text="${total}">10</span>
-                    </div>
-                </div>
-                <!-- SVG Circle Progress for Questions -->
-                <svg class="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
-                    <!-- background circle -->
-                    <circle
-                        cx="18" cy="18" r="15.9155"
-                        stroke="#E5E7EB"
-                        stroke-width="3"
-                        fill="none"
-                        class="dark:stroke-gray-600"/>
-                    <!-- progress circle -->
-                    <circle
-                        id="questionProgressCircle"
-                        cx="18" cy="18" r="15.9155"
-                        stroke="#10B981"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        fill="none"
-                        style="stroke-dasharray: 100 100; stroke-dashoffset: 100;"
-                        transform="rotate(-90 18 18)"/>
-                </svg>
-            </div>
-        </div>
-    </div>
 
     <!-- Question Container -->
     <div id="questionContainer">
         <!-- Question Card -->
-        <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6">
+        <div
+            class="max-w-4xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6">
+            <!-- Progress Bar -->
+            <div class="flex items-center space-x-4 w-full">
+                <div class="w-full bg-gray-200 rounded-t-lg dark:bg-gray-700">
+                    <div id="progressBar"
+                        class="bg-white dark:bg-gray-600 text-xs font-medium text-red-500 text-center p-0.5 leading-none rounded-t-lg"
+                        style="width: 0%"> 0%</div>
+                </div>
+            </div>
+
             <div class="p-6">
                 <!-- Question Text -->
                 <div class="mb-6">
-                    <h3 id="questionText" class="text-lg font-semibold text-gray-900 dark:text-white leading-relaxed" data-translate="quiz.loading">Loading question...</h3>
+                    <h3 id="questionText" class="text-lg font-semibold text-gray-900 dark:text-white leading-relaxed"
+                        data-translate="quiz.loading">Loading question...</h3>
                 </div>
-                
+
                 <!-- Options Container -->
                 <div id="optionsContainer" class="space-y-4">
                     <!-- Options will be populated by JavaScript -->
                 </div>
-                
+
                 <!-- Action Button -->
                 <div class="flex justify-center mt-8">
-                    <button id="actionBtn" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">
+                    <button id="actionBtn"
+                        class="py-2.5 px-4 bg-transparent text-black dark:text-white font-medium rounded-lg transition-colors duration-200">
                         <span data-translate="quiz.submit_answer">Submit Answer</span>
                     </button>
                 </div>
@@ -111,34 +70,42 @@
 
     <!-- Results Container (hidden initially) -->
     <div id="resultsContainer" class="hidden">
-        <!-- Score Summary Card -->
-        <div class="max-w-2xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-8">
-            <div class="p-8 text-center">
-                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6" data-translate="quiz.results">Quiz Results</h2>
-                
-                <!-- Score Circle -->
-                <div class="flex justify-center mb-6">
-                    <div class="relative w-32 h-32">
-                        <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                            <span id="scorePercentage" class="text-3xl font-bold text-white">0%</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <p class="text-lg text-gray-600 dark:text-gray-300">
-                    <span data-translate="quiz.you_got">You got</span> <span id="correctAnswers" class="font-bold text-green-600 dark:text-green-400">0</span> 
-                    <span data-translate="quiz.out_of">out of</span> <span id="totalQuestionsResult" class="font-bold">0</span> <span data-translate="quiz.questions_correct">questions correct!</span>
-                </p>
-                
-                <button id="finishQuizBtn" class="mt-6 px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">
-                    <span data-translate="quiz.back_to_titles">Back to Titles</span>
-                </button>
-            </div>
-        </div>
-        
         <!-- Wrong Answers Section -->
         <div id="wrongAnswersSection" class="max-w-4xl mx-auto">
-            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center" data-translate="quiz.review_wrong">Review Wrong Answers</h3>
+            <!-- Score Summary Card -->
+            <div id="quiz-result-header" class="mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-sm mb-8">
+                <div class="p-8 text-center">
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6" data-translate="quiz.results">Quiz
+                        Results</h2>
+
+                    <!-- Score Circle -->
+                    <div class="flex justify-center mb-6">
+                        <div class="relative w-32 h-32">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                                <span id="scorePercentage" class="text-3xl font-bold text-white">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-lg text-gray-600 dark:text-gray-300">
+                        <span data-translate="quiz.you_got">You got</span> <span id="correctAnswers"
+                            class="font-bold text-green-600 dark:text-green-400">0</span>
+                        <span data-translate="quiz.out_of">out of</span> <span id="totalQuestionsResult"
+                            class="font-bold">0</span>
+                        <span data-translate="quiz.questions_correct">questions
+                            correct!</span>
+                    </p>
+
+                    <button id="finishQuizBtn"
+                        class="mt-6 px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">
+                        <span data-translate="quiz.back_to_titles">Back to Titles</span>
+                    </button>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center"
+                data-translate="quiz.review_wrong">Review Wrong Answers</h3>
             <div id="wrongAnswersList" class="space-y-4">
                 <!-- Wrong answers will be populated here -->
             </div>
@@ -146,113 +113,116 @@
     </div>
 
     <!-- Explanation Modal (shown only for wrong answers) -->
-    <div id="explanation-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full h-auto">
+    <div id="explanation-modal" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-white bg-opacity-50 dark:bg-black dark:bg-opacity-50">
+        <div class="relative p-4 w-full h-auto max-w-4xl mx-auto">
             <!-- Modal content -->
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                <div
+                    class="flex items-center justify-between py-2 px-4 md:py-3 md:px-5 border-b rounded-t dark:border-gray-600">
                     <div class="flex items-center">
-                        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200 mr-3">
-                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM8.5 6A1.5 1.5 0 1 1 10 7.5 1.5 1.5 0 0 1 8.5 6ZM10 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/>
-                            </svg>
-                        </div>
                         <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                             <span data-translate="quiz.explanation">Explanation</span>
                         </h3>
                     </div>
-                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" id="close-explanation-modal">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
+                    <button id="continue-quiz-btn" type="button"
+                        class="py-2.5 px-4 bg-transparent text-black dark:text-white font-medium rounded-lg transition-colors duration-200"
+                        data-translate="quiz.next">Continue</button>
                 </div>
                 <!-- Modal body -->
                 <div class="p-4 md:p-5 space-y-4">
                     <div id="modal-explanation-content">
                         <div class="mb-4">
                             <p id="modal-explanation-text" class="text-gray-700 dark:text-gray-300">
-                                <span data-translate="quiz.explanation_placeholder">Answer explanation will appear here...</span>
+                                <span data-translate="quiz.explanation_placeholder">Answer explanation will appear
+                                    here...</span>
                             </p>
                         </div>
                     </div>
                 </div>
-                <!-- Modal footer -->
-                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button id="continue-quiz-btn" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" data-translate="quiz.next">Continue</button>
-                    <button id="close-explanation-modal-footer" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" data-translate="quiz.close">Close</button>
-                </div>
+
             </div>
         </div>
     </div>
 
-    <div id="helper-speed-dial" data-dial-init class="fixed end-6 bottom-16 z-30 group">
+    <!-- Speed dial -->
+    <div id="helper-speed-dial" class="fixed end-6 bottom-6 group" data-dial-init>
         <div id="speed-dial-menu-bottom-right" class="flex flex-col items-center hidden mb-4 space-y-2">
-        <!-- Vietnamese Filter Button (top) -->
-            <button type="button" data-tooltip-target="tooltip-vietnamese" data-tooltip-placement="left" class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 dark:border-gray-600 shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200" id="vietnamese-filter-btn">
+            <!-- Vietnamese Filter Button (top) -->
+            <button type="button" data-tooltip-target="tooltip-vietnamese" data-tooltip-placement="left"
+                class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 dark:border-gray-600 shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200"
+                id="vietnamese-filter-btn">
                 <span class="text-xl">🇻🇳</span>
                 <span class="sr-only">Vietnamese</span>
             </button>
-            <div id="tooltip-vietnamese" role="tooltip" class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+            <div id="tooltip-vietnamese" role="tooltip"
+                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
+                data-translate="speed_dial.tooltip_vietnamese" style="width: 200%;">
                 Vietnamese Only
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
 
             <!-- Hungarian Filter Button (middle) -->
-            <button type="button" data-tooltip-target="tooltip-hungarian" data-tooltip-placement="left" class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 dark:border-gray-600 shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200" id="hungarian-filter-btn">
+            <button type="button" data-tooltip-target="tooltip-hungarian" data-tooltip-placement="left"
+                class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 dark:border-gray-600 shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200"
+                id="hungarian-filter-btn">
                 <span class="text-xl">🇭🇺</span>
                 <span class="sr-only">Hungarian</span>
             </button>
-            <div id="tooltip-hungarian" role="tooltip" class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+            <div id="tooltip-hungarian" role="tooltip"
+                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
+                data-translate="speed_dial.tooltip_hungarian" style="width: 200%;">
                 Hungarian Only
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
 
             <!-- All Languages Filter Button (bottom, closest to main button) -->
-            <button type="button" data-tooltip-target="tooltip-all" data-tooltip-placement="left" class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 dark:border-gray-600 shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200 ring-2 ring-blue-500" id="all-filter-btn">
+            <button type="button" data-tooltip-target="tooltip-all" data-tooltip-placement="left"
+                class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 dark:border-gray-600 shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200 ring-2 ring-blue-500"
+                id="all-filter-btn">
                 <span class="text-xl">🌐</span>
-                <span class="sr-only">All Languages</span>
+                <span class="sr-only">Both Languages</span>
             </button>
-            <div id="tooltip-all" role="tooltip" class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                All Languages
+            <div id="tooltip-all" role="tooltip"
+                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
+                data-translate="speed_dial.tooltip_all" style="width: 200%;">
+                Both Languages
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
         </div>
-        <button type="button" id="language-speed-dial-btn" data-dial-toggle="speed-dial-menu-bottom-right" aria-controls="speed-dial-menu-bottom-right" aria-expanded="false" class="flex items-center justify-center text-white bg-blue-700 rounded-full w-14 h-14 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
-            <!-- Help Icon instead of plus -->
+        <button type="button" id="language-speed-dial-btn" data-dial-toggle="speed-dial-menu-bottom-right"
+            aria-controls="speed-dial-menu-bottom-right" aria-expanded="false"
+            class="flex items-center justify-center text-red dark:text-red bg-white dark:bg-black rounded-full w-14 h-14 hover:bg-gray-100 dark:hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 focus:outline-none">
+            <!-- Help Icon -->
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+                <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm3-1a1 1 0 100-2 1 1 0 000 2zm3 1a1 1 0 100-2 1 1 0 000 2zm-6 3a1 1 0 100-2 1 1 0 000 2zm3-1a1 1 0 100-2 1 1 0 000 2zm3 1a1 1 0 100-2 1 1 0 000 2z"
+                    clip-rule="evenodd" />
             </svg>
-            <span class="sr-only">Toggle language filter menu</span>
+            <span class="sr-only" data-translate="speed_dial.toggle_language_menu">Toggle language filter menu</span>
         </button>
     </div>
-
-
-
 
     <!-- Data injection for JavaScript -->
     <script th:inline="javascript">
         /*<![CDATA[*/
         // Pass quiz data to external JavaScript file
         try {
-            window.quizQuestionsData = /*[[${questions}]]*/ [];
-            console.log('Quiz questions data injected successfully:', window.quizQuestionsData);
-            console.log('Data type:', typeof window.quizQuestionsData);
-            console.log('Is array:', Array.isArray(window.quizQuestionsData));
-            console.log('Length:', window.quizQuestionsData ? window.quizQuestionsData.length : 'undefined');
+            window.quizQuestionsData = /*[[${questions}]]*/[];
+            window.currentQuizTitle = /*[[${currentTitle}]]*/ null;
         } catch (error) {
             console.error('Error injecting quiz data:', error);
             window.quizQuestionsData = [];
         }
         /*]]>*/
     </script>
-    
+
     <!-- External JavaScript file -->
     <!-- Conditional JS loading: minified for production, full for development -->
     <script th:if="${@environment.acceptsProfiles('prod')}" th:src="@{/js/quiz-play.js}" defer></script>
     <script th:unless="${@environment.acceptsProfiles('prod')}" th:src="@{/js/quiz-play.js}" defer></script>
+    <script th:src="@{/js/breadcrumb-truncation.js}" defer></script>
 </div>
 
 </html>

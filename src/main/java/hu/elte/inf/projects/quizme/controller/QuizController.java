@@ -92,8 +92,12 @@ public class QuizController {
         return VIEW_TOPICS;
     }
 
-    @PostMapping(QUIZ_PLAY)
-    public String playTopicQuiz(@PathVariable String topicId, Model model) {
+    @GetMapping(QUIZ_PLAY)
+    public String playTopicQuiz(@PathVariable String topicId,
+            @RequestParam(required = true) String title,
+            @RequestParam(required = true) String category,
+            @RequestParam(required = true) String subcategory,
+            Model model) {
         List<Question> questions = quizService.findQuestionsByTopicId(topicId);
 
         if (questions.isEmpty()) {
@@ -107,6 +111,9 @@ public class QuizController {
         model.addAttribute(ATTR_SELECTED_COUNT, questions.size());
         model.addAttribute(ATTR_SELECTED_DIFFICULTY, DIFFICULTY_MIXED);
         model.addAttribute(ATTR_QUIZ_TITLE, topicId);
+        model.addAttribute(ATTR_TITLE, title);
+        model.addAttribute(ATTR_CATEGORY, category);
+        model.addAttribute(ATTR_SUBCATEGORY, subcategory);
 
         return VIEW_QUIZ_PLAY;
     }

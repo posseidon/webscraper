@@ -49,20 +49,10 @@ document.addEventListener('click', function(e) {
         e.preventDefault();
         const topicId = playTopicQuizBtn.getAttribute('data-topic-id');
         const topicName = playTopicQuizBtn.getAttribute('data-topic-name');
-        console.log('playTopicQuizBtn clicked:', {
-            element: playTopicQuizBtn,
-            topicId: topicId,
-            topicName: topicName,
-            allAttributes: Array.from(playTopicQuizBtn.attributes).map(attr => ({name: attr.name, value: attr.value}))
-        });
-        
-        console.log('Element outer HTML:', playTopicQuizBtn.outerHTML);
-        console.log('Parent element:', playTopicQuizBtn.parentElement);
-        
         if (topicId && topicName) {
             playTopicQuiz(topicId, topicName);
         } else {
-            console.error('Missing topicId or topicName:', { topicId, topicName });
+            playTopicQuiz(topicId, topicName);
         }
         return;
     }
@@ -72,15 +62,10 @@ document.addEventListener('click', function(e) {
     if (topicContentDiv) {
         e.preventDefault();
         const topicId = topicContentDiv.getAttribute('data-topic-id');
-        console.log('topicContentDiv clicked:', {
-            element: topicContentDiv,
-            topicId: topicId
-        });
-        
         if (topicId) {
             startTopicQuizDirectly(topicId);
         } else {
-            console.error('Missing topicId:', { topicId });
+            startTopicQuizDirectly(topicId);
         }
         return;
     }
@@ -305,11 +290,8 @@ function updateTopicSliderValueDisplay(slider, topicId, value) {
 
 // Play topic quiz function - shows the topic quiz configuration modal
 function playTopicQuiz(topicId, topicName) {
-    console.log('playTopicQuiz called with:', {topicId, topicName});
-    
     // Validate inputs
     if (!topicId) {
-        console.error('Cannot start quiz: topicId is missing');
         alert('Error: Topic ID is missing. Cannot start quiz.');
         return;
     }
@@ -326,7 +308,6 @@ function showTopicQuizModal(topicId) {
     const modal = document.getElementById(modalId);
 
     if (modal) {
-        console.log('Showing modal:', modalId);
         modal.classList.remove('hidden');
         modal.setAttribute('aria-hidden', 'false');
         modal.setAttribute('tabindex', '0');
@@ -351,7 +332,6 @@ function showTopicQuizModal(topicId) {
         };
         document.addEventListener('keydown', escapeHandler);
     } else {
-        console.error('Modal not found:', modalId);
         // Fallback: start quiz immediately with default settings
         startTopicQuizDirectly(topicId);
     }
@@ -373,14 +353,10 @@ function hideTopicQuizModal(topicId) {
 
 // Fallback function to start quiz directly without modal
 function startTopicQuizDirectly(topicId) {
-    console.log('Starting quiz directly for topicId:', topicId);
-    
     // Create form to submit POST request to the playTopicQuiz endpoint
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = `/quiz/play/${encodeURIComponent(topicId)}`;
-    
-    console.log('Submitting form to:', form.action);
     
     // Submit form immediately - uses all available questions with mixed difficulty
     document.body.appendChild(form);
