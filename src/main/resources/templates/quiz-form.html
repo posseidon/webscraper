@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+    th:replace="~{fragments/layout :: layout (null, ~{::content})}" lang="en">
+<div id="content" th:fragment="content" class="container mx-auto px-4">
+    <div class="relative p-4 w-full max-w-full max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header - Top Row: Time Estimator | Space | Quiz Configuration -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                <!-- Quiz Configuration Label - Center -->
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    <span th:text="${titleObject.name}">Quiz Title</span>
+                </h3>
+            </div>
+            <!-- Modal body -->
+            <div class="p-4 md:p-5 space-y-8">
+                <!-- Difficulty Selection -->
+                <div class="space-y-4">
+                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">Difficulty Level</h4>
+                    <div class="flex flex-col sm:flex-row gap-3" role="group"
+                        th:attr="data-quiz-id=${titleObject.name.replaceAll('[^a-zA-Z0-9]', '-')}">
+
+                        <!-- Easy -->
+                        <div class="flex-1">
+                            <input type="radio" name="difficulty" id="easy" data-difficulty="easy"
+                                class="sr-only difficulty-radio" />
+                            <label for="easy"
+                                class="difficulty-btn group relative flex flex-col items-center justify-center p-4 bg-transparent border-none rounded-xl cursor-pointer transition-all duration-200">
+                                <div
+                                    class="w-8 h-8 mb-2 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="currentColor"
+                                        viewBox="0 0 20 20">
+                                        <path
+                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                </div>
+                                <span
+                                    class="text-sm font-medium text-gray-900 dark:text-white group-hover:text-green-700 dark:group-hover:text-green-300"
+                                    data-translate="modal.easy">Easy</span>
+                            </label>
+                        </div>
+
+                        <!-- Medium -->
+                        <div class="flex-1">
+                            <input type="radio" name="difficulty" id="medium" data-difficulty="medium"
+                                class="sr-only difficulty-radio" />
+                            <label for="medium"
+                                class="difficulty-btn group relative flex flex-col items-center justify-center p-4 bg-transparent border-none rounded-xl cursor-pointer transition-all duration-200">
+                                <div
+                                    class="w-8 h-8 mb-2 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-yellow-600 dark:text-yellow-400" fill="currentColor"
+                                        viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <span
+                                    class="text-sm font-medium text-gray-900 dark:text-white group-hover:text-yellow-700 dark:group-hover:text-yellow-300"
+                                    data-translate="modal.medium">Medium</span>
+                            </label>
+                        </div>
+
+                        <!-- Hard -->
+                        <div class="flex-1">
+                            <input type="radio" name="difficulty" id="hard" data-difficulty="hard"
+                                class="sr-only difficulty-radio" />
+                            <label for="hard"
+                                class="difficulty-btn group relative flex flex-col items-center justify-center p-4 bg-transparent border-none rounded-xl cursor-pointer transition-all duration-200">
+                                <div
+                                    class="w-8 h-8 mb-2 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-red-600 dark:text-red-400" fill="currentColor"
+                                        viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732L14.146 12.8l-1.179 4.456a1 1 0 01-1.934 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732L9.854 7.2l1.179-4.456A1 1 0 0112 2z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <span
+                                    class="text-sm font-medium text-gray-900 dark:text-white group-hover:text-red-700 dark:group-hover:text-red-300"
+                                    data-translate="modal.hard">Hard</span>
+                            </label>
+                        </div>
+
+                        <!-- Mixed -->
+                        <div class="flex-1">
+                            <input type="radio" name="difficulty" id="mixed" data-difficulty="mixed"
+                                class="sr-only difficulty-radio" checked />
+                            <label for="mixed"
+                                class="difficulty-btn group relative flex flex-col items-center justify-center p-4 bg-transparent border-none rounded-xl cursor-pointer transition-all duration-200">
+                                <div
+                                    class="w-8 h-8 mb-2 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="currentColor"
+                                        viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01.293.707V12a1 1 0 102 0V9a1 1 0 01.293-.707L13.586 6H12a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293A1 1 0 0112 9v3a3 3 0 11-6 0V8a1 1 0 01.293-.707L8.586 5H7a1 1 0 01-1-1z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <span class="text-sm font-medium text-blue-700 dark:text-blue-300"
+                                    data-translate="modal.mixed">Mixed</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Third Row: Range Slider -->
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        data-translate="modal.number_of_questions">Number of Questions</label>
+                    <div class="relative mb-4">
+                        <div class="slider-container relative">
+                            <input type="range" min="10" th:max="${titleObject.totalQuestions}"
+                                th:value="${titleObject.totalQuestions}"
+                                th:step="${titleObject.totalQuestions > 130 ? (titleObject.totalQuestions / 13) : 1}"
+                                class="enhanced-slider w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 accent-blue-600">
+                            <!-- Slider thumb value display -->
+                            <div class="slider-value absolute bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded-md -top-10 left-0 transform -translate-x-1/2 pointer-events-none opacity-0 transition-opacity duration-200"
+                                th:text="${titleObject.totalQuestions}">20</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal footer - Last Row: Play Quiz and Cancel buttons -->
+            <div
+                class="flex items-center justify-center gap-4 p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button id="start-quiz-btn" type="button"
+                    class="start-quiz-btn py-2.5 px-6 text-sm font-medium text-gray-900 focus:outline-none bg-transparent border-none rounded-lg hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:text-gray-400 dark:hover:text-white"
+                    th:attr="data-quiz-id=${titleObject.name}, data-category=${category}">
+                    <span data-translate="modal.play_quiz">Play Quiz</span>
+                </button>
+                <button id="cancel-quiz-btn" type="button"
+                    th:onclick="'window.location.href = \'' + @{/quiz/{category}/{subcategory}/{title}(category=${category}, subcategory=${subcategory}, title=${titleObject.name})} + '\';'"
+                    class="cancel-quiz-btn py-2.5 px-6 text-sm font-medium text-gray-900 focus:outline-none bg-transparent border-none rounded-lg hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:text-gray-400 dark:hover:text-white">
+                    <span data-translate="modal.cancel">Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include external JavaScript file -->
+    <script th:if="${@environment.acceptsProfiles('prod')}" th:src="@{/js/quiz-form.js}" defer></script>
+    <script th:unless="${@environment.acceptsProfiles('prod')}" th:src="@{/js/quiz-form.js}" defer></script>
+
+</div>
+
+
+</html>

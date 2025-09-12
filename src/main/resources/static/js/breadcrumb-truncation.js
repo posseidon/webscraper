@@ -1,32 +1,27 @@
 // breadcrumb-truncation.js
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const breadcrumb = document.getElementById('breadcrumb');
     if (breadcrumb) {
-        const originalTextElement = breadcrumb.querySelector('#title-breadcrumb'); // Assuming the actual title is inside this span
-        if (!originalTextElement) return; // Exit if the element is not found
+        const elementsToTruncate = breadcrumb.querySelectorAll('#title-breadcrumb span, #topic-breadcrumb span');
 
-        const originalText = originalTextElement.textContent.trim();
-        const words = originalText.split(' ');
-        const maxWords = 3; // Keep the first 3 words
-        const minLengthForTruncation = 25; // Only truncate if the original text is longer than this
+        elementsToTruncate.forEach(element => {
+            const originalText = element.textContent.trim();
+            const words = originalText.split(' ');
+            const maxWords = 8; // Keep the first 3 words
+            const minLengthForTruncation = 50; // Only truncate if the original text is longer than this
 
-        function truncateBreadcrumb() {
-            // Only truncate if the original text is long enough to warrant it
-            if (originalText.length > minLengthForTruncation && words.length > maxWords) {
-                const truncatedWords = words.slice(0, maxWords);
-                originalTextElement.textContent = truncatedWords.join(' ') + ' ...';
-            } else {
-                originalTextElement.textContent = originalText; // Ensure original text is shown if it fits or is short
+            function truncate() {
+                if (originalText.length > minLengthForTruncation && words.length > maxWords) {
+                    const truncatedWords = words.slice(0, maxWords);
+                    element.textContent = truncatedWords.join(' ') + ' ...';
+                } else {
+                    element.textContent = originalText;
+                }
             }
-        }
 
-        // Initial truncation
-        truncateBreadcrumb();
-
-        // Re-truncate on window resize (for responsive behavior)
-        // This might be tricky with word-based truncation, as available space changes.
-        // For now, we'll re-apply the word-based truncation.
-        window.addEventListener('resize', truncateBreadcrumb);
+            truncate();
+            window.addEventListener('resize', truncate);
+        });
     }
 });

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" th:fragment="layout (title, content)">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title th:text="${title}">Quiz Application</title>
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{/images/logo.svg}">
+
+    <!-- Open Graph meta tags for social media sharing -->
+    <meta property="og:title" content="QuizMe" />
+    <meta property="og:description" content="A simple quiz app to test your knowledge." />
+    <meta property="og:image" th:content="@{/images/logo.svg}" />
+    <meta property="og:type" content="website" />
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link th:href="@{/css/min/styles.min.css}" rel="stylesheet" />
+    <!-- Conditional JS loading: minified for production, full for development -->
+    <script th:if="${@environment.acceptsProfiles('prod')}" th:src="@{/js/min/language.min.js}" defer></script>
+    <script th:unless="${@environment.acceptsProfiles('prod')}" th:src="@{/js/language.js}" defer></script>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 pt-0 pb-0">
+    <br />
+    <main th:replace="${content}">
+        <!-- Page content will be inserted here -->
+    </main>
+
+</body>
+
+</html>

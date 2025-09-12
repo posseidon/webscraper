@@ -10,40 +10,40 @@ document.addEventListener('DOMContentLoaded', () => {
             const questionCountSlider = document.querySelector('.enhanced-slider');
             const questionCount = questionCountSlider ? questionCountSlider.value : 10; // Default to 10 if slider not found
 
-            const url = `/quiz/start/${titleName}`;
-
-            const requestBody = {
-                questionCount: parseInt(questionCount),
-                difficulty: difficulty
-            };
-
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(requestBody)
-                });
-
-                if (response.ok) {
-                    const responseData = await response.json();
-                    // Assuming the response contains a URL to redirect to the quiz page
-                    if (responseData.redirectUrl) {
-                        window.location.href = responseData.redirectUrl;
-                    } else {
-                        // Fallback or error handling if no redirectUrl is provided
-                        console.error('No redirect URL provided in response.');
-                        alert('Quiz started, but no redirect URL was provided.');
-                    }
-                } else {
-                    console.error('Failed to start quiz:', response.status, response.statusText);
-                    alert('Failed to start quiz. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error starting quiz:', error);
-                alert('An error occurred while trying to start the quiz.');
-            }
+            startTitleQuiz(titleName);
         });
     }
 });
+
+// Function to start title quiz (main quiz)
+function startTitleQuiz(titleId) {
+    // Get selected difficulty
+    const selectedDifficulty = document.querySelector('input[name="difficulty"]:checked');
+    const difficulty = selectedDifficulty ? selectedDifficulty.getAttribute('data-difficulty') : 'mixed';
+
+    // Get selected question count
+    const questionCountSlider = document.querySelector('.enhanced-slider');
+    const questionCount = questionCountSlider ? questionCountSlider.value : 10; // Default to 10 if slider not found
+
+    // Create form to submit POST request to start title quiz
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = `/quiz/start/${encodeURIComponent(titleId)}`;
+
+    // Add form parameters
+    const difficultyInput = document.createElement('input');
+    difficultyInput.type = 'hidden';
+    difficultyInput.name = 'difficulty';
+    difficultyInput.value = difficulty;
+    form.appendChild(difficultyInput);
+
+    const questionCountInput = document.createElement('input');
+    questionCountInput.type = 'hidden';
+    questionCountInput.name = 'questionCount';
+    questionCountInput.value = questionCount.toString();
+    form.appendChild(questionCountInput);
+
+    // Submit form
+    document.body.appendChild(form);
+    form.submit();
+}

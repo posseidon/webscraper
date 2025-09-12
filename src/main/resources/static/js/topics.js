@@ -6,7 +6,7 @@ function updateTopicTimeEstimator(topicId, numberOfQuestions) {
     if (timeDisplayElement) {
         // Calculate time in minutes (10 seconds per question)
         const timeInMinutes = Math.round((numberOfQuestions * 10.0 / 60.0) * 10.0) / 10.0;
-        
+
         // Update time display
         timeDisplayElement.textContent = timeInMinutes.toFixed(1);
 
@@ -42,7 +42,7 @@ function setProgress(circle, percent) {
 window.updateTopicTimeEstimator = updateTopicTimeEstimator;
 
 // Add event listeners for topic functionality
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     // Handle play topic quiz button clicks (main quiz start button)
     const playTopicQuizBtn = e.target.closest('.play-topic-quiz-btn');
     if (playTopicQuizBtn) {
@@ -69,8 +69,8 @@ document.addEventListener('click', function(e) {
         }
         return;
     }
-    
-    
+
+
     // Handle topic quiz modal start button
     const startTopicQuizBtn = e.target.closest('.start-topic-quiz-btn');
     if (startTopicQuizBtn) {
@@ -222,7 +222,7 @@ function updateTopicDifficultySelection(selectedRadio) {
 }
 
 // Add event listener for range slider
-document.addEventListener('input', function(e) {
+document.addEventListener('input', function (e) {
     // Check if it's any range input for topics
     if (e.target.type === 'range' && e.target.id.includes('topic-questions-range-')) {
         const topicId = e.target.getAttribute('data-quiz-id');
@@ -295,7 +295,7 @@ function playTopicQuiz(topicId, topicName) {
         alert('Error: Topic ID is missing. Cannot start quiz.');
         return;
     }
-    
+
     // Show the topic quiz modal
     showTopicQuizModal(topicId);
 }
@@ -317,14 +317,14 @@ function showTopicQuizModal(topicId) {
         modal.focus();
 
         // Add modal backdrop click handler
-        modal.addEventListener('click', function(e) {
+        modal.addEventListener('click', function (e) {
             if (e.target === modal) {
                 hideTopicQuizModal(topicId);
             }
         });
 
         // Add escape key handler
-        const escapeHandler = function(e) {
+        const escapeHandler = function (e) {
             if (e.key === 'Escape') {
                 hideTopicQuizModal(topicId);
                 document.removeEventListener('keydown', escapeHandler);
@@ -357,7 +357,7 @@ function startTopicQuizDirectly(topicId) {
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = `/quiz/play/${encodeURIComponent(topicId)}`;
-    
+
     // Submit form immediately - uses all available questions with mixed difficulty
     document.body.appendChild(form);
     form.submit();
@@ -368,29 +368,29 @@ function startTopicQuiz(topicId, topicName, category, subcategory, title) {
     // Get selected difficulty
     const selectedDifficulty = document.querySelector(`input[name="topic-difficulty-${topicId.replace(/[^a-zA-Z0-9]/g, '-')}"]:checked`);
     const difficulty = selectedDifficulty ? selectedDifficulty.getAttribute('data-difficulty') : 'mixed';
-    
+
     // Get selected question count
     const rangeSlider = document.getElementById(`topic-questions-range-${topicId.replace(/[^a-zA-Z0-9]/g, '-')}`);
     const questionCount = rangeSlider ? parseInt(rangeSlider.value) : 0;
-    
+
     // Create form to submit POST request to the startQuiz endpoint
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = `/quiz/start/${encodeURIComponent(topicId)}`;
-    
+
     // Add form parameters
     const difficultyInput = document.createElement('input');
     difficultyInput.type = 'hidden';
     difficultyInput.name = 'difficulty';
     difficultyInput.value = difficulty;
     form.appendChild(difficultyInput);
-    
+
     const questionCountInput = document.createElement('input');
     questionCountInput.type = 'hidden';
     questionCountInput.name = 'questionCount';
     questionCountInput.value = questionCount.toString();
     form.appendChild(questionCountInput);
-    
+
     // Submit form
     document.body.appendChild(form);
     form.submit();
@@ -405,19 +405,19 @@ function showTitleQuizModal() {
         modal.setAttribute('aria-hidden', 'false');
         modal.setAttribute('tabindex', '0');
         document.body.classList.add('overflow-hidden');
-        
+
         // Focus on modal for accessibility
         modal.focus();
-        
+
         // Add modal backdrop click handler
-        modal.addEventListener('click', function(e) {
+        modal.addEventListener('click', function (e) {
             if (e.target === modal) {
                 hideTitleQuizModal();
             }
         });
-        
+
         // Add escape key handler
-        const escapeHandler = function(e) {
+        const escapeHandler = function (e) {
             if (e.key === 'Escape') {
                 hideTitleQuizModal();
                 document.removeEventListener('keydown', escapeHandler);
@@ -443,29 +443,30 @@ function startTitleQuiz(titleId, category) {
     // Get selected difficulty
     const selectedDifficulty = document.querySelector('input[name="difficulty"]:checked');
     const difficulty = selectedDifficulty ? selectedDifficulty.getAttribute('data-difficulty') : 'mixed';
-    
+
     // Get selected question count
     const rangeSlider = document.querySelector(`[id^="questions-range-"]`);
     const questionCount = rangeSlider ? parseInt(rangeSlider.value) : 0;
-    
+
     // Create form to submit POST request to start title quiz
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = `/quiz/start/${encodeURIComponent(titleId)}`;
-    
+
     // Add form parameters
     const difficultyInput = document.createElement('input');
     difficultyInput.type = 'hidden';
     difficultyInput.name = 'difficulty';
     difficultyInput.value = difficulty;
     form.appendChild(difficultyInput);
-    
+
     const questionCountInput = document.createElement('input');
     questionCountInput.type = 'hidden';
     questionCountInput.name = 'questionCount';
     questionCountInput.value = questionCount.toString();
     form.appendChild(questionCountInput);
-    
+
+    console.log(form);
     // Submit form
     document.body.appendChild(form);
     form.submit();
@@ -475,12 +476,12 @@ function startTitleQuiz(titleId, category) {
 function updateMainQuizDifficultySelection(selectedRadio) {
     // Get all difficulty radios in the main quiz modal
     const allRadios = document.querySelectorAll('input[name="difficulty"]');
-    
+
     allRadios.forEach(radio => {
         const label = document.querySelector(`label[for="${radio.id}"]`);
         if (label) {
             const difficulty = radio.getAttribute('data-difficulty');
-            
+
             // Reset all labels to default state
             label.classList.remove(
                 'border-green-500', 'bg-green-50', 'dark:border-green-400', 'dark:bg-green-900/20',
@@ -489,11 +490,11 @@ function updateMainQuizDifficultySelection(selectedRadio) {
                 'border-blue-500', 'bg-blue-50', 'dark:border-blue-400', 'dark:bg-blue-900/20'
             );
             label.classList.add('border-gray-200', 'dark:border-gray-600');
-            
+
             // If this is the selected radio, apply active styling
             if (radio.checked) {
                 label.classList.remove('border-gray-200', 'dark:border-gray-600');
-                
+
                 switch (difficulty) {
                     case 'easy':
                         label.classList.add('border-green-500', 'bg-green-50', 'dark:border-green-400', 'dark:bg-green-900/20');
@@ -521,7 +522,7 @@ function updateMainQuizTimeEstimator(titleId, numberOfQuestions) {
     if (timeDisplayElement) {
         // Calculate time in minutes (10 seconds per question)
         const timeInMinutes = Math.round((numberOfQuestions * 10.0 / 60.0) * 10.0) / 10.0;
-        
+
         // Update time display
         timeDisplayElement.textContent = timeInMinutes.toFixed(1);
 
@@ -544,32 +545,32 @@ function updateMainQuizTimeEstimator(titleId, numberOfQuestions) {
 // Function to update slider value display for main quiz
 function updateMainQuizSliderValueDisplay(slider, titleId, value) {
     const valueDisplay = document.getElementById('slider-value-' + titleId);
-    
+
     if (valueDisplay) {
         // Update the text content
         valueDisplay.textContent = value;
-        
+
         // Calculate the position of the thumb
         const min = parseFloat(slider.min);
         const max = parseFloat(slider.max);
         const val = parseFloat(value);
-        
+
         // Calculate percentage position (0-100%)
         const percent = (val - min) / (max - min);
-        
+
         // Get slider width and account for thumb width (20px)
         const sliderWidth = slider.offsetWidth;
         const thumbWidth = 20;
-        
+
         // Calculate position accounting for thumb being centered
         const position = percent * (sliderWidth - thumbWidth) + (thumbWidth / 2);
-        
+
         // Update position
         valueDisplay.style.left = position + 'px';
-        
+
         // Show the value display when slider is being moved
         valueDisplay.style.opacity = '1';
-        
+
         // Hide after a delay when not actively moving
         clearTimeout(valueDisplay.hideTimeout);
         valueDisplay.hideTimeout = setTimeout(() => {

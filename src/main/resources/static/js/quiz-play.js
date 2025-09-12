@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function initializeQuiz() {
 
         // Debug logging to understand what data we have
-        
+
 
         // Questions data will be passed from the HTML template
         if (window.quizQuestionsData && Array.isArray(window.quizQuestionsData) && window.quizQuestionsData.length > 0) {
@@ -197,7 +197,7 @@ function loadQuestion(index) {
 
         optionCard.innerHTML = `
             <div class="flex items-center">
-                <input type="radio" name="answer" value="${optionIndex}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <input type="radio" name="answer" value="${optionIndex}" class="w-4 h-4 text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 border-none bg-transparent">
                 <label class="ml-3 text-sm text-gray-900 dark:text-white font-medium cursor-pointer">${option}</label>
             </div>
         `;
@@ -218,8 +218,9 @@ function loadQuestion(index) {
     if (actionBtn) {
         // Don't change the button text on initial load - it already has the correct translation span
         // The template provides: <span data-translate="quiz.submit_answer">Submit Answer</span>
-        actionBtn.className = 'px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800';
+        actionBtn.className = 'py-2.5 px-4 bg-transparent text-black dark:text-white font-medium rounded-lg transition-colors duration-200 border-none hover:bg-gray-100 dark:hover:bg-gray-700';
         actionBtn.dataset.mode = 'submit';
+        actionBtn.disabled = true; // Disable until an option is selected
     }
 
     // Hide the bottom banner for new questions
@@ -244,6 +245,11 @@ function selectOption(optionIndex) {
     // Check the radio button
     const radioButton = selectedCard.querySelector('input[type="radio"]');
     radioButton.checked = true;
+
+    const actionBtn = document.getElementById('actionBtn');
+    if (actionBtn) {
+        actionBtn.disabled = false; // Enable the button when an option is selected
+    }
 }
 
 function submitAnswer() {
@@ -333,7 +339,7 @@ function submitAnswer() {
         if (currentQuestionIndex < questions.length - 1) {
             // Create span with translation attribute for Next button
             actionBtn.innerHTML = `<span data-translate="quiz.next">Next</span>`;
-            actionBtn.className = 'px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800';
+            actionBtn.className = 'py-2.5 px-4 bg-transparent text-black dark:text-white font-medium rounded-lg transition-colors duration-200 border-none hover:bg-gray-100 dark:hover:bg-gray-700';
             actionBtn.dataset.mode = 'next';
 
             // Manually translate the new content if language manager is available
@@ -346,7 +352,7 @@ function submitAnswer() {
         } else {
             // Create span with translation attribute for Finish button
             actionBtn.innerHTML = `<span data-translate="quiz.finish">Finish Quiz</span>`;
-            actionBtn.className = 'px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors duration-200 focus:ring-4 focus:ring-purple-300 dark:focus:ring-purple-800';
+            actionBtn.className = 'py-2.5 px-4 bg-transparent text-black dark:text-white font-medium rounded-lg transition-colors duration-200 border-none hover:bg-gray-100 dark:hover:bg-gray-700';
             actionBtn.dataset.mode = 'evaluate';
 
             // Manually translate the new content if language manager is available
