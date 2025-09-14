@@ -41,6 +41,7 @@
                     </ul>
                 </div>
                 <!-- Study Tips -->
+                <!--
                 <div class="mt-4">
                     <h3 class="text-md font-semibold text-gray-900 dark:text-white mb-2"><span
                             data-translate="titles.study_tips">Study Tips</span></h3>
@@ -54,15 +55,19 @@
                     </ul>
                 </div>
                 <br />
+                -->
             </div>
-            <!-- View Topics Button -->
-            <a th:href="@{'/quiz/' + ${category} + '/' + ${subcategory} + '/' + ${title.name}}"
-                class="w-full inline-block text-center text-black dark:text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 p-3 mt-auto">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-                <span data-translate="titles.view_topics">View Topics</span>
-            </a>
+            <div class="p-3 flex flex-col pb-20">
+                <!-- View Topics Button -->
+                <a id="view-topics-btn" th:href="@{'/quiz/' + ${category} + '/' + ${subcategory} + '/' + ${title.name}}"
+                    class="inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white self-center">
+                    <span data-translate="titles.view_topics">View Topics</span>
+                    <svg class="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
         </div>
 
         <!-- Empty State -->

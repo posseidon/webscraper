@@ -3,63 +3,181 @@
     th:replace="~{fragments/layout-quiz :: layout (null, ~{::content})}" lang="en">
 
 <div th:fragment="content" class="container mx-auto px-4 pt-0 pb-48">
-    <!-- Breadcrumb Navigation -->
-    <nav id="breadcrumb" class="flex justify-center mb-8" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-            <li aria-current="page">
-                <div id="topic-breadcrumb" class="flex items-center">
-                    <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m1 9 4-4-4-4" />
-                    </svg>
-                    <a th:href="@{'/quiz/' + ${category} + '/' + ${subcategory} + '/' + ${currentTitle}}"
-                        class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                        <span th:text="${quizTitle}">Topic Name</span>
-                    </a>
-                </div>
-            </li>
-        </ol>
-    </nav>
+    <!-- Quiz card flipper -->
+    <div id="quizContent" class="relative max-w-4xl mx-auto">
+        <button id="flipCardBtn"
+            class="absolute bottom-4 right-4 z-50 w-8 h-8 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="w-full h-full bi bi-gear-fill" viewBox="0 0 16 16">
+                <path
+                    d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311a1.464 1.464 0 0 1 0 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105 0l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-1.283.698-.705 2.686 1.987 1.987l.31-.17a1.464 1.464 0 0 1 2.105-.872l.1-.34c.413-1.4 2.397-1.4 2.81 0l.1.34a1.464 1.464 0 0 1 2.105.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 0-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105 0l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c1.283-.698.705-2.686-1.987-1.987l-.31.17a1.464 1.464 0 0 1-2.105.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.858 2.929 2.929 0 0 1 0 5.858z" />
+            </svg>
+        </button>
 
+        <div id="quiz-card" class="relative w-full h-full"
+            style="transform-style: preserve-3d; transition: transform 0.6s;">
+            <div id="questionContainer" class="w-full h-full" style="backface-visibility: hidden;">
+                <!-- Question Card -->
+                <div
+                    class="max-w-4xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6">
 
-    <!-- Question Container -->
-    <div id="questionContainer">
-        <!-- Question Card -->
-        <div
-            class="max-w-4xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6">
-            <!-- Progress Bar -->
-            <div class="flex items-center space-x-4 w-full">
-                <div class="w-full bg-gray-200 rounded-t-lg dark:bg-gray-700">
-                    <div id="progressBar"
-                        class="bg-white dark:bg-gray-600 text-xs font-medium text-red-500 text-center p-0.5 leading-none rounded-t-lg"
-                        style="width: 0%"> 0%</div>
+                    <div class="p-6">
+                        <!-- Question Text -->
+                        <div class="mb-6">
+                            <h3 id="questionText"
+                                class="text-lg font-semibold text-gray-900 dark:text-white leading-relaxed"
+                                data-translate="quiz.loading">Loading question...</h3>
+                        </div>
+
+                        <!-- Options Container -->
+                        <div id="optionsContainer" class="space-y-4">
+                            <!-- Options will be populated by JavaScript -->
+                        </div>
+
+                        <!-- Action Button -->
+                        <div class="flex justify-center mt-8">
+                            <button id="actionBtn"
+                                class="inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white">
+                                <span data-translate="quiz.submit_answer">Submit Answer</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="p-6">
-                <!-- Question Text -->
-                <div class="mb-6">
-                    <h3 id="questionText" class="text-lg font-semibold text-gray-900 dark:text-white leading-relaxed"
-                        data-translate="quiz.loading">Loading question...</h3>
+            <div id="quizActions"
+                class="absolute top-0 left-0 w-full h-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm flex flex-col"
+                style="backface-visibility: hidden; transform: rotateY(180deg);">
+                <div id="quiz-action-header" class="p-4 border-b dark:border-gray-600" style="height: 12%;">
+                    <div class="flex justify-between items-center w-full">
+                        <a id="goto-quiz-btn"
+                            class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </a>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white text-center flex-grow"
+                            th:text="${quizTitle}">
+                        </h3>
+                        <a id="close-settings-btn"
+                            class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                                <path fill-rule="evenodd"
+                                    d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
+                <div id="quiz-action-body" class="flex-grow flex items-center justify-center"
+                    style="height: 70%; overflow-y: auto;">
+                    <article class="format lg:format-lg">
+                        <h1>Prototyping from A to Z: best practices for successful prototypes</h1>
+                        <p class="lead">Flowbite is an open-source library of UI components built with the
+                            utility-first classes from
+                            Tailwind CSS. It also includes interactive elements such as dropdowns, modals,
+                            datepickers.</p>
+                        <p>Before going digital, you might benefit from scribbling down some ideas in a sketchbook.
+                            This way, you can think
+                            things through before committing to an actual design project.</p>
+                        <p>But then I found a <a href="#">component library based on Tailwind CSS called
+                                Flowbite</a>. It comes with the
+                            most commonly used UI components, such as buttons, navigation bars, cards, form
+                            elements, and more which are
+                            conveniently built with the utility classes from Tailwind CSS.</p>
 
-                <!-- Options Container -->
-                <div id="optionsContainer" class="space-y-4">
-                    <!-- Options will be populated by JavaScript -->
+                        ...
+
+                        <h2>When does design come in handy?</h2>
+                        <p>While it might seem like extra work at a first glance, here are some key moments in which
+                            prototyping will come
+                            in handy:</p>
+                        <ol>
+                            <li><strong>Usability testing</strong>. Does your user know how to exit out of screens?
+                                Can they follow your
+                                intended user journey and buy something from the site you’ve designed? By running a
+                                usability test, you’ll
+                                be able to see how users will interact with your design once it’s live;</li>
+                            <li><strong>Involving stakeholders</strong>. Need to check if your GDPR consent boxes
+                                are displaying properly?
+                                Pass your prototype to your data protection team and they can test it for real;</li>
+                            <li><strong>Impressing a client</strong>. Prototypes can help explain or even sell your
+                                idea by providing your
+                                client with a hands-on experience;</li>
+                            <li><strong>Communicating your vision</strong>. By using an interactive medium to
+                                preview and test design
+                                elements, designers and developers can understand each other — and the project —
+                                better.</li>
+                        </ol>
+                    </article>
                 </div>
+                <div id="quiz-action-footer"
+                    class="fixed bottom-0 start-0 z-50 flex justify-between w-full p-4 border-t border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                    <div class="col-span-1 flex items-center justify-between w-full">
+                        <a id="quit-quiz-btn" th:href="@{'/quiz/' + ${category} + '/' + ${subcategory}}"
+                            class="inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7">
+                                </path>
+                            </svg>
+                            <span data-translate="quiz.quit_quiz">Quit Quiz</span>
+                        </a>
+                    </div>
+                    <div class="col-span-1 flex items-center justify-between w-full">
+                        <!-- Vietnamese Filter Button (top) -->
+                        <button type="button"
+                            class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-transparent rounded-full border-none shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200"
+                            id="vietnamese-filter-btn">
+                            <span class="text-xl">🇻🇳</span>
+                            <span class="sr-only">Vietnamese</span>
+                        </button>
+                        <div id="tooltip-vietnamese" role="tooltip"
+                            class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
+                            data-translate="speed_dial.tooltip_vietnamese" style="width: 200%;">
+                            Vietnamese Only
+                            <div class="tooltip-arrow" data-popper-arrow></div>
+                        </div>
 
-                <!-- Action Button -->
-                <div class="flex justify-center mt-8">
-                    <button id="actionBtn"
-                        class="py-2.5 px-4 bg-transparent text-black dark:text-white font-medium rounded-lg transition-colors duration-200 border-none hover:bg-gray-100 dark:hover:bg-gray-700"
-                        style="background-color: transparent !important; border: none !important;">
-                        <span data-translate="quiz.submit_answer">Submit Answer</span>
-                    </button>
+                        <!-- Hungarian Filter Button (middle) -->
+                        <button type="button"
+                            class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-transparent rounded-full border-none shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200"
+                            id="hungarian-filter-btn">
+                            <span class="text-xl">🇭🇺</span>
+                            <span class="sr-only">Hungarian</span>
+                        </button>
+                        <div id="tooltip-hungarian" role="tooltip"
+                            class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
+                            data-translate="speed_dial.tooltip_hungarian" style="width: 200%;">
+                            Hungarian Only
+                            <div class="tooltip-arrow" data-popper-arrow></div>
+                        </div>
+
+                        <!-- All Languages Filter Button (bottom, closest to main button) -->
+                        <button type="button"
+                            class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-transparent rounded-full border-none shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200 ring-2 ring-blue-500"
+                            id="all-filter-btn">
+                            <span class="text-xl">🌐</span>
+                            <span class="sr-only">Both Languages</span>
+                        </button>
+                        <div id="tooltip-all" role="tooltip"
+                            class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
+                            data-translate="speed_dial.tooltip_all" style="width: 200%;">
+                            Both Languages
+                            <div class="tooltip-arrow" data-popper-arrow></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 
     <!-- Results Container (hidden initially) -->
     <div id="resultsContainer" class="hidden">
@@ -68,7 +186,8 @@
             <!-- Score Summary Card -->
             <div id="quiz-result-header" class="mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-sm mb-8">
                 <div class="p-8 text-center">
-                    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6" data-translate="quiz.results">Quiz
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6" data-translate="quiz.results">
+                        Quiz
                         Results</h2>
 
                     <!-- Score Circle -->
@@ -106,8 +225,8 @@
     </div>
 
     <!-- Explanation Modal (shown only for wrong answers) -->
-    <div id="explanation-modal" tabindex="-1" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-white bg-opacity-50 dark:bg-black dark:bg-opacity-50">
+    <div id="explanation-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h=
+full bg-white bg-opacity-50 dark:bg-black dark:bg-opacity-50">
         <div class="relative p-4 w-full h-auto max-w-4xl mx-auto">
             <!-- Modal content -->
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -139,63 +258,7 @@
         </div>
     </div>
 
-    <!-- Speed dial -->
-    <div id="helper-speed-dial" class="fixed end-6 bottom-6 group" data-dial-init>
-        <div id="speed-dial-menu-bottom-right" class="flex flex-col items-center hidden mb-4 space-y-2">
-            <!-- Vietnamese Filter Button (top) -->
-            <button type="button" data-tooltip-target="tooltip-vietnamese" data-tooltip-placement="left"
-                class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-transparent rounded-full border-none shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200"
-                id="vietnamese-filter-btn">
-                <span class="text-xl">🇻🇳</span>
-                <span class="sr-only">Vietnamese</span>
-            </button>
-            <div id="tooltip-vietnamese" role="tooltip"
-                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
-                data-translate="speed_dial.tooltip_vietnamese" style="width: 200%;">
-                Vietnamese Only
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
 
-            <!-- Hungarian Filter Button (middle) -->
-            <button type="button" data-tooltip-target="tooltip-hungarian" data-tooltip-placement="left"
-                class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-transparent rounded-full border-none shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200"
-                id="hungarian-filter-btn">
-                <span class="text-xl">🇭🇺</span>
-                <span class="sr-only">Hungarian</span>
-            </button>
-            <div id="tooltip-hungarian" role="tooltip"
-                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
-                data-translate="speed_dial.tooltip_hungarian" style="width: 200%;">
-                Hungarian Only
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
-
-            <!-- All Languages Filter Button (bottom, closest to main button) -->
-            <button type="button" data-tooltip-target="tooltip-all" data-tooltip-placement="left"
-                class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-transparent rounded-full border-none shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200 ring-2 ring-blue-500"
-                id="all-filter-btn">
-                <span class="text-xl">🌐</span>
-                <span class="sr-only">Both Languages</span>
-            </button>
-            <div id="tooltip-all" role="tooltip"
-                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
-                data-translate="speed_dial.tooltip_all" style="width: 200%;">
-                Both Languages
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
-        </div>
-        <button type="button" id="language-speed-dial-btn" data-dial-toggle="speed-dial-menu-bottom-right"
-            aria-controls="speed-dial-menu-bottom-right" aria-expanded="false"
-            class="flex items-center justify-center text-red dark:text-red bg-transparent border-none rounded-full w-14 h-14 hover:bg-gray-100 dark:hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 focus:outline-none">
-            <!-- Help Icon -->
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm3-1a1 1 0 100-2 1 1 0 000 2zm3 1a1 1 0 100-2 1 1 0 000 2zm-6 3a1 1 0 100-2 1 1 0 000 2zm3-1a1 1 0 100-2 1 1 0 000 2zm3 1a1 1 0 100-2 1 1 0 000 2z"
-                    clip-rule="evenodd" />
-            </svg>
-            <span class="sr-only" data-translate="speed_dial.toggle_language_menu">Toggle language filter menu</span>
-        </button>
-    </div>
 
     <!-- Data injection for JavaScript -->
     <script th:inline="javascript">

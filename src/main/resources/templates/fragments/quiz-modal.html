@@ -9,32 +9,6 @@
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <!-- Modal header - Top Row: Time Estimator | Space | Quiz Configuration -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                <!-- Time Estimator - Left -->
-                <div class="flex items-center">
-                    <div class="relative w-16 h-16 mr-4"
-                        th:attr="data-quiz-id='time-estimator-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}">
-                        <!-- Centered overlay text -->
-                        <div class="absolute inset-0 flex flex-col items-center justify-center z-10 text-center">
-                            <span class="ion-text-md-center font-semibold text-gray-800 dark:text-gray-100"
-                                th:attr="id='time-display-' + ${title.name.replaceAll('[^a-zA-Z0-9]', '-')}"
-                                th:text="${T(java.lang.Math).round(title.totalQuestions * 10.0 / 60.0 * 10.0) / 10.0}">
-                                1.5
-                            </span>
-                            <span class="text-xs text-gray-400 dark:text-gray-500" data-translate="modal.min">min</span>
-                        </div>
-                        <!-- SVG Circle Progress -->
-                        <svg class="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
-                            <!-- background -->
-                            <circle cx="18" cy="18" r="15.9155" stroke="#E5E7EB" stroke-width="4" fill="none" />
-
-                            <!-- progress circle -->
-                            <circle th:id="${'progressCircle-' + title.name.replaceAll('[^a-zA-Z0-9]','-')}" cx="18"
-                                cy="18" r="15.9155" stroke="#3B82F6" stroke-width="4" stroke-linecap="round" fill="none"
-                                transform="rotate(-90 18 18)" />
-                        </svg>
-                    </div>
-                </div>
-
                 <!-- Quiz Configuration Label - Center -->
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                     <span data-translate="modal.quiz_configuration">Quiz Configuration</span>

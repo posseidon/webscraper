@@ -4,33 +4,6 @@
 
 
 <div id="content" th:fragment="content" class="container mx-auto px-4">
-    <!-- Breadcrumb Navigation -->
-    <nav id="breadcrumb" class="flex justify-center mb-6" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-            <li>
-                <div class="flex items-center">
-                    <a th:href="@{'/quiz/' + ${category} + '/' + ${subcategory}}"
-                        class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                        <span th:text="${subcategory}">Subcategory</span>
-                    </a>
-                </div>
-            </li>
-            <li aria-current="page">
-                <div class="flex items-center">
-                    <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m1 9 4-4-4-4" />
-                    </svg>
-                    <a
-                        class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                        <span id="title-breadcrumb" th:text="${currentTitle}">Title</span>
-                    </a>
-                </div>
-            </li>
-        </ol>
-    </nav>
-
     <!-- Topic Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto" id="titlesGrid">
         <div th:each="topic, iterStat : ${topics}" class="bg-white dark:bg-gray-800 rounded-xl p-5">
@@ -46,12 +19,12 @@
             </p>
             <div class="mt-4">
                 <a th:href="@{/quiz/play/{topicId}(topicId=${topic.topicId}, title=${currentTitle}, category=${category}, subcategory=${subcategory})}"
-                    class="inline-block text-black dark:text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 p-3 mt-auto">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
+                    class="inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white">
                     <span data-translate="modal.play_quiz">Play Quiz</span>
+                    <svg class="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
                 </a>
             </div>
         </div>
@@ -256,29 +229,28 @@
         </div>
     </div>
 
-    <!-- Test your knowledge on the Title -->
+    <!-- Bottom banner -->
     <div id="bottom-banner" tabindex="-1"
         class="fixed bottom-0 start-0 z-50 flex justify-between w-full p-4 border-t border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-        <div class="flex items-center mx-auto">
-            <p class="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
-                <span
-                    class="inline-flex p-1 me-3 bg-gray-200 rounded-full dark:bg-gray-600 w-6 h-6 items-center justify-center">
-                    <svg class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="M18.435 7.546A2.32 2.32 0 0 1 17.7 5.77a3.354 3.354 0 0 0-3.47-3.47 2.322 2.322 0 0 1-1.776-.736 3.357 3.357 0 0 0-4.907 0 2.281 2.281 0 0 1-1.776.736 3.414 3.414 0 0 0-2.489.981 3.372 3.372 0 0 0-.982 2.49 2.319 2.319 0 0 1-.736 1.775 3.36 3.36 0 0 0 0 4.908A2.317 2.317 0 0 1 2.3 14.23a3.356 3.356 0 0 0 3.47 3.47 2.318 2.318 0 0 1 1.777.737 3.36 3.36 0 0 0 4.907 0 2.36 2.36 0 0 1 1.776-.737 3.356 3.356 0 0 0 3.469-3.47 2.319 2.319 0 0 1 .736-1.775 3.359 3.359 0 0 0 0-4.908ZM8.5 5.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 9.063a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm2.207-6.856-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 1.414Z" />
-                    </svg>
-                    <span class="sr-only">Test</span>
-                </span>
-                <span><a th:href="@{'/quiz/form' + '/'  + ${currentTitle}}"
-                        class="flex items-center ms-0 text-base font-medium text-blue-600 md:ms-1 md:inline-flex dark:text-blue-500 hover:underline">
-                        Test your knowledge
-                        <svg class="w-3 h-3 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="none" viewBox="0 0 14 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M1 5h12m0 0L9 1m4 4L9 9" />
-                        </svg></a></span>
-            </p>
+        <div class="flex items-center justify-between w-full">
+            <!-- Back to Subcategory -->
+            <a id="back-subcategory" th:href="@{'/quiz/' + ${category} + '/' + ${subcategory}}"
+                class="inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                <span th:text="${subcategory}">Subcategory</span>
+            </a>
+            <!-- Test your knowledge -->
+            <a id="title-quiz-btn" th:href="@{'/quiz/form' + '/'  + ${currentTitle}}"
+                class="inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white">
+                <span data-translate="modal.test_your_knowledge">Test your knowledge</span>
+                <svg class="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
         </div>
     </div>
 

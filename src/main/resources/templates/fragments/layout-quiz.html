@@ -22,11 +22,49 @@
     <!-- Conditional JS loading: minified for production, full for development -->
     <script th:if="${@environment.acceptsProfiles('prod')}" th:src="@{/js/min/language.min.js}" defer></script>
     <script th:unless="${@environment.acceptsProfiles('prod')}" th:src="@{/js/language.js}" defer></script>
+    <style>
+        /* UBS-inspired styling: black, white, and red, no borders, shadows, or gradients */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .red-accent {
+            background-color: #e30613;
+            /* UBS red for buttons */
+            color: white;
+        }
+
+        .red-accent:hover {
+            background-color: #c20410;
+            /* Slightly darker red for hover */
+        }
+
+        input,
+        select,
+        textarea {
+            border: none;
+            border-bottom: 1px solid black;
+            /* Minimalist underline instead of borders */
+            background: white;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-bottom: 1px solid #e30613;
+            /* Red underline on focus */
+        }
+    </style>
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900 pt-0 pb-0">
     <br />
     <main th:replace="${content}">
+        <!-- Page content will be inserted here -->
+    </main>
+
+</body>
         <!-- Page content will be inserted here -->
     </main>
 

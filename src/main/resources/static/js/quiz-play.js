@@ -9,12 +9,7 @@ let selectedAnswers = [];
 let correctAnswers = 0;
 let wrongAnswers = [];
 let quizStartTime = new Date();
-let remainingSeconds = 0;
-let totalTimeSeconds = 0;
-let timerInterval;
 let quizResults = {};
-let isTimerPaused = false;
-let pausedTime = 0;
 
 // Language filter state
 let currentLanguageFilter = 'all'; // 'vietnamese', 'hungarian', 'all'
@@ -24,7 +19,6 @@ let speedDialMenuJustOpened = false;
 function initializeQuizData(questionsData) {
     questions = questionsData || [];
     totalQuestions = questions.length;
-    totalTimeSeconds = totalQuestions * 10; // 10 seconds per question
 
     quizResults = {
         totalQuestions: totalQuestions,
@@ -49,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (questions.length > 0) {
                 loadQuestion(0);
-                initializeTimer();
             } else {
                 const questionText = document.getElementById('questionText');
                 questionText.removeAttribute('data-translate');
@@ -105,8 +98,6 @@ function setupEventListeners() {
         actionBtn.addEventListener('click', handleActionButton);
     }
 
-    // Timer is now controlled by onclick attribute on the timer container div
-
     // Finish quiz button
     const finishQuizBtn = document.getElementById('finishQuizBtn');
     if (finishQuizBtn) {
@@ -142,6 +133,55 @@ function setupEventListeners() {
             } else {
                 showEvaluation();
             }
+        });
+    }
+
+    const flipCardBtn = document.getElementById('flipCardBtn');
+    if (flipCardBtn) {
+        flipCardBtn.addEventListener('click', function () {
+            const flipCard = document.getElementById('quiz-card');
+            flipCard.style.transform = flipCard.style.transform === 'rotateY(180deg)' ? '' : 'rotateY(180deg)';
+            toggleFlipCardButtonVisibility();
+        });
+    }
+
+    const gotoQuizBtn = document.getElementById('goto-quiz-btn');
+    if (gotoQuizBtn) {
+        gotoQuizBtn.addEventListener('click', function (e) {
+            e.preventDefault(); // Prevent default link behavior
+            const flipCard = document.getElementById('quiz-card');
+            flipCard.style.transform = flipCard.style.transform === 'rotateY(180deg)' ? '' : 'rotateY(180deg)';
+            toggleFlipCardButtonVisibility();
+        });
+    }
+    const closeSettingsBtn = document.getElementById('close-settings-btn');
+    if (closeSettingsBtn) {
+        closeSettingsBtn.addEventListener('click', function (e) {
+            e.preventDefault(); // Prevent default link behavior
+            const flipCard = document.getElementById('quiz-card');
+            flipCard.style.transform = flipCard.style.transform === 'rotateY(180deg)' ? '' : 'rotateY(180deg)';
+            toggleFlipCardButtonVisibility();
+        });
+    }
+
+}
+
+function toggleFlipCardButtonVisibility() {
+    const flipCard = document.getElementById('quiz-card');
+    const flipCardBtn = document.getElementById('flipCardBtn');
+    if (flipCard && flipCardBtn) {
+        if (flipCard.style.transform === 'rotateY(180deg)') {
+            flipCardBtn.classList.add('hidden');
+        } else {
+            flipCardBtn.classList.remove('hidden');
+        }
+    }
+
+    const languageChooserBtn = document.getElementById('language-chooser-btn');
+    const languageChooser = document.getElementById('language-chooser');
+    if (languageChooserBtn && languageChooser) {
+        languageChooserBtn.addEventListener('click', function () {
+            languageChooser.classList.toggle('hidden');
         });
     }
 }
@@ -218,7 +258,7 @@ function loadQuestion(index) {
     if (actionBtn) {
         // Don't change the button text on initial load - it already has the correct translation span
         // The template provides: <span data-translate="quiz.submit_answer">Submit Answer</span>
-        actionBtn.className = 'py-2.5 px-4 bg-transparent text-black dark:text-white font-medium rounded-lg transition-colors duration-200 border-none hover:bg-gray-100 dark:hover:bg-gray-700';
+        actionBtn.className = 'inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white';
         actionBtn.dataset.mode = 'submit';
         actionBtn.disabled = true; // Disable until an option is selected
     }
@@ -339,7 +379,7 @@ function submitAnswer() {
         if (currentQuestionIndex < questions.length - 1) {
             // Create span with translation attribute for Next button
             actionBtn.innerHTML = `<span data-translate="quiz.next">Next</span>`;
-            actionBtn.className = 'py-2.5 px-4 bg-transparent text-black dark:text-white font-medium rounded-lg transition-colors duration-200 border-none hover:bg-gray-100 dark:hover:bg-gray-700';
+            actionBtn.className = 'inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white';
             actionBtn.dataset.mode = 'next';
 
             // Manually translate the new content if language manager is available
@@ -352,7 +392,7 @@ function submitAnswer() {
         } else {
             // Create span with translation attribute for Finish button
             actionBtn.innerHTML = `<span data-translate="quiz.finish">Finish Quiz</span>`;
-            actionBtn.className = 'py-2.5 px-4 bg-transparent text-black dark:text-white font-medium rounded-lg transition-colors duration-200 border-none hover:bg-gray-100 dark:hover:bg-gray-700';
+            actionBtn.className = 'inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white';
             actionBtn.dataset.mode = 'evaluate';
 
             // Manually translate the new content if language manager is available
@@ -414,19 +454,6 @@ function showExplanationModal(explanation) {
         speedDial.classList.add('hidden');
     }
 
-    // Pause the timer when showing explanation modal
-    if (!isTimerPaused && timerInterval) {
-        isTimerPaused = true;
-        clearInterval(timerInterval);
-        timerInterval = null;
-
-        // Hide timer display, show play icon overlay
-        const timerDisplay = document.getElementById('timerDisplay');
-        const timerPlayIcon = document.getElementById('timerPlayIcon');
-        if (timerDisplay) timerDisplay.classList.add('hidden');
-        if (timerPlayIcon) timerPlayIcon.classList.remove('hidden');
-    }
-
     // Clear any existing content and translation attributes
     modalText.innerHTML = '';
     modalText.removeAttribute('data-translate');
@@ -464,34 +491,10 @@ function hideExplanationModal() {
         if (speedDial) {
             speedDial.classList.remove('hidden');
         }
-
-        // Resume the timer when hiding explanation modal
-        if (isTimerPaused && remainingSeconds > 0) {
-            isTimerPaused = false;
-            if (!timerInterval) {
-                timerInterval = setInterval(() => {
-                    remainingSeconds--;
-                    updateTimerDisplay();
-
-                    if (remainingSeconds <= 0) {
-                        stopTimer();
-                        showEvaluation();
-                    }
-                }, 1000);
-            }
-
-            // Show timer display, hide play icon overlay
-            const timerDisplay = document.getElementById('timerDisplay');
-            const timerPlayIcon = document.getElementById('timerPlayIcon');
-            if (timerDisplay) timerDisplay.classList.remove('hidden');
-            if (timerPlayIcon) timerPlayIcon.classList.add('hidden');
-        }
     }
 }
 
 function showEvaluation() {
-    stopTimer();
-
     // Hide explanation modal when showing results
     hideExplanationModal();
 
@@ -499,6 +502,12 @@ function showEvaluation() {
     const speedDial = document.getElementById('helper-speed-dial');
     if (speedDial) {
         speedDial.classList.add('hidden');
+    }
+
+    // Hide flip card button
+    const flipCardBtn = document.getElementById('flipCardBtn');
+    if (flipCardBtn) {
+        flipCardBtn.classList.add('hidden');
     }
 
     quizResults.completedAt = new Date();
@@ -569,80 +578,13 @@ function displayWrongAnswers() {
     });
 }
 
-function initializeTimer() {
-    remainingSeconds = totalTimeSeconds;
-    isTimerPaused = false;
-    pausedTime = 0;
-
-    const timerElement = document.getElementById('timerDisplay');
-    const timerCircle = document.getElementById('timerProgressCircle');
-
-    if (timerElement && timerCircle) {
-        updateTimerDisplay();
-        startTimer();
-    }
-}
-
-function startTimer() {
-    if (!timerInterval && !isTimerPaused) {
-        timerInterval = setInterval(() => {
-            remainingSeconds--;
-            updateTimerDisplay();
-
-            if (remainingSeconds <= 0) {
-                stopTimer();
-                showEvaluation();
-            }
-        }, 1000);
-    }
-}
-
-function updateTimerDisplay() {
-    const minutes = Math.floor(remainingSeconds / 60);
-    const seconds = remainingSeconds % 60;
-    const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-    const timerElement = document.getElementById('timerDisplay');
-    const timerCircle = document.getElementById('timerProgressCircle');
-
-    if (timerElement) {
-        timerElement.textContent = timeString;
-    }
-
-    // Update timer progress circle
-    if (timerCircle) {
-        const progressPercentage = (remainingSeconds / totalTimeSeconds) * 100;
-        const circumference = 2 * Math.PI * 15.9155;
-        const strokeDashoffset = circumference - (progressPercentage / 100) * circumference;
-
-        timerCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-        timerCircle.style.strokeDashoffset = strokeDashoffset;
-
-        // Change color based on time remaining
-        if (progressPercentage < 20) {
-            timerCircle.style.stroke = '#EF4444'; // red
-        } else if (progressPercentage < 50) {
-            timerCircle.style.stroke = '#F59E0B'; // yellow
-        } else {
-            timerCircle.style.stroke = '#3B82F6'; // blue
-        }
-    }
-}
-
 function updateQuestionProgress() {
     const progressBar = document.getElementById('progressBar');
 
     if (progressBar && totalQuestions > 0) {
         const progressPercentage = Math.round(((currentQuestionIndex + 1) / totalQuestions) * 100);
-        progressBar.style.width = `${progressPercentage}%`;
-        progressBar.textContent = `${progressPercentage}%`;
-    }
-}
-
-function stopTimer() {
-    if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
+        // document.getElementById('currentProgress').textContent = currentQuestionIndex + 1;
+        // document.getElementById('totalQuestions').textContent = totalQuestions;
     }
 }
 
@@ -684,51 +626,6 @@ function finishQuiz() {
             }
         });
 }
-
-// Timer control function for embedded control
-function toggleTimer() {
-    const timerDisplay = document.getElementById('timerDisplay');
-    const timerPlayIcon = document.getElementById('timerPlayIcon');
-
-    if (isTimerPaused) {
-        // Resume timer - restart the interval
-        isTimerPaused = false;
-        if (!timerInterval) {
-            timerInterval = setInterval(() => {
-                remainingSeconds--;
-                updateTimerDisplay();
-
-                if (remainingSeconds <= 0) {
-                    stopTimer();
-                    showEvaluation();
-                }
-            }, 1000);
-        }
-
-        // Show timer display, hide play icon overlay
-        if (timerDisplay) timerDisplay.classList.remove('hidden');
-        if (timerPlayIcon) timerPlayIcon.classList.add('hidden');
-    } else {
-        // Pause timer - stop the interval
-        isTimerPaused = true;
-        if (timerInterval) {
-            clearInterval(timerInterval);
-            timerInterval = null;
-        }
-
-        // Hide timer display, show play icon overlay
-        if (timerDisplay) timerDisplay.classList.add('hidden');
-        if (timerPlayIcon) timerPlayIcon.classList.remove('hidden');
-    }
-}
-
-// Make toggleTimer globally accessible for onclick attributes
-window.toggleTimer = toggleTimer;
-
-// Handle page unload to stop timer
-window.addEventListener('beforeunload', function () {
-    stopTimer();
-});
 
 // Language Filter Functions
 function setupLanguageFilterListeners() {
@@ -788,48 +685,7 @@ function setupLanguageFilterListeners() {
     }
 }
 
-function toggleSpeedDialMenu() {
-    const speedDialMenu = document.getElementById('speed-dial-menu-bottom-right');
-    const speedDialToggle = document.getElementById('language-speed-dial-btn');
-
-
-    if (speedDialMenu && speedDialToggle) {
-        const isHidden = speedDialMenu.classList.contains('hidden');
-        const computedStyle = window.getComputedStyle(speedDialMenu);
-        const isDisplayNone = computedStyle.display === 'none';
-
-
-        if (isHidden || isDisplayNone) {
-            // Show the menu - remove hidden and add flex with inline style
-            speedDialMenu.classList.remove('hidden');
-            speedDialMenu.classList.add('flex');
-            speedDialMenu.style.display = 'flex';
-            speedDialMenu.style.pointerEvents = 'auto';
-            speedDialToggle.setAttribute('aria-expanded', 'true');
-
-            // Set flag to prevent immediate clicks
-            speedDialMenuJustOpened = true;
-            setTimeout(() => {
-                speedDialMenuJustOpened = false;
-            }, 100); // 100ms delay
-        } else {
-            // Hide the menu - remove flex and add hidden with inline style
-            speedDialMenu.classList.remove('flex');
-            speedDialMenu.classList.add('hidden');
-            speedDialMenu.style.display = 'none';
-            speedDialMenu.style.pointerEvents = 'none';
-            speedDialToggle.setAttribute('aria-expanded', 'false');
-        }
-    }
-}
-
 function setLanguageFilter(filterType) {
-
-    // Ignore clicks that happen immediately after menu opens
-    if (speedDialMenuJustOpened) {
-        return;
-    }
-
     currentLanguageFilter = filterType;
 
     // Update button states
@@ -837,25 +693,8 @@ function setLanguageFilter(filterType) {
 
     // Apply filter to current question and options
     applyLanguageFilter();
-
-    // Hide the speed dial menu after selection
-    hideSpeedDialMenu();
 }
 
-function hideSpeedDialMenu() {
-    const speedDialMenu = document.getElementById('speed-dial-menu-bottom-right');
-    const speedDialToggle = document.getElementById('language-speed-dial-btn');
-
-    if (speedDialMenu && speedDialToggle) {
-        // Hide the menu - remove flex and add hidden with inline style
-        speedDialMenu.classList.remove('flex');
-        speedDialMenu.classList.add('hidden');
-        speedDialMenu.style.display = 'none';
-        speedDialMenu.style.pointerEvents = 'none';
-        // Update aria-expanded attribute
-        speedDialToggle.setAttribute('aria-expanded', 'false');
-    }
-}
 
 function updateFilterButtonStates() {
     const buttons = ['vietnamese-filter-btn', 'hungarian-filter-btn', 'all-filter-btn'];
@@ -939,4 +778,3 @@ loadQuestion = function (index) {
         updateFilterButtonStates();
     }, 50); // Small delay to ensure DOM is updated
 };
-
