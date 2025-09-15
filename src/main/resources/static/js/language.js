@@ -200,37 +200,13 @@ class LanguageManager {
         });
     }
     
-    // Method to refresh translations for a specific container
-    refreshTranslations(container = document) {
-        const elements = container.querySelectorAll('[data-translate]');
-        elements.forEach(element => {
-            const key = element.getAttribute('data-translate');
-            const originalText = element.getAttribute('data-original-text') || element.textContent;
-            
-            if (!element.getAttribute('data-original-text')) {
-                element.setAttribute('data-original-text', originalText);
-            }
-            
-            let translatedText = this.translate(key, originalText);
-            
-            if (translatedText.includes('{}')) {
-                const categoryMatch = originalText.match(/Explore (\w+) topics/);
-                if (categoryMatch) {
-                    translatedText = translatedText.replace('{}', categoryMatch[1].toLowerCase());
-                }
-            }
-            
-            element.textContent = translatedText;
-        });
-    }
 
     getLanguageInfo() {
         const languageNames = {
-            'en': 'English',
-            'hu': 'Magyar',
-            'vi': 'Tiếng Việt'
+            en: "English",
+            hu: "Magyar",
+            vi: "Tiếng Việt"
         };
-        
         return {
             code: this.currentLanguage,
             name: languageNames[this.currentLanguage] || this.currentLanguage

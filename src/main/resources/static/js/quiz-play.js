@@ -8,12 +8,10 @@ let currentQuestionIndex = 0;
 let selectedAnswers = [];
 let correctAnswers = 0;
 let wrongAnswers = [];
-let quizStartTime = new Date();
 let quizResults = {};
 
 // Language filter state
 let currentLanguageFilter = 'all'; // 'vietnamese', 'hungarian', 'all'
-let speedDialMenuJustOpened = false;
 
 // Initialize quiz data from window object (set by Thymeleaf)
 function initializeQuizData(questionsData) {
@@ -176,14 +174,6 @@ function toggleFlipCardButtonVisibility() {
             flipCardBtn.classList.remove('hidden');
         }
     }
-
-    const languageChooserBtn = document.getElementById('language-chooser-btn');
-    const languageChooser = document.getElementById('language-chooser');
-    if (languageChooserBtn && languageChooser) {
-        languageChooserBtn.addEventListener('click', function () {
-            languageChooser.classList.toggle('hidden');
-        });
-    }
 }
 
 function loadQuestion(index) {
@@ -213,8 +203,7 @@ function loadQuestion(index) {
     } else {
     }
 
-    // Update question progress circle
-    updateQuestionProgress();
+    
 
     // Update question text
     const questionTextElement = document.getElementById('questionText');
@@ -494,6 +483,28 @@ function hideExplanationModal() {
     }
 }
 
+function toggleSpeedDialMenu() {
+    const speedDialMenu = document.getElementById('speed-dial-menu-bottom-right');
+    const speedDialToggle = document.getElementById('language-speed-dial-btn');
+
+    if (speedDialMenu && speedDialToggle) {
+        const isHidden = speedDialMenu.classList.contains('hidden');
+        if (isHidden) {
+            speedDialMenu.classList.remove('hidden');
+            speedDialMenu.classList.add('flex');
+            speedDialMenu.style.display = 'flex'; // Ensure it's visible
+            speedDialMenu.style.pointerEvents = 'auto';
+            speedDialToggle.setAttribute('aria-expanded', 'true');
+        } else {
+            speedDialMenu.classList.add('hidden');
+            speedDialMenu.classList.remove('flex');
+            speedDialMenu.style.display = 'none'; // Ensure it's hidden
+            speedDialMenu.style.pointerEvents = 'none';
+            speedDialToggle.setAttribute('aria-expanded', 'false');
+        }
+    }
+}
+
 function showEvaluation() {
     // Hide explanation modal when showing results
     hideExplanationModal();
@@ -578,15 +589,7 @@ function displayWrongAnswers() {
     });
 }
 
-function updateQuestionProgress() {
-    const progressBar = document.getElementById('progressBar');
 
-    if (progressBar && totalQuestions > 0) {
-        const progressPercentage = Math.round(((currentQuestionIndex + 1) / totalQuestions) * 100);
-        // document.getElementById('currentProgress').textContent = currentQuestionIndex + 1;
-        // document.getElementById('totalQuestions').textContent = totalQuestions;
-    }
-}
 
 function finishQuiz() {
     // Send results to server

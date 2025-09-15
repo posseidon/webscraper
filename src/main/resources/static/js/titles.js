@@ -50,10 +50,6 @@ function updateTimeEstimator(quizId, numberOfQuestions) {
     const timeDisplayElement = document.getElementById('time-display-' + quizId);
     const progressCircleElement = document.getElementById('progressCircle-' + quizId);
 
-    // Also try to find all time-related elements
-    const allTimeElements = document.querySelectorAll('[id*="time-display"]');
-    const allProgressElements = document.querySelectorAll('[id*="progress-circle"]');
-
     if (timeDisplayElement) {
         // Calculate time in minutes (10 seconds per question)
         const timeInMinutes = Math.round((numberOfQuestions * 10.0 / 60.0) * 10.0) / 10.0;
@@ -327,7 +323,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initialize accordion functionality immediately and with a longer delay as fallback
     initializeAccordions();
-    setTimeout(initializeAccordions, 500);
 
     // Initialize difficulty selection styling
     const checkedRadio = document.querySelector('input[name="difficulty"]:checked');

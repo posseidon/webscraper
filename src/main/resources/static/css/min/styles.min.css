@@ -1,0 +1,10 @@
+@media (max-width: 640px) {
+    select {
+        position: static !important;
+        width: 100% !important;
+        left: auto !important;
+        top: auto !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+    }
+}

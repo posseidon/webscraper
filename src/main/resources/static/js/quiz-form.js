@@ -2,56 +2,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const numQuestionsSelect = document.getElementById('numQuestions');
     const totalQuestions = parseInt(numQuestionsSelect.dataset.totalQuestions);
 
-    function generateEvenlyDistributedOptions(min, max, desiredCount) {
-        const options = new Set(); // Use a Set to avoid duplicates and maintain order for insertion
-        console.log(`Generating options between ${min} and ${max} aiming for ${desiredCount} options.`);
-        // Always include the minimum and maximum values
-        if (min <= max) {
-            options.add(min);
-            options.add(max);
-        }
-
-        // If max is less than 3, just add max (if it's not already there)
-        if (max < min) {
-            if (!options.has(max)) {
-                options.add(max);
-            }
-            return Array.from(options).sort((a, b) => a - b);
-        }
-
-        // Calculate step for even distribution
-        // Ensure we have at least 2 points (min and max) for step calculation
-        const effectiveDesiredCount = Math.max(2, desiredCount);
-        const step = (max - min) / (effectiveDesiredCount - 1);
-
-        for (let i = 1; i < max - 1; i++) {
-            options.add(i);
-        }
-
-        // Convert Set to Array and sort numerically
-        return Array.from(options).sort((a, b) => a - b);
-    }
-
     if (numQuestionsSelect && !isNaN(totalQuestions)) {
-        const optionsToGenerate = generateEvenlyDistributedOptions(1, totalQuestions, 10); // Aim for 10 options
-
         // Clear existing options (if any, though HTML is now empty)
         numQuestionsSelect.innerHTML = '';
 
-        optionsToGenerate.forEach(value => {
+        for (let i = 1; i <= totalQuestions; i++) {
             const option = document.createElement('option');
-            option.value = value;
-            option.textContent = value;
+            option.value = i;
+            option.textContent = i;
             numQuestionsSelect.appendChild(option);
-        });
-
-        // Set the default selected value to totalQuestions if it's one of the options,
-        // otherwise, select the largest available option.
-        if (optionsToGenerate.includes(totalQuestions)) {
-            numQuestionsSelect.value = totalQuestions;
-        } else if (optionsToGenerate.length > 0) {
-            numQuestionsSelect.value = optionsToGenerate[optionsToGenerate.length - 1];
         }
+
+        // Set the default selected value to totalQuestions
+        numQuestionsSelect.value = totalQuestions;
     }
 
     const startQuizBtn = document.getElementById('start-quiz-btn');

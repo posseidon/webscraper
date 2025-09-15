@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
         elementsToTruncate.forEach(element => {
             const originalText = element.textContent.trim();
             const words = originalText.split(' ');
-            const maxWords = 2; // Keep the first 3 words
+            const maxWords = 2; // Keep the first 2 words
             const minLengthForTruncation = 20; // Only truncate if the original text is longer than this
 
             function truncate() {

@@ -49,11 +49,7 @@ document.addEventListener('click', function (e) {
         e.preventDefault();
         const topicId = playTopicQuizBtn.getAttribute('data-topic-id');
         const topicName = playTopicQuizBtn.getAttribute('data-topic-name');
-        if (topicId && topicName) {
-            playTopicQuiz(topicId, topicName);
-        } else {
-            playTopicQuiz(topicId, topicName);
-        }
+        playTopicQuiz(topicId, topicName);
         return;
     }
 
@@ -62,11 +58,7 @@ document.addEventListener('click', function (e) {
     if (topicContentDiv) {
         e.preventDefault();
         const topicId = topicContentDiv.getAttribute('data-topic-id');
-        if (topicId) {
-            startTopicQuizDirectly(topicId);
-        } else {
-            startTopicQuizDirectly(topicId);
-        }
+        startTopicQuizDirectly(topicId);
         return;
     }
 
@@ -396,189 +388,6 @@ function startTopicQuiz(topicId, topicName, category, subcategory, title) {
     form.submit();
 }
 
-// Function to show title quiz modal (main quiz modal)
-function showTitleQuizModal() {
-    // Find the quiz modal by looking for an element with id starting with 'quiz-modal-'
-    const modal = document.querySelector('[id^="quiz-modal-"]');
-    if (modal) {
-        modal.classList.remove('hidden');
-        modal.setAttribute('aria-hidden', 'false');
-        modal.setAttribute('tabindex', '0');
-        document.body.classList.add('overflow-hidden');
 
-        // Focus on modal for accessibility
-        modal.focus();
-
-        // Add modal backdrop click handler
-        modal.addEventListener('click', function (e) {
-            if (e.target === modal) {
-                hideTitleQuizModal();
-            }
-        });
-
-        // Add escape key handler
-        const escapeHandler = function (e) {
-            if (e.key === 'Escape') {
-                hideTitleQuizModal();
-                document.removeEventListener('keydown', escapeHandler);
-            }
-        };
-        document.addEventListener('keydown', escapeHandler);
-    }
-}
-
-// Function to hide title quiz modal
-function hideTitleQuizModal() {
-    const modal = document.querySelector('[id^="quiz-modal-"]');
-    if (modal) {
-        modal.classList.add('hidden');
-        modal.setAttribute('aria-hidden', 'true');
-        modal.removeAttribute('tabindex');
-        document.body.classList.remove('overflow-hidden');
-    }
-}
-
-// Function to start title quiz (main quiz)
-function startTitleQuiz(titleId, category) {
-    // Get selected difficulty
-    const selectedDifficulty = document.querySelector('input[name="difficulty"]:checked');
-    const difficulty = selectedDifficulty ? selectedDifficulty.getAttribute('data-difficulty') : 'mixed';
-
-    // Get selected question count
-    const rangeSlider = document.querySelector(`[id^="questions-range-"]`);
-    const questionCount = rangeSlider ? parseInt(rangeSlider.value) : 0;
-
-    // Create form to submit POST request to start title quiz
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = `/quiz/start/${encodeURIComponent(titleId)}`;
-
-    // Add form parameters
-    const difficultyInput = document.createElement('input');
-    difficultyInput.type = 'hidden';
-    difficultyInput.name = 'difficulty';
-    difficultyInput.value = difficulty;
-    form.appendChild(difficultyInput);
-
-    const questionCountInput = document.createElement('input');
-    questionCountInput.type = 'hidden';
-    questionCountInput.name = 'questionCount';
-    questionCountInput.value = questionCount.toString();
-    form.appendChild(questionCountInput);
-
-    console.log(form);
-    // Submit form
-    document.body.appendChild(form);
-    form.submit();
-}
-
-// Function to update difficulty selection styling for main quiz
-function updateMainQuizDifficultySelection(selectedRadio) {
-    // Get all difficulty radios in the main quiz modal
-    const allRadios = document.querySelectorAll('input[name="difficulty"]');
-
-    allRadios.forEach(radio => {
-        const label = document.querySelector(`label[for="${radio.id}"]`);
-        if (label) {
-            const difficulty = radio.getAttribute('data-difficulty');
-
-            // Reset all labels to default state
-            label.classList.remove(
-                'border-green-500', 'bg-green-50', 'dark:border-green-400', 'dark:bg-green-900/20',
-                'border-yellow-500', 'bg-yellow-50', 'dark:border-yellow-400', 'dark:bg-yellow-900/20',
-                'border-red-500', 'bg-red-50', 'dark:border-red-400', 'dark:bg-red-900/20',
-                'border-blue-500', 'bg-blue-50', 'dark:border-blue-400', 'dark:bg-blue-900/20'
-            );
-            label.classList.add('border-gray-200', 'dark:border-gray-600');
-
-            // If this is the selected radio, apply active styling
-            if (radio.checked) {
-                label.classList.remove('border-gray-200', 'dark:border-gray-600');
-
-                switch (difficulty) {
-                    case 'easy':
-                        label.classList.add('border-green-500', 'bg-green-50', 'dark:border-green-400', 'dark:bg-green-900/20');
-                        break;
-                    case 'medium':
-                        label.classList.add('border-yellow-500', 'bg-yellow-50', 'dark:border-yellow-400', 'dark:bg-yellow-900/20');
-                        break;
-                    case 'hard':
-                        label.classList.add('border-red-500', 'bg-red-50', 'dark:border-red-400', 'dark:bg-red-900/20');
-                        break;
-                    case 'mixed':
-                        label.classList.add('border-blue-500', 'bg-blue-50', 'dark:border-blue-400', 'dark:bg-blue-900/20');
-                        break;
-                }
-            }
-        }
-    });
-}
-
-// Function to update time estimator for main quiz
-function updateMainQuizTimeEstimator(titleId, numberOfQuestions) {
-    const timeDisplayElement = document.getElementById('time-display-' + titleId);
-    const progressCircleElement = document.getElementById('progressCircle-' + titleId);
-
-    if (timeDisplayElement) {
-        // Calculate time in minutes (10 seconds per question)
-        const timeInMinutes = Math.round((numberOfQuestions * 10.0 / 60.0) * 10.0) / 10.0;
-
-        // Update time display
-        timeDisplayElement.textContent = timeInMinutes.toFixed(1);
-
-        if (progressCircleElement) {
-            // Calculate progress percentage based on selected questions vs max questions
-            const rangeSlider = document.querySelector(`[id*="questions-range-${titleId}"]`);
-            if (rangeSlider) {
-                const maxQuestions = parseInt(rangeSlider.max);
-                const selectedQuestions = parseInt(numberOfQuestions);
-                const progressPercent = Math.round((selectedQuestions / maxQuestions) * 100);
-                setProgress(progressCircleElement, progressPercent);
-            } else {
-                // Fallback: assume 100% if we can't find the slider
-                setProgress(progressCircleElement, 100);
-            }
-        }
-    }
-}
-
-// Function to update slider value display for main quiz
-function updateMainQuizSliderValueDisplay(slider, titleId, value) {
-    const valueDisplay = document.getElementById('slider-value-' + titleId);
-
-    if (valueDisplay) {
-        // Update the text content
-        valueDisplay.textContent = value;
-
-        // Calculate the position of the thumb
-        const min = parseFloat(slider.min);
-        const max = parseFloat(slider.max);
-        const val = parseFloat(value);
-
-        // Calculate percentage position (0-100%)
-        const percent = (val - min) / (max - min);
-
-        // Get slider width and account for thumb width (20px)
-        const sliderWidth = slider.offsetWidth;
-        const thumbWidth = 20;
-
-        // Calculate position accounting for thumb being centered
-        const position = percent * (sliderWidth - thumbWidth) + (thumbWidth / 2);
-
-        // Update position
-        valueDisplay.style.left = position + 'px';
-
-        // Show the value display when slider is being moved
-        valueDisplay.style.opacity = '1';
-
-        // Hide after a delay when not actively moving
-        clearTimeout(valueDisplay.hideTimeout);
-        valueDisplay.hideTimeout = setTimeout(() => {
-            if (!slider.matches(':hover') && !slider.matches(':focus')) {
-                valueDisplay.style.opacity = '0';
-            }
-        }, 1500);
-    }
-}
 
 
