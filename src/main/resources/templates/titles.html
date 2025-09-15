@@ -105,7 +105,7 @@
 
     <!-- Include external JavaScript file -->
     <!-- Conditional JS loading: minified for production, full for development -->
-    <script th:if="${@environment.acceptsProfiles('prod')}" th:src="@{/js/titles.js}" defer></script>
+    <script th:if="${@environment.acceptsProfiles('prod')}" th:src="@{/js/min/titles.min.js}" defer></script>
     <script th:unless="${@environment.acceptsProfiles('prod')}" th:src="@{/js/titles.js}" defer></script>
 </div>
 

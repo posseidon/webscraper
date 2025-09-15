@@ -99,7 +99,7 @@ public class QuizController {
             @RequestParam(required = true) String subcategory,
             Model model) {
         List<Question> questions = quizService.findQuestionsByTopicId(topicId);
-
+        Topic topic = quizService.findTopicById(topicId);
         if (questions.isEmpty()) {
             return REDIRECT + QUIZ_CATEGORIES + REDIRECT_ERROR_PARAM + ERROR_NO_QUESTIONS;
         }
@@ -110,7 +110,7 @@ public class QuizController {
         model.addAttribute(ATTR_TOTAL, questions.size());
         model.addAttribute(ATTR_SELECTED_COUNT, questions.size());
         model.addAttribute(ATTR_SELECTED_DIFFICULTY, DIFFICULTY_MIXED);
-        model.addAttribute(ATTR_QUIZ_TITLE, topicId);
+        model.addAttribute(ATTR_QUIZ_TITLE, topic.getTopicName());
         model.addAttribute(ATTR_TITLE, title);
         model.addAttribute(ATTR_CATEGORY, category);
         model.addAttribute(ATTR_SUBCATEGORY, subcategory);
@@ -118,14 +118,30 @@ public class QuizController {
         return VIEW_QUIZ_PLAY;
     }
 
+    @GetMapping(QUIZ_FORM)
+    public String quizForm(@PathVariable String titleName, Model model) {
+        Title title = quizService.findTitleByName(titleName);
+        if (Objects.nonNull(title)) {
+            model.addAttribute(ATTR_TITLE_OBJECT, title);
+            model.addAttribute(ATTR_QUIZ_TITLE, title.getName());
+            model.addAttribute(ATTR_CATEGORY, title.getSubCategory().getCategory());
+            model.addAttribute(ATTR_SUBCATEGORY, title.getSubCategory().getName());
+            return VIEW_QUIZ_FORM;
+        }
+        return REDIRECT + QUIZ_CATEGORIES + REDIRECT_ERROR_PARAM + ERROR_QUIZ_NOT_FOUND;
+    }
+
     @PostMapping(QUIZ_START)
     public String startQuiz(@PathVariable String titleId,
             @RequestParam(name = PARAM_QUESTION_COUNT, defaultValue = "0") int questionCount,
             @RequestParam(name = PARAM_DIFFICULTY, defaultValue = DIFFICULTY_MIXED) String difficulty,
             Model model) {
+        System.err.println("Starting quiz for title: " + titleId + " with question count: " + questionCount
+                + " and difficulty: " + difficulty); // Debug line
+        Title title = quizService.findTitleByName(titleId);
         List<Question> questions = quizService.findQuestionsByTitle(titleId);
         if (!CollectionUtils.isEmpty(questions)) {
-            List<Question> balancedQuestions = selectBalancedQuestions(questions, questionCount, DIFFICULTY_MIXED);
+            List<Question> balancedQuestions = selectBalancedQuestions(questions, questionCount, difficulty);
 
             balancedQuestions.forEach(question -> question.setTopic(null));
 
@@ -133,7 +149,10 @@ public class QuizController {
             model.addAttribute(ATTR_TOTAL, balancedQuestions.size());
             model.addAttribute(ATTR_SELECTED_COUNT, questionCount);
             model.addAttribute(ATTR_SELECTED_DIFFICULTY, difficulty);
-            model.addAttribute(ATTR_QUIZ_TITLE, titleId);
+            model.addAttribute(ATTR_QUIZ_TITLE, title.getName());
+            model.addAttribute(ATTR_CATEGORY, title.getSubCategory().getCategory().getName());
+            model.addAttribute(ATTR_SUBCATEGORY, title.getSubCategory().getName());
+            model.addAttribute(ATTR_TITLE, titleId);
             return VIEW_QUIZ_PLAY;
         }
         return REDIRECT + QUIZ_CATEGORIES + REDIRECT_ERROR_PARAM + ERROR_QUIZ_NOT_FOUND;

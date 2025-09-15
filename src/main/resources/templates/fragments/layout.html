@@ -20,8 +20,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
     <link th:href="@{/css/min/styles.min.css}" rel="stylesheet" />
     <!-- Conditional JS loading: minified for production, full for development -->
-    <script th:if="${@environment.acceptsProfiles('prod')}" th:src="@{/js/min/language.min.js}" defer></script>
-    <script th:unless="${@environment.acceptsProfiles('prod')}" th:src="@{/js/language.js}" defer></script>
+    <th:block th:if="${@environment.acceptsProfiles('prod')}">
+        <script th:src="@{/js/min/language.min.js}" defer></script>
+    </th:block>
+    <th:block th:unless="${@environment.acceptsProfiles('prod')}">
+        <script th:src="@{/js/language.js}" defer></script>
+    </th:block>
     <style>
         /* UBS-inspired styling: black, white, and red, no borders, shadows, or gradients */
         body {

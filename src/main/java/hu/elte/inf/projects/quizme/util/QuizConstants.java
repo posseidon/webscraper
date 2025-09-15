@@ -14,6 +14,7 @@ public final class QuizConstants {
     public static final String QUIZ_CATEGORY = "/quiz/{category}";
     public static final String QUIZ_CATEGORY_SUB = "/quiz/{category}/{subcategory}";
     public static final String QUIZ_CATEGORY_SUB_TITLE = "/quiz/{category}/{subcategory}/{title}";
+    public static final String QUIZ_FORM = "/quiz/form/{titleName}";
     public static final String QUIZ_PLAY = "/quiz/play/{topicId}";
     public static final String QUIZ_START = "/quiz/start/{titleId}";
     public static final String QUIZ_SUBMIT_RESULTS = "/quiz/submit-results";
@@ -26,6 +27,7 @@ public final class QuizConstants {
     public static final String VIEW_TITLES = "titles";
     public static final String VIEW_TOPICS = "topics";
     public static final String VIEW_QUIZ_PLAY = "quiz-play";
+    public static final String VIEW_QUIZ_FORM = "quiz-form";
 
     // Model attribute keys
     public static final String ATTR_CATEGORIES = "categories";

@@ -23,9 +23,9 @@ public class QuizService {
     private final TopicRepository topicRepository;
 
     public QuizService(CategoryRepository categoryRepository,
-                       SubCategoryRepository subCategoryRepository,
-                       TitleRepository titleRepository,
-                       TopicRepository topicRepository) {
+            SubCategoryRepository subCategoryRepository,
+            TitleRepository titleRepository,
+            TopicRepository topicRepository) {
         this.categoryRepository = categoryRepository;
         this.subCategoryRepository = subCategoryRepository;
         this.titleRepository = titleRepository;
@@ -63,13 +63,14 @@ public class QuizService {
 
     public List<Topic> findTopicsTitleByName(String titleName) {
         List<Title> titles = titleRepository.findByName(titleName);
-        if(CollectionUtils.isEmpty(titles)) return List.of();
+        if (CollectionUtils.isEmpty(titles))
+            return List.of();
         return titles.get(0).getTopics();
     }
 
     public Title findTitleByName(String titleName) {
         List<Title> titles = titleRepository.findByName(titleName);
-        if(CollectionUtils.isEmpty(titles)) {
+        if (CollectionUtils.isEmpty(titles)) {
             // Return a default Title object with the name
             Title defaultTitle = new Title(titleName);
             defaultTitle.setTotalQuestions(0);
@@ -79,11 +80,15 @@ public class QuizService {
     }
 
     public List<Question> findQuestionsByTopicId(String topicId) {
-        Optional<Topic>  optTopic = topicRepository.findByTopicId(topicId);
+        Optional<Topic> optTopic = topicRepository.findByTopicId(topicId);
         // Check for duplicates and warn about them
         return topicRepository.findByTopicId(topicId)
                 .map(Topic::getQuestions)
                 .orElseGet(List::of);
+    }
+
+    public Topic findTopicById(String topicId) {
+        return topicRepository.findByTopicId(topicId).orElse(null);
     }
 
     public void updateTitleAudioOverview(String titleName, String audioOverviewUrl) throws MalformedURLException {

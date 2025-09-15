@@ -22,6 +22,13 @@ echo "   - Build Profile: prod"
 echo "   - Server: Undertow"
 echo ""
 
+# Minify JS and CSS
+echo "📦 Minifying JavaScript and CSS assets..."
+npm install
+npm run minify
+echo "✅ Assets minified."
+echo ""
+
 # Clean previous builds
 echo "🧹 Cleaning previous builds..."
 ./mvnw clean -q

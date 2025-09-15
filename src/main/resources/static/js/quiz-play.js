@@ -203,7 +203,7 @@ function loadQuestion(index) {
     } else {
     }
 
-    
+
 
     // Update question text
     const questionTextElement = document.getElementById('questionText');
@@ -257,6 +257,12 @@ function loadQuestion(index) {
     if (bottomBanner) {
         bottomBanner.classList.add('hidden');
     }
+
+    // Then apply current language filter
+    setTimeout(() => {
+        applyLanguageFilter();
+        updateFilterButtonStates();
+    }, 50); // Small delay to ensure DOM is updated
 }
 
 function selectOption(optionIndex) {
@@ -769,15 +775,3 @@ function filterText(text) {
     }
 }
 
-// Override loadQuestion to apply current filter
-const originalLoadQuestion = loadQuestion;
-loadQuestion = function (index) {
-    // Call original loadQuestion first
-    originalLoadQuestion.call(this, index);
-
-    // Then apply current language filter
-    setTimeout(() => {
-        applyLanguageFilter();
-        updateFilterButtonStates();
-    }, 50); // Small delay to ensure DOM is updated
-};
