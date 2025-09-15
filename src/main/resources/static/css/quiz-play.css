@@ -1,0 +1,11 @@
+#quiz-card {
+    position: relative;
+    padding-top: 40px;
+    /* Add padding to make space for the button */
+}
+
+#flipCardBtn {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+}

@@ -19,6 +19,7 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
     <link th:href="@{/css/min/styles.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/quiz-play.css}" rel="stylesheet" />
     <!-- Conditional JS loading: minified for production, full for development -->
     <script th:if="${@environment.acceptsProfiles('prod')}" th:src="@{/js/min/language.min.js}" defer></script>
     <script th:unless="${@environment.acceptsProfiles('prod')}" th:src="@{/js/language.js}" defer></script>

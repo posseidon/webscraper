@@ -5,17 +5,17 @@
 <div th:fragment="content" class="container mx-auto px-4 pt-0 pb-48">
     <!-- Quiz card flipper -->
     <div id="quizContent" class="relative max-w-4xl mx-auto">
-        <button id="flipCardBtn"
-            class="absolute bottom-4 right-4 z-50 w-8 h-8 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="w-full h-full bi bi-gear-fill" viewBox="0 0 16 16">
-                <path
-                    d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311a1.464 1.464 0 0 1 0 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105 0l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-1.283.698-.705 2.686 1.987 1.987l.31-.17a1.464 1.464 0 0 1 2.105-.872l.1-.34c.413-1.4 2.397-1.4 2.81 0l.1.34a1.464 1.464 0 0 1 2.105.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 0-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105 0l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c1.283-.698.705-2.686-1.987-1.987l-.31.17a1.464 1.464 0 0 1-2.105.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.858 2.929 2.929 0 0 1 0 5.858z" />
-            </svg>
-        </button>
-
         <div id="quiz-card" class="relative w-full h-full"
             style="transform-style: preserve-3d; transition: transform 0.6s;">
+            <button id="flipCardBtn"
+                class="w-6 h-6 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd"
+                        d="M9.586 2.586A2 2 0 0 1 11 2h2a2 2 0 0 1 2 2v.089l.473.196.063-.063a2.002 2.002 0 0 1 2.828 0l1.414 1.414a2 2 0 0 1 0 2.827l-.063.064.196.473H20a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-.089l-.196.473.063.063a2.002 2.002 0 0 1 0 2.828l-1.414 1.414a2 2 0 0 1-2.828 0l-.063-.063-.473.196V20a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-.089l-.473-.196-.063.063a2.002 2.002 0 0 1-2.828 0l-1.414-1.414a2 2 0 0 1 0-2.827l.063-.064L4.089 15H4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h.09l.195-.473-.063-.063a2 2 0 0 1 0-2.828l1.414-1.414a2 2 0 0 1 2.827 0l.064.063L9 4.089V4a2 2 0 0 1 .586-1.414ZM8 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
             <div id="questionContainer" class="w-full h-full" style="backface-visibility: hidden;">
                 <!-- Question Card -->
                 <div
@@ -73,9 +73,9 @@
                         </a>
                     </div>
                 </div>
-                <div id="quiz-action-body" class="flex-grow flex items-center justify-center"
+                <div id="quiz-action-body" class="flex-grow flex items-start justify-center pt-4 px-[5px]"
                     style="height: 70%; overflow-y: auto;">
-                    <article class="format lg:format-lg">
+                    <article class="format lg:format-base px-2">
                         <h1>Prototyping from A to Z: best practices for successful prototypes</h1>
                         <p class="lead">Flowbite is an open-source library of UI components built with the
                             utility-first classes from
@@ -97,14 +97,6 @@
                             prototyping will come
                             in handy:</p>
                         <ol>
-                            <li><strong>Usability testing</strong>. Does your user know how to exit out of screens?
-                                Can they follow your
-                                intended user journey and buy something from the site you’ve designed? By running a
-                                usability test, you’ll
-                                be able to see how users will interact with your design once it’s live;</li>
-                            <li><strong>Involving stakeholders</strong>. Need to check if your GDPR consent boxes
-                                are displaying properly?
-                                Pass your prototype to your data protection team and they can test it for real;</li>
                             <li><strong>Impressing a client</strong>. Prototypes can help explain or even sell your
                                 idea by providing your
                                 client with a hands-on experience;</li>
