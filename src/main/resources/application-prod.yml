@@ -1,21 +1,10 @@
 spring:
   application:
     name: quizme
-  datasource:
-    url: jdbc:sqlite:${AZURE_DATA_DIR:/tmp}/quizme.db
-    driver-class-name: org.sqlite.JDBC
-  jpa:
-    database-platform: org.hibernate.community.dialect.SQLiteDialect
-    hibernate:
-      ddl-auto: update
-    show-sql: false
-    properties:
-      hibernate.dialect: org.hibernate.community.dialect.SQLiteDialect
-      hibernate:
-        format_sql: false
-  sql:
-    init:
-      mode: never
+  data:
+    mongodb:
+      uri: ${AZURE_COSMOS_CONNECTION_STRING}
+      database: quizme
   thymeleaf:
     cache: true
     prefix: classpath:/templates/

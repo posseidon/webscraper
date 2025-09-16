@@ -1,36 +1,42 @@
 package hu.elte.inf.projects.quizme.repository.dto;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
 
-@Entity
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@Document(collection = "topics")
 public class Topic {
 
     @Id
     private String id;
 
+    @Field("topic_id")
     @JsonProperty("topic_id")
     private String topicId;
 
+    @Field("topic_name")
     @JsonProperty("topic_name")
     private String topicName;
 
-    @Column(length = 10000, columnDefinition = "TEXT")
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "title_id")
-    private Title title;
+    // Denormalized references for efficient querying
+    @Field("title_name")
+    private String titleName;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ref_topic_id")
-    private List<Question> questions;
+    @Field("sub_category_name")
+    private String subCategoryName;
 
+    @Field("category_name")
+    private String categoryName;
+
+    @Field("question_ids")
+    private List<String> questionIds = new ArrayList<>(); // References to Question documents
 
     public void setId(String id) {
         this.id = id;
@@ -64,19 +70,35 @@ public class Topic {
         this.description = description;
     }
 
-    public List<Question> getQuestions() {
-        return Optional.ofNullable(questions).orElse(new ArrayList<>());
+    public String getTitleName() {
+        return titleName;
     }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
+    public void setTitleName(String titleName) {
+        this.titleName = titleName;
     }
 
-    public Title getTitle() {
-        return title;
+    public String getSubCategoryName() {
+        return subCategoryName;
     }
 
-    public void setTitle(Title title) {
-        this.title = title;
+    public void setSubCategoryName(String subCategoryName) {
+        this.subCategoryName = subCategoryName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public List<String> getQuestionIds() {
+        return Optional.ofNullable(questionIds).orElse(new ArrayList<>());
+    }
+
+    public void setQuestionIds(List<String> questionIds) {
+        this.questionIds = questionIds;
     }
 }

@@ -1,5 +1,6 @@
 package hu.elte.inf.projects.quizme.repository.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuizData {
@@ -7,9 +8,9 @@ public class QuizData {
     private List<Topic> topics;
     private List<Question> questions;
 
-    private Category category;
-
     public QuizData() {
+        this.topics = new ArrayList<>();
+        this.questions = new ArrayList<>();
     }
 
     public QuizData(QuizMetadata quizMetadata, List<Topic> topics, List<Question> questions) {

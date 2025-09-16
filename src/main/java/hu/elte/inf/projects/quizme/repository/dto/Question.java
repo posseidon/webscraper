@@ -1,25 +1,29 @@
 package hu.elte.inf.projects.quizme.repository.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
-@Entity
+@Document(collection = "questions")
 public class Question {
 
     @Id
     private String id;
-    
+
+    @Field("topic_name")
     @JsonProperty("topic_name")
     private String topicName;
 
+    @Field("topic_id")
     @JsonProperty("topic_id")
     private String topicId;
 
     private String difficulty;
-    
+
+    @Field("correct_answer")
     @JsonProperty("correct_answer")
     private int correctAnswer;
 
@@ -27,15 +31,19 @@ public class Question {
 
     private String explanation;
 
-    @ElementCollection
     private List<String> options;
 
-    @ElementCollection
     private List<String> keywords;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ref_topic_id")
-    private Topic topic;
+    // Denormalized references for efficient querying
+    @Field("title_name")
+    private String titleName;
+
+    @Field("sub_category_name")
+    private String subCategoryName;
+
+    @Field("category_name")
+    private String categoryName;
 
     // Getters and Setters
     public String getId() {
@@ -44,14 +52,6 @@ public class Question {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Topic getTopic() {
-        return topic;
-    }
-
-    public void setTopic(Topic topic) {
-        this.topic = topic;
     }
 
     public String getTopicName() {
@@ -116,5 +116,29 @@ public class Question {
 
     public void setKeywords(List<String> keywords) {
         this.keywords = keywords;
+    }
+
+    public String getTitleName() {
+        return titleName;
+    }
+
+    public void setTitleName(String titleName) {
+        this.titleName = titleName;
+    }
+
+    public String getSubCategoryName() {
+        return subCategoryName;
+    }
+
+    public void setSubCategoryName(String subCategoryName) {
+        this.subCategoryName = subCategoryName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }

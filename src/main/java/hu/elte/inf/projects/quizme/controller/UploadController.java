@@ -1,9 +1,8 @@
 package hu.elte.inf.projects.quizme.controller;
 
-import hu.elte.inf.projects.quizme.repository.dto.QuizData;
-import hu.elte.inf.projects.quizme.service.json.QuizImportService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.Optional;
+import hu.elte.inf.projects.quizme.repository.dto.QuizData;
+import hu.elte.inf.projects.quizme.service.json.QuizImportService;
 
 @RestController
 @RequestMapping("upload")
 public class UploadController {
-    private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
 
     private final QuizImportService quizImportService;
 

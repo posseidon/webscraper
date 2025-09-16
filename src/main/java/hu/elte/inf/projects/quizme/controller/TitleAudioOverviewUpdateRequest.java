@@ -1,7 +1,5 @@
 package hu.elte.inf.projects.quizme.controller;
 
-import java.net.URL;
-
 public class TitleAudioOverviewUpdateRequest {
     private String titleName;
     private String audioOverview;

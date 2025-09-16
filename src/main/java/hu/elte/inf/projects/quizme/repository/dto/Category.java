@@ -1,18 +1,21 @@
 package hu.elte.inf.projects.quizme.repository.dto;
 
-
-import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@Document(collection = "categories")
 public class Category {
 
     @Id
+    private String id;
+
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
+    @Field("sub_categories")
     private List<SubCategory> subCategories = new ArrayList<>();
 
     public Category(String name) {
@@ -20,6 +23,10 @@ public class Category {
     }
 
     public Category() {
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -32,11 +39,13 @@ public class Category {
 
     public void addSubCategory(SubCategory subCategory) {
         subCategories.add(subCategory);
-        subCategory.setCategory(this);
+        subCategory.setName(this.name);
     }
 
-    public void setSubCategories(List<SubCategory> subCategories){
-        this.subCategories.addAll(subCategories);
+    public void setSubCategories(List<SubCategory> subCategories) {
+        this.subCategories = subCategories;
+        // Ensure category reference is set
+        subCategories.forEach(sub -> sub.setName(this.name));
     }
 
     public List<SubCategory> getSubCategories() {

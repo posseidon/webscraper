@@ -15,7 +15,7 @@ public class SequenceServiceTest {
 
     @Test
     public void testQuestionIdGeneration() throws Exception {
-        SequenceService sequenceService = new SequenceService(null, null);
+        SequenceService sequenceService = new SequenceService(null, null, null);
         
         // Use reflection to test the private generateQuestionId method
         Method generateQuestionId = SequenceService.class.getDeclaredMethod("generateQuestionId", Long.class);

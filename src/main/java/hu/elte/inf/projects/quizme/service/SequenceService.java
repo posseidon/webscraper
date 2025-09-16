@@ -1,17 +1,20 @@
 package hu.elte.inf.projects.quizme.service;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Service;
+
 import hu.elte.inf.projects.quizme.repository.QuestionRepository;
 import hu.elte.inf.projects.quizme.repository.SequenceRepository;
 import hu.elte.inf.projects.quizme.repository.dto.Question;
 import hu.elte.inf.projects.quizme.repository.dto.Sequence;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SequenceService {
@@ -20,33 +23,37 @@ public class SequenceService {
 
     private final SequenceRepository sequenceRepository;
     private final QuestionRepository questionRepository;
+    private final MongoTemplate mongoTemplate;
 
-    @Autowired
-    public SequenceService(SequenceRepository sequenceRepository, QuestionRepository questionRepository) {
+    public SequenceService(SequenceRepository sequenceRepository, QuestionRepository questionRepository,
+            MongoTemplate mongoTemplate) {
         this.sequenceRepository = sequenceRepository;
         this.questionRepository = questionRepository;
+        this.mongoTemplate = mongoTemplate;
     }
 
-    @Transactional
     public String getNextQuestionId() {
         try {
             // Try to increment existing sequence
-            int updated = sequenceRepository.incrementSequence(QUESTION_ID_SEQUENCE);
-            
-            if (updated == 0) {
-                // Sequence doesn't exist, initialize it
+            Sequence sequence = mongoTemplate.findAndModify(
+                    Query.query(Criteria.where("_id").is(QUESTION_ID_SEQUENCE)),
+                    new Update().inc("value", 1),
+                    FindAndModifyOptions.options().returnNew(true).upsert(true),
+                    Sequence.class);
+
+            if (sequence == null) {
+                // if sequence is null, it means it was just created, so we need to initialize
+                // it
                 initializeQuestionSequence();
-                sequenceRepository.incrementSequence(QUESTION_ID_SEQUENCE);
+                sequence = mongoTemplate.findAndModify(
+                        Query.query(Criteria.where("_id").is(QUESTION_ID_SEQUENCE)),
+                        new Update().inc("value", 1),
+                        FindAndModifyOptions.options().returnNew(true).upsert(true),
+                        Sequence.class);
             }
-            
-            // Get the current value
-            Optional<Sequence> sequence = sequenceRepository.findById(QUESTION_ID_SEQUENCE);
-            if (sequence.isPresent()) {
-                return generateQuestionId(sequence.get().getValue());
-            }
-            
-            throw new RuntimeException("Failed to get sequence value");
-            
+
+            return generateQuestionId(sequence.getValue());
+
         } catch (Exception e) {
             LOG.error("Error generating next question ID", e);
             throw new RuntimeException("Failed to generate question ID", e);
@@ -65,7 +72,7 @@ public class SequenceService {
         try {
             List<Question> questions = questionRepository.findAll();
             long maxId = 0L;
-            
+
             for (Question question : questions) {
                 String id = question.getId();
                 if (id != null && id.startsWith("Q") && id.length() >= 4) {
@@ -77,10 +84,10 @@ public class SequenceService {
                     }
                 }
             }
-            
+
             LOG.info("Found max existing question ID: {}", generateQuestionId(maxId));
             return maxId; // Return the max found, will be incremented in sequence
-            
+
         } catch (Exception e) {
             LOG.warn("Error finding max question ID from database, defaulting to 100", e);
             return 100L;
@@ -88,7 +95,8 @@ public class SequenceService {
     }
 
     /**
-     * Generate Question ID with flexible formatting that supports unlimited numbers.
+     * Generate Question ID with flexible formatting that supports unlimited
+     * numbers.
      * For values 1-999: Q001, Q002, ..., Q999 (maintains existing format)
      * For values 1000+: Q1000, Q1001, ..., Q9999, Q10000, etc. (no padding limit)
      */

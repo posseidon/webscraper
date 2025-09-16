@@ -1,33 +1,94 @@
 package hu.elte.inf.projects.quizme.controller;
 
-import hu.elte.inf.projects.quizme.repository.dto.Question;
-import hu.elte.inf.projects.quizme.repository.dto.Title;
-import hu.elte.inf.projects.quizme.repository.dto.Topic;
-import hu.elte.inf.projects.quizme.service.JsonDifficultyService;
-import hu.elte.inf.projects.quizme.service.QuizService;
-import org.springframework.beans.factory.annotation.Autowired;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_CATEGORIES;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_CATEGORY;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_QUESTIONS;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_QUIZ_TITLE;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_SELECTED_COUNT;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_SELECTED_DIFFICULTY;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_SUBCATEGORIES;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_SUBCATEGORY;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_TITLE;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_TITLES;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_TITLE_OBJECT;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_TOPICS;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_TOTAL;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.DIFFICULTY_LEVELS;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.DIFFICULTY_MIXED;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ERROR_NO_QUESTIONS;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ERROR_QUIZ_NOT_FOUND;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.PARAM_DIFFICULTY;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.PARAM_QUESTION_COUNT;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.QUIZ_CATEGORIES;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.QUIZ_CATEGORY;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.QUIZ_CATEGORY_SUB;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.QUIZ_CATEGORY_SUB_TITLE;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.QUIZ_FORM;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.QUIZ_PLAY;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.QUIZ_START;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.QUIZ_SUBMIT_RESULTS;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.REDIRECT;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.REDIRECT_ERROR_PARAM;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.RESULT_CORRECT;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.RESULT_MESSAGE;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.RESULT_SCORE;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.RESULT_SUCCESS;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.RESULT_TOTAL;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ROOT;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.SUCCESS_RESULTS_MESSAGE;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.USER_MANUAL;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_CATEGORIES;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_LANDING;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_QUIZ_FORM;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_QUIZ_PLAY;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_SUBCATEGORIES;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_TITLES;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_TOPICS;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_USER_MANUAL;
+
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.net.MalformedURLException;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static hu.elte.inf.projects.quizme.util.QuizConstants.*;
+import hu.elte.inf.projects.quizme.repository.SubCategoryRepository;
+import hu.elte.inf.projects.quizme.repository.dto.Question;
+import hu.elte.inf.projects.quizme.repository.dto.SubCategory;
+import hu.elte.inf.projects.quizme.repository.dto.Title;
+import hu.elte.inf.projects.quizme.repository.dto.Topic;
+import hu.elte.inf.projects.quizme.service.JsonDifficultyService;
+import hu.elte.inf.projects.quizme.service.QuizService;
 
 @Controller
 public class QuizController {
 
     private final QuizService quizService;
     private final JsonDifficultyService difficultyService;
+    private final SubCategoryRepository subCategoryRepository;
 
-    public QuizController(QuizService quizService, JsonDifficultyService difficultyService) {
+    public QuizController(QuizService quizService, JsonDifficultyService difficultyService,
+            SubCategoryRepository subCategoryRepository) {
         this.quizService = quizService;
         this.difficultyService = difficultyService;
+        this.subCategoryRepository = subCategoryRepository;
     }
 
     @GetMapping(ROOT)
@@ -76,12 +137,8 @@ public class QuizController {
         Title titleObject = quizService.findTitleByName(title);
 
         // Calculate total questions if not set
-        if (titleObject.getTotalQuestions() == 0 && !topics.isEmpty()) {
-            int totalQuestions = topics.stream()
-                    .mapToInt(topic -> topic.getQuestions() != null ? topic.getQuestions().size() : 0)
-                    .sum();
-            titleObject.setTotalQuestions(totalQuestions);
-        }
+        List<Question> questions = quizService.findQuestionsByTitle(title);
+        titleObject.setTotalQuestions(questions.size());
 
         model.addAttribute(ATTR_TOPICS, topics);
         model.addAttribute(ATTR_TITLE, title);
@@ -98,13 +155,16 @@ public class QuizController {
             @RequestParam(required = true) String category,
             @RequestParam(required = true) String subcategory,
             Model model) {
-        List<Question> questions = quizService.findQuestionsByTopicId(topicId);
         Topic topic = quizService.findTopicById(topicId);
-        if (questions.isEmpty()) {
+
+        if (topic == null || topic.getQuestionIds().isEmpty()) {
             return REDIRECT + QUIZ_CATEGORIES + REDIRECT_ERROR_PARAM + ERROR_NO_QUESTIONS;
         }
 
-        questions.forEach(question -> question.setTopic(null));
+        List<Question> questions = quizService.getQuestionsByTopic(topic.getTopicId());
+        if (CollectionUtils.isEmpty(questions)) {
+            return REDIRECT + QUIZ_CATEGORIES + REDIRECT_ERROR_PARAM + ERROR_NO_QUESTIONS;
+        }
 
         model.addAttribute(ATTR_QUESTIONS, questions);
         model.addAttribute(ATTR_TOTAL, questions.size());
@@ -122,11 +182,13 @@ public class QuizController {
     public String quizForm(@PathVariable String titleName, Model model) {
         Title title = quizService.findTitleByName(titleName);
         if (Objects.nonNull(title)) {
-            model.addAttribute(ATTR_TITLE_OBJECT, title);
-            model.addAttribute(ATTR_QUIZ_TITLE, title.getName());
-            model.addAttribute(ATTR_CATEGORY, title.getSubCategory().getCategory());
-            model.addAttribute(ATTR_SUBCATEGORY, title.getSubCategory().getName());
-            return VIEW_QUIZ_FORM;
+            Optional<SubCategory> subCategory = subCategoryRepository.findById(title.getSubCategoryName());
+            if (subCategory.isPresent()) {
+                model.addAttribute(ATTR_TITLE_OBJECT, title);
+                model.addAttribute(ATTR_QUIZ_TITLE, title.getName());
+                model.addAttribute(ATTR_SUBCATEGORY, subCategory.get().getName());
+                return VIEW_QUIZ_FORM;
+            }
         }
         return REDIRECT + QUIZ_CATEGORIES + REDIRECT_ERROR_PARAM + ERROR_QUIZ_NOT_FOUND;
     }
@@ -143,15 +205,15 @@ public class QuizController {
         if (!CollectionUtils.isEmpty(questions)) {
             List<Question> balancedQuestions = selectBalancedQuestions(questions, questionCount, difficulty);
 
-            balancedQuestions.forEach(question -> question.setTopic(null));
-
             model.addAttribute(ATTR_QUESTIONS, balancedQuestions);
             model.addAttribute(ATTR_TOTAL, balancedQuestions.size());
             model.addAttribute(ATTR_SELECTED_COUNT, questionCount);
             model.addAttribute(ATTR_SELECTED_DIFFICULTY, difficulty);
             model.addAttribute(ATTR_QUIZ_TITLE, title.getName());
-            model.addAttribute(ATTR_CATEGORY, title.getSubCategory().getCategory().getName());
-            model.addAttribute(ATTR_SUBCATEGORY, title.getSubCategory().getName());
+            Optional<SubCategory> subCategory = subCategoryRepository.findById(title.getSubCategoryName());
+            if (subCategory.isPresent()) {
+                model.addAttribute(ATTR_SUBCATEGORY, subCategory.get().getName());
+            }
             model.addAttribute(ATTR_TITLE, titleId);
             return VIEW_QUIZ_PLAY;
         }

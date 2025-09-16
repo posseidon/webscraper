@@ -23,20 +23,23 @@ import static org.junit.jupiter.api.Assertions.*;
 public class QuizImportServiceIntegrationTest {
 
     @Autowired
+    private QuizService quizService;
+
+    @Autowired
     private QuizImportService quizImportService;
-    
+
     @Autowired
     private CategoryRepository categoryRepository;
-    
+
     @Autowired
     private SubCategoryRepository subCategoryRepository;
-    
+
     @Autowired
     private TitleRepository titleRepository;
-    
+
     @Autowired
     private TopicRepository topicRepository;
-    
+
     @Autowired
     private QuestionRepository questionRepository;
 
@@ -47,21 +50,26 @@ public class QuizImportServiceIntegrationTest {
         // Load test JSON file
         ClassPathResource resource = new ClassPathResource("json/1.json");
         testJsonData = resource.getInputStream().readAllBytes();
+        categoryRepository.deleteAll();
+        subCategoryRepository.deleteAll();
+        titleRepository.deleteAll();
+        topicRepository.deleteAll();
+        questionRepository.deleteAll();
     }
 
     @Test
     void testImportQuizFile_ShouldParseJsonCorrectly() {
         // When
         Optional<QuizData> result = quizImportService.importQuizFile(testJsonData);
-        
+
         // Then
         assertTrue(result.isPresent(), "Quiz data should be successfully parsed");
-        
+
         QuizData quizData = result.get();
         assertNotNull(quizData.getQuizMetadata(), "Quiz metadata should not be null");
         assertNotNull(quizData.getTopics(), "Topics should not be null");
         assertNotNull(quizData.getQuestions(), "Questions should not be null");
-        
+
         // Verify metadata
         QuizMetadata metadata = quizData.getQuizMetadata();
         assertEquals("Magyar kulturális ismeret", metadata.getCategory());
@@ -69,22 +77,22 @@ public class QuizImportServiceIntegrationTest {
         assertEquals("Magyarország nemzeti jelképei és ünnepei", metadata.getTitle());
         assertEquals(50, metadata.getTotalQuestions());
         assertEquals("magyar", metadata.getLanguage());
-        
+
         // Verify topics
         List<Topic> topics = quizData.getTopics();
         assertEquals(5, topics.size(), "Should have 5 topics");
-        
+
         // Verify specific topic
         Optional<Topic> nationalSymbolsTopic = topics.stream()
                 .filter(t -> "nemzeti_jelképek".equals(t.getTopicId()))
                 .findFirst();
         assertTrue(nationalSymbolsTopic.isPresent(), "Should have national symbols topic");
         assertEquals("Nemzeti jelképek", nationalSymbolsTopic.get().getTopicName());
-        
+
         // Verify questions
         List<Question> questions = quizData.getQuestions();
         assertEquals(50, questions.size(), "Should have 50 questions");
-        
+
         // Verify specific question (note: IDs are UUIDs, not the original JSON IDs)
         Optional<Question> firstQuestion = questions.stream()
                 .filter(q -> "nemzeti_jelképek".equals(q.getTopicId()))
@@ -103,166 +111,167 @@ public class QuizImportServiceIntegrationTest {
         // Given
         Optional<QuizData> quizData = quizImportService.importQuizFile(testJsonData);
         assertTrue(quizData.isPresent(), "Quiz data should be parsed successfully");
-        
+
         // When
         quizImportService.persist(quizData);
-        
+
         // Then
         // Verify Category is saved
         List<Category> categories = categoryRepository.findAll();
         assertEquals(1, categories.size(), "Should have 1 category");
         Category category = categories.get(0);
         assertEquals("Magyar kulturális ismeret", category.getName());
-        
+
         // Verify SubCategory is saved
         List<SubCategory> subCategories = subCategoryRepository.findAll();
         assertEquals(1, subCategories.size(), "Should have 1 subcategory");
         SubCategory subCategory = subCategories.get(0);
         assertEquals("Kultúra és Identitás", subCategory.getName());
-        assertEquals(category.getName(), subCategory.getCategory().getName());
-        
+
         // Verify Title is saved
         List<Title> titles = titleRepository.findAll();
         assertEquals(1, titles.size(), "Should have 1 title");
         Title title = titles.get(0);
         assertEquals("Magyarország nemzeti jelképei és ünnepei", title.getName());
-        assertEquals(subCategory.getName(), title.getSubCategory().getName());
+        assertEquals(subCategory.getName(), title.getSubCategoryName());
         assertEquals(50, title.getTotalQuestions());
         assertEquals("magyar", title.getLanguage());
         assertNotNull(title.getLearningObjectives());
         assertEquals(5, title.getLearningObjectives().size());
         assertNotNull(title.getStudyTips());
         assertEquals(5, title.getStudyTips().size());
-        
+
         // Verify Topics are saved
         List<Topic> topics = topicRepository.findAll();
         assertEquals(5, topics.size(), "Should have 5 topics");
-        
+
         // Verify specific topic
         Optional<Topic> nationalSymbolsTopic = topicRepository.findByTopicId("nemzeti_jelképek");
         assertTrue(nationalSymbolsTopic.isPresent(), "Should find national symbols topic by ID");
         Topic topic = nationalSymbolsTopic.get();
         assertEquals("Nemzeti jelképek", topic.getTopicName());
-        assertEquals(title.getName(), topic.getTitle().getName());
-        
+        assertEquals(title.getId(), topic.getTitleName());
+
         // Verify Questions are saved
         List<Question> questions = questionRepository.findAll();
         assertEquals(50, questions.size(), "Should have 50 questions");
-        
+
         // Verify question relationships
         List<Question> nationalSymbolsQuestions = questions.stream()
                 .filter(q -> "nemzeti_jelképek".equals(q.getTopicId()))
                 .toList();
         assertFalse(nationalSymbolsQuestions.isEmpty(), "Should have questions for national symbols topic");
-        
+
         // Verify specific question
         Question firstQuestion = nationalSymbolsQuestions.get(0);
         assertEquals("nemzeti_jelképek", firstQuestion.getTopicId());
     }
-    
+
     @Test
     void testTopicQuestionRelationship_ShouldBeEstablishedCorrectly() {
         // Given
         Optional<QuizData> quizData = quizImportService.importQuizFile(testJsonData);
         assertTrue(quizData.isPresent());
-        
+
         // When
         quizImportService.persist(quizData);
-        
+
         // Then
         // Find a specific topic
         Optional<Topic> nationalSymbolsTopic = topicRepository.findByTopicId("nemzeti_jelképek");
         assertTrue(nationalSymbolsTopic.isPresent());
-        
+
         Topic topic = nationalSymbolsTopic.get();
-        
+        List<Question> questions = quizService.findQuestionsByTopicId(topic.getTopicId());
+
         // Verify bidirectional relationship
-        assertNotNull(topic.getQuestions(), "Topic should have questions list");
-        assertFalse(topic.getQuestions().isEmpty(), "Topic should have questions");
-        
+        assertNotNull(questions, "Topic should have questions list");
+        assertFalse(questions.isEmpty(), "Topic should have questions");
+
         // Count questions for this topic
-        long questionCount = topic.getQuestions().size();
+        long questionCount = questions.size();
         assertTrue(questionCount > 0, "Topic should have questions");
-        
+
         // Verify each question points back to the topic
-        for (Question question : topic.getQuestions()) {
+        for (Question question : questions) {
             assertEquals("nemzeti_jelképek", question.getTopicId(), "Question should have correct topicId");
         }
     }
-    
+
     @Test
     void testDifficultyDistribution_ShouldMatchExpectedCounts() {
         // Given
         Optional<QuizData> quizData = quizImportService.importQuizFile(testJsonData);
         assertTrue(quizData.isPresent());
-        
+
         // When
         quizImportService.persist(quizData);
-        
+
         // Then
         List<Question> questions = questionRepository.findAll();
-        
+
         long easyCount = questions.stream().filter(q -> "könnyű".equals(q.getDifficulty())).count();
         long mediumCount = questions.stream().filter(q -> "közepes".equals(q.getDifficulty())).count();
         long hardCount = questions.stream().filter(q -> "nehéz".equals(q.getDifficulty())).count();
-        
+
         // Based on the JSON metadata difficulty_distribution
         assertTrue(easyCount > 0, "Should have easy questions");
         assertTrue(mediumCount > 0, "Should have medium questions");
         assertTrue(hardCount > 0, "Should have hard questions");
-        
+
         assertEquals(50, easyCount + mediumCount + hardCount, "Total questions should match");
     }
-    
+
     @Test
     void testTopicDistribution_ShouldMatchExpectedCounts() {
         // Given
         Optional<QuizData> quizData = quizImportService.importQuizFile(testJsonData);
         assertTrue(quizData.isPresent());
-        
+
         // When
         quizImportService.persist(quizData);
-        
+
         // Then
         List<Question> questions = questionRepository.findAll();
-        
+
         // Count questions by topic
         long nationalSymbolsCount = questions.stream().filter(q -> "nemzeti_jelképek".equals(q.getTopicId())).count();
         long hymnCount = questions.stream().filter(q -> "himnusz_és_szózat".equals(q.getTopicId())).count();
         long holidaysCount = questions.stream().filter(q -> "nemzeti_ünnepek".equals(q.getTopicId())).count();
         long historyCount = questions.stream().filter(q -> "történelmi_háttér".equals(q.getTopicId())).count();
-        long legalCount = questions.stream().filter(q -> "jogi_és_alkotmányos_vonatkozások".equals(q.getTopicId())).count();
-        
+        long legalCount = questions.stream().filter(q -> "jogi_és_alkotmányos_vonatkozások".equals(q.getTopicId()))
+                .count();
+
         assertTrue(nationalSymbolsCount > 0, "Should have questions for national symbols");
         assertTrue(hymnCount > 0, "Should have questions for hymn and szózat");
         assertTrue(holidaysCount > 0, "Should have questions for holidays");
         assertTrue(historyCount > 0, "Should have questions for history");
         assertTrue(legalCount > 0, "Should have questions for legal aspects");
-        
-        assertEquals(50, nationalSymbolsCount + hymnCount + holidaysCount + historyCount + legalCount, 
+
+        assertEquals(50, nationalSymbolsCount + hymnCount + holidaysCount + historyCount + legalCount,
                 "Total questions should match");
     }
-    
+
     @Test
     void testInvalidJson_ShouldReturnEmpty() {
         // Given
         byte[] invalidJson = "invalid json content".getBytes();
-        
+
         // When
         Optional<QuizData> result = quizImportService.importQuizFile(invalidJson);
-        
+
         // Then
         assertFalse(result.isPresent(), "Invalid JSON should return empty result");
     }
-    
+
     @Test
     void testEmptyJson_ShouldReturnEmpty() {
         // Given
         byte[] emptyJson = "{}".getBytes();
-        
+
         // When
         Optional<QuizData> result = quizImportService.importQuizFile(emptyJson);
-        
+
         // Then
         assertTrue(result.isPresent(), "Empty JSON should return present but incomplete data");
         QuizData quizData = result.get();
@@ -272,28 +281,63 @@ public class QuizImportServiceIntegrationTest {
     }
 
     @Test
+    void testTopicQuestionRelationships_EstablishedCorrectly() {
+        // Given
+        Optional<QuizData> quizDataOpt = quizImportService.importQuizFile(testJsonData);
+        assertTrue(quizDataOpt.isPresent());
+        quizImportService.persist(quizDataOpt);
+
+        // When
+        List<Topic> topics = topicRepository.findAll();
+        List<Question> questions = questionRepository.findAll();
+
+        // Then
+        assertFalse(topics.isEmpty());
+        assertFalse(questions.isEmpty());
+
+        // Verify that every question has a topicId that matches a topic
+        for (Question question : questions) {
+            String questionTopicId = question.getTopicId();
+            assertNotNull(questionTopicId, "Question should have a topic ID");
+
+            boolean topicExists = topics.stream()
+                    .anyMatch(topic -> questionTopicId.equals(topic.getTopicId()));
+            assertTrue(topicExists,
+                    "Question topic ID '" + questionTopicId + "' should match an existing topic");
+        }
+
+        // Verify that every topic has questions
+        for (Topic topic : topics) {
+            String topicId = topic.getTopicId();
+            long questionCount = questions.stream()
+                    .filter(q -> topicId.equals(q.getTopicId()))
+                    .count();
+            assertTrue(questionCount > 0,
+                    "Topic '" + topicId + "' should have at least one question");
+        }
+    }
+
+    @Test
     void testTopicQuestionsEagerLoading_ShouldLoadQuestionsAutomatically() {
         // Given
         Optional<QuizData> quizData = quizImportService.importQuizFile(testJsonData);
         assertTrue(quizData.isPresent());
         quizImportService.persist(quizData);
-        
+
         // When - Find topic by repository (simulating normal application usage)
-        Optional<Topic> foundTopic = topicRepository.findByTopicId("nemzeti_jelképek");
-        
-        // Then
-        assertTrue(foundTopic.isPresent(), "Should find the topic");
-        Topic topic = foundTopic.get();
-        
+        Topic topic = quizService.findTopicById("nemzeti_jelképek");
+        assertNotNull(topic, "Should find the topic");
+
+        List<Question> questions = quizService.findQuestionsByTopicId(topic.getTopicId());
         // Verify questions are eagerly loaded
-        assertNotNull(topic.getQuestions(), "Questions should be loaded");
-        assertFalse(topic.getQuestions().isEmpty(), "Questions list should not be empty");
-        
+        assertNotNull(questions, "Questions should be loaded");
+        assertFalse(questions.isEmpty(), "Questions list should not be empty");
+
         // Verify question count matches expectations
-        assertTrue(topic.getQuestions().size() > 0, "Should have questions loaded");
-        
+        assertTrue(questions.size() > 0, "Should have questions loaded");
+
         // Verify each question has proper data
-        for (Question question : topic.getQuestions()) {
+        for (Question question : questions) {
             assertNotNull(question.getId(), "Question should have ID");
             assertNotNull(question.getQuestion(), "Question should have question text");
             assertNotNull(question.getOptions(), "Question should have options");

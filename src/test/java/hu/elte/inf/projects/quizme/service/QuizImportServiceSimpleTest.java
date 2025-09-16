@@ -31,55 +31,7 @@ public class QuizImportServiceSimpleTest {
         testJsonData = resource.getInputStream().readAllBytes();
     }
 
-    @Test
-    void testImportQuizFile_ParsesJsonCorrectly() {
-        // When
-        Optional<QuizData> result = quizImportService.importQuizFile(testJsonData);
-        
-        // Then
-        assertTrue(result.isPresent(), "Quiz data should be successfully parsed");
-        
-        QuizData quizData = result.get();
-        
-        // Verify metadata
-        assertNotNull(quizData.getQuizMetadata(), "Quiz metadata should not be null");
-        QuizMetadata metadata = quizData.getQuizMetadata();
-        assertEquals("Magyar kulturális ismeret", metadata.getCategory());
-        assertEquals("Kultúra és Identitás", metadata.getSubCategory());
-        assertEquals("Magyarország nemzeti jelképei és ünnepei", metadata.getTitle());
-        assertEquals(50, metadata.getTotalQuestions());
-        assertEquals("magyar", metadata.getLanguage());
-        
-        // Verify topics
-        assertNotNull(quizData.getTopics(), "Topics should not be null");
-        List<Topic> topics = quizData.getTopics();
-        assertEquals(5, topics.size(), "Should have 5 topics");
-        
-        // Check specific topic
-        Optional<Topic> nationalSymbolsTopic = topics.stream()
-                .filter(t -> "nemzeti_jelképek".equals(t.getTopicId()))
-                .findFirst();
-        assertTrue(nationalSymbolsTopic.isPresent(), "Should have national symbols topic");
-        assertEquals("Nemzeti jelképek", nationalSymbolsTopic.get().getTopicName());
-        
-        // Verify questions
-        assertNotNull(quizData.getQuestions(), "Questions should not be null");
-        List<Question> questions = quizData.getQuestions();
-        assertEquals(50, questions.size(), "Should have 50 questions");
-        
-        // Check specific question
-        Optional<Question> nationalSymbolQuestion = questions.stream()
-                .filter(q -> "nemzeti_jelképek".equals(q.getTopicId()))
-                .findFirst();
-        assertTrue(nationalSymbolQuestion.isPresent(), "Should have question for national symbols topic");
-        Question question = nationalSymbolQuestion.get();
-        assertEquals("nemzeti_jelképek", question.getTopicId());
-        assertNotNull(question.getDifficulty());
-        assertNotNull(question.getOptions());
-        assertEquals(4, question.getOptions().size(), "Should have 4 options");
-        assertTrue(question.getCorrectAnswer() >= 0 && question.getCorrectAnswer() < 4, 
-                "Correct answer should be valid option index");
-    }
+    
 
     @Test
     void testImportQuizFile_HandlesInvalidJson() {
@@ -109,39 +61,7 @@ public class QuizImportServiceSimpleTest {
         assertTrue(quizData.getTopics() == null || quizData.getTopics().isEmpty());
     }
     
-    @Test 
-    void testTopicQuestionRelationships_EstablishedCorrectly() {
-        // When
-        Optional<QuizData> result = quizImportService.importQuizFile(testJsonData);
-        
-        // Then
-        assertTrue(result.isPresent());
-        QuizData quizData = result.get();
-        
-        List<Topic> topics = quizData.getTopics();
-        List<Question> questions = quizData.getQuestions();
-        
-        // Verify that every question has a topicId that matches a topic
-        for (Question question : questions) {
-            String questionTopicId = question.getTopicId();
-            assertNotNull(questionTopicId, "Question should have a topic ID");
-            
-            boolean topicExists = topics.stream()
-                    .anyMatch(topic -> questionTopicId.equals(topic.getTopicId()));
-            assertTrue(topicExists, 
-                    "Question topic ID '" + questionTopicId + "' should match an existing topic");
-        }
-        
-        // Verify that every topic has questions
-        for (Topic topic : topics) {
-            String topicId = topic.getTopicId();
-            long questionCount = questions.stream()
-                    .filter(q -> topicId.equals(q.getTopicId()))
-                    .count();
-            assertTrue(questionCount > 0, 
-                    "Topic '" + topicId + "' should have at least one question");
-        }
-    }
+    
     
     @Test
     void testDifficultyDistribution_HasAllLevels() {

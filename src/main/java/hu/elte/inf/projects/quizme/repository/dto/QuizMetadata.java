@@ -1,7 +1,6 @@
 package hu.elte.inf.projects.quizme.repository.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,31 +19,26 @@ public class QuizMetadata {
     private String category;
     private String level;
 
-    
     @JsonProperty("total_questions")
     private int totalQuestions;
-    
+
     private String language;
-    
+
     @JsonProperty("created_date")
     private LocalDate createdDate;
-    
+
     private String version;
 
-    @ElementCollection
     @JsonProperty("learning_objectives")
     private List<String> learningObjectives;
 
-    @ElementCollection
     @JsonProperty("study_tips")
     private List<String> studyTips;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "quiz_id")
     private List<Topic> topics;
 
-    public void createAndSetId(){
-        if(Objects.nonNull(this.subCategory) && Objects.nonNull(this.title) && Objects.nonNull(this.category)){
+    public void createAndSetId() {
+        if (Objects.nonNull(this.subCategory) && Objects.nonNull(this.title) && Objects.nonNull(this.category)) {
             setId(UUID.randomUUID().toString());
         }
     }

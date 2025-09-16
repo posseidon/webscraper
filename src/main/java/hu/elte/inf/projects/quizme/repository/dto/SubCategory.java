@@ -1,30 +1,30 @@
 package hu.elte.inf.projects.quizme.repository.dto;
 
-import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+@Document(collection = "subcategories")
 public class SubCategory {
 
     @Id
+    private String id;
     private String name;
+    private String categoryName;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id")
-    private Category category;
+    private List<Title> titles = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "sub_category_id")
-    private List<Title> titles =new ArrayList<>();
-
-    public SubCategory(String name){
+    public SubCategory(String name) {
         this.name = name;
     }
 
     public SubCategory() {
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -35,24 +35,27 @@ public class SubCategory {
         this.name = name;
     }
 
-    public void setCategory(Category category){
-        this.category = category;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
     public List<Title> getTitles() {
         return titles;
     }
 
-    public void setTitles(List<Title> titles) {
-        this.titles = titles;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void addTitle(Title title){
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public void setTitles(List<Title> titles) {
+        this.titles = titles;
+        // Set back reference
+        titles.forEach(title -> title.setSubCategoryName(this.name));
+    }
+
+    public void addTitle(Title title) {
         titles.add(title);
-        title.setSubCategory(this);
+        title.setSubCategoryName(this.name);
+        title.setCategoryName(this.categoryName);
     }
 }

@@ -1,12 +1,12 @@
 package hu.elte.inf.projects.quizme.repository;
 
 import hu.elte.inf.projects.quizme.repository.dto.SubCategory;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
-public interface SubCategoryRepository extends JpaRepository<SubCategory, String> {
+public interface SubCategoryRepository extends MongoRepository<SubCategory, String> {
     List<SubCategory> findByName(String name);
 
-    List<SubCategory> findByCategory_Name(String categoryName);
+    List<SubCategory> findByCategoryName(String categoryName);
 }

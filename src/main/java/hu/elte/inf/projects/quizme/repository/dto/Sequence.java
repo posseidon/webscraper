@@ -1,29 +1,29 @@
 package hu.elte.inf.projects.quizme.repository.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+@Document(collection = "sequences")
 public class Sequence {
 
     @Id
-    private String name;
+    private String id;
     
     private Long value;
 
     public Sequence() {}
 
-    public Sequence(String name, Long value) {
-        this.name = name;
+    public Sequence(String id, Long value) {
+        this.id = id;
         this.value = value;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Long getValue() {
