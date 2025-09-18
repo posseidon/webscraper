@@ -208,5 +208,7 @@
   "landing.quiz_me_desc": "Một bài kiểm tra đơn giản để kiểm tra kiến thức của bạn.",
   "quiz.quit_quiz": "Thoát Trac Nghiệm",
   "back.button.label": "Quay lại",
-  "modal.test_your_knowledge": "Kiểm tra kiến thức"
+  "modal.test_your_knowledge": "Kiểm tra kiến thức",
+  "audio.missing_content": "Nội dung âm thanh",
+  "video.missing_content": "Nội dung video"
 }

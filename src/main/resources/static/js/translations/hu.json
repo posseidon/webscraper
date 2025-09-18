@@ -208,5 +208,7 @@
   "landing.quiz_me_desc": "Egy egyszerű kvíz a tudásod tesztelésére.",
   "quiz.quit_quiz": "Kilépés a kvízből",
   "back.button.label": "Vissza",
-  "modal.test_your_knowledge": "Tedd próbára tudásodat"
+  "modal.test_your_knowledge": "Tedd próbára tudásodat",
+  "audio.missing_content": "Hanganyag",
+  "video.missing_content": "Videó tartalom"
 }

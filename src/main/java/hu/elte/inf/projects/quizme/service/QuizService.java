@@ -98,6 +98,17 @@ public class QuizService {
         titleRepository.save(title);
     }
 
+    public void updateTitleAudioVideoOverview(String titleName, String audioOverviewUrl, String videoOverviewUrl) throws MalformedURLException {
+        List<Title> titles = titleRepository.findByName(titleName);
+        if (CollectionUtils.isEmpty(titles)) {
+            throw new IllegalArgumentException("Title not found: " + titleName);
+        }
+        Title title = titles.get(0); // Assuming titleName is unique or taking the first one
+        title.setAudioOverview(new URL(audioOverviewUrl));
+        title.setVideoOverview(new URL(videoOverviewUrl));
+        titleRepository.save(title);
+    }
+
     public Topic findByTopicName(String topicName) {
         return topicRepository.findByTopicName(topicName).stream().findFirst().orElse(null);
     }

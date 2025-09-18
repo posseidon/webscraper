@@ -8,12 +8,13 @@
             <button type="button" data-dropdown-toggle="language-dropdown-menu"
                 class="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
                 <span id="selected-language-flag">
-                    <svg class="w-5 h-5 rounded-full me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                        <path fill="#3c3b6e" d="M0 0h512v512H0z"/>
-                        <path fill="#fff" d="M128 128h256v256H128z"/>
-                        <path fill="#b22234" d="M160 160h192v192H160z"/>
-                        <path fill="#fff" d="M192 192h128v128H192z"/>
-                        <path fill="#3c3b6e" d="M224 224h64v64h-64z"/>
+                    <svg class="w-5 h-5 rounded-full me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512">
+                        <path fill="#3c3b6e" d="M0 0h512v512H0z" />
+                        <path fill="#fff" d="M128 128h256v256H128z" />
+                        <path fill="#b22234" d="M160 160h192v192H160z" />
+                        <path fill="#fff" d="M192 192h128v128H192z" />
+                        <path fill="#3c3b6e" d="M224 224h64v64h-64z" />
                     </svg>
                 </span>
                 <span id="selected-language-text">English (US)</span>
@@ -52,23 +53,24 @@
             <!-- Dropdown menu -->
             <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600"
                 id="user-dropdown">
-                <div class="px-4 py-3">
-                    <span class="block text-sm text-gray-900 dark:text-white">Bonnie & Clyde</span>
-                    <span class="block text-sm  text-black dark:text-white truncate">bonnie@azurewebsites.com</span>
+                <div id="user-name-label" class="px-4 py-3">
+                    <span class="block text-sm text-gray-900 dark:text-white"></span>
                 </div>
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     <li>
                         <a href="https://oif.gov.hu/tajekoztatok/magyar-kulturalis-ismereti-vizsga" target="_blank"
                             rel="noopener noreferrer"
                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                            <span id="exam-information-link" th:text="#{nav.exam_information}" data-translate="nav.exam_information">Info</span>
+                            <span id="exam-information-link" th:text="#{nav.exam_information}"
+                                data-translate="nav.exam_information">Info</span>
                         </a>
                     </li>
                     <li>
                         <a href="https://oif.gov.hu/storage/media/Kultur%C3%A1lis%20Ismereti%20Vizsga/magyar-kulturalis-ismereti-vizsga-segedanyag.pdf"
                             target="_blank" rel="noopener noreferrer"
                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                            <span id="exam-material-link" th:text="#{nav.exam_material}" data-translate="nav.exam_material">Material</span>
+                            <span id="exam-material-link" th:text="#{nav.exam_material}"
+                                data-translate="nav.exam_material">Material</span>
                         </a>
                     </li>
                 </ul>

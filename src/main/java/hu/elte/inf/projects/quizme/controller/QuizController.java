@@ -353,20 +353,23 @@ public class QuizController {
         return response;
     }
 
-    @PutMapping("/titles/audio-overview")
+    @PutMapping("/titles/audio-video-overview")
     @ResponseBody
-    public ResponseEntity<String> updateTitleAudioOverview(@RequestBody List<TitleAudioOverviewUpdateRequest> updates) {
+    public ResponseEntity<String> updateTitleAudioVideoOverview(
+            @RequestBody List<TitleAudioOverviewUpdateRequest> updates) {
         for (TitleAudioOverviewUpdateRequest update : updates) {
             try {
-                quizService.updateTitleAudioOverview(update.getTitleName(), update.getAudioOverview());
+                quizService.updateTitleAudioVideoOverview(update.getTitleName(), update.getAudioOverview(),
+                        update.getVideoOverview());
             } catch (IllegalArgumentException e) {
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
             } catch (MalformedURLException e) {
                 return new ResponseEntity<>(
-                        "Invalid URL for title " + update.getTitleName() + ": " + update.getAudioOverview(),
+                        "Invalid URL for title " + update.getTitleName() + ": " + update.getAudioOverview() + ", "
+                                + update.getVideoOverview(),
                         HttpStatus.BAD_REQUEST);
             }
         }
-        return new ResponseEntity<>("Title audio overviews updated successfully!", HttpStatus.OK);
+        return new ResponseEntity<>("Title audio and video overviews updated successfully!", HttpStatus.OK);
     }
 }

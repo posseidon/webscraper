@@ -51,6 +51,9 @@ public class Title {
     @Field("audio_overview")
     private URL audioOverview;
 
+    @Field("video_overview")
+    private URL videoOverview;
+
     public Title() {
     }
 
@@ -162,5 +165,13 @@ public class Title {
 
     public void setAudioOverview(URL audioOverview) {
         this.audioOverview = audioOverview;
+    }
+
+    public URL getVideoOverview() {
+        return videoOverview;
+    }
+
+    public void setVideoOverview(URL videoOverview) {
+        this.videoOverview = videoOverview;
     }
 }

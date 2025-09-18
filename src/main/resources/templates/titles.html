@@ -4,7 +4,7 @@
 
 <div th:fragment="content" class="container mx-auto px-4">
     <!-- Responsive Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto" id="titlesGrid">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto mb-24" id="titlesGrid">
         <!-- Dynamic Quiz Cards -->
         <div th:each="title, iterStat : ${titles}"
             class="group bg-white dark:bg-gray-800 rounded-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 overflow-hidden hover:scale-105 quiz-card flex flex-col relative">
@@ -16,12 +16,6 @@
                                 th:text="${title.name}">Quiz Title</h2>
                         </div>
                         <hr class="border-t border-gray-300 dark:border-gray-600 my-2">
-                        <audio controls class="w-full mt-2">
-                            <source
-                                src="https://storageccount2025.blob.core.windows.net/quizme/Magyarorsza%CC%81g%20nemzeti%20jelke%CC%81pei%20e%CC%81s%20u%CC%88nnepei.mp4"
-                                type="audio/mpeg">
-                            Your browser does not support the audio element.
-                        </audio>
                     </div>
                     <p th:text="${title.description}"
                         class="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed line-clamp-6"></p>

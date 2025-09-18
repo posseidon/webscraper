@@ -613,13 +613,10 @@ function finishQuiz() {
             const subCategory = window.subcategory;
             const title = window.currentQuizTitle;
 
-            console.error('Redirecting to quiz titles page after submitting results:', category, subCategory, title);
-
             if (category && subCategory && title) {
                 window.location.href = `/quiz/${category}/${subCategory}/${title}`;
             } else {
-                // Fallback to categories if params not available
-                //window.location.href = '/quiz/categories';
+                window.location.href = '/quiz/categories';
             }
         })
         .catch(error => {
@@ -627,12 +624,12 @@ function finishQuiz() {
             const category = window.category;
             const subCategory = window.subcategory;
             const title = window.currentQuizTitle;
-            console.error('Redirecting to quiz titles page after submitting results:', category, subCategory, title);
+
             if (category && topic) {
-                //window.location.href = `/quiz/${category}/${subCategory}/${title}`;
+                window.location.href = `/quiz/${category}/${subCategory}/${title}`;
             } else {
                 // Fallback to categories if params not available
-                //window.location.href = '/quiz/categories';
+                window.location.href = '/quiz/categories';
             }
         });
 }

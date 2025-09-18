@@ -208,5 +208,7 @@
   "landing.quiz_me_desc": "A simple quiz to test your knowledge.",
   "quiz.quit_quiz": "Quit Quiz",
   "back.button.label": "Back",
-  "modal.test_your_knowledge": "Test your knowledge"
+  "modal.test_your_knowledge": "Test your knowledge",
+  "audio.missing_content": "Audio content",
+  "video.missing_content": "Video content"
 }

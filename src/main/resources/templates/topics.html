@@ -4,9 +4,40 @@
 
 
 <div id="content" th:fragment="content" class="container mx-auto px-4">
-    <!-- Topic Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto" id="titlesGrid">
-        <div th:each="topic, iterStat : ${topics}" class="bg-white dark:bg-gray-800 rounded-xl p-5">
+    <h4 th:text="${currentTitle}"
+        class="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+        Title name
+    </h4>
+    <audio controls class="w-full mt-2">
+        <source th:src="${titleObject.audioOverview}" type="audio/mpeg">
+        <span th:if="${titleObject.audioOverview == null}" data-translate="audio.missing_content">Audio content</span>
+        <span th:unless="${titleObject.audioOverview == null}">Your browser does not
+            support the
+            audio element.</span>
+    </audio>
+    <hr class="border-t border-gray-300 dark:border-gray-600 my-2">
+    <video class="w-full h-auto max-w-full border border-gray-200 rounded-lg dark:border-gray-700" controls>
+        <source th:src="${titleObject.videoOverview}" type="video/mp4">
+        <span th:if="${titleObject.videoOverview == null}" data-translate="video.missing_content">Video content</span>
+        <span th:unless="${titleObject.videoOverview == null}">Your browser does not
+            support the
+            video tag.</span>
+    </video>
+
+    <div class="inline-flex items-center justify-center w-full">
+        <hr class="w-64 h-1 my-8 bg-gray-200 border-0 rounded-sm dark:bg-gray-700">
+        <div class="absolute px-4 -translate-x-1/2 bg-white left-1/2 dark:bg-gray-900">
+            <svg class="w-4 h-4 text-gray-700 dark:text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" viewBox="0 0 18 14">
+                <path
+                    d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- Topics Galery -->
+    <div id="topics-galery" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-24">
+        <div th:each="topic : ${topics}" class="bg-white dark:bg-gray-800 rounded-xl p-5">
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white" th:text="${topic.topicName}">Topic Name</h2>
             <p class="mt-2 text-gray-600 dark:text-gray-300" th:text="${topic.description}"
                 th:if="${topic.description != null and !topic.description.empty}">This is a short description of
@@ -30,230 +61,37 @@
         </div>
     </div>
 
-    <!-- Speed Dial -->
-    <div data-dial-init id="speed-dial" class="fixed end-6 bottom-6 group hidden">
-        <!-- FAB items -->
-        <div id="speed-dial-menu" class="flex flex-col items-center hidden mb-4 space-y-2">
-            <!-- Audio -->
-            <button data-modal-target="audioModal" data-modal-toggle="audioModal" data-tooltip-target="tooltip-audio"
-                data-tooltip-placement="left"
-                class="flex items-center justify-center w-12 h-12 rounded-full bg-white text-gray-700 hover:bg-gray-100 shadow">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor"
-                    stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M9 18V5l12-2v14l-12-2zM3 9v6" />
-                </svg>
-            </button>
-            <div id="tooltip-audio" role="tooltip"
-                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
-                data-translate="speed_dial.tooltip_audio_overview" style="width: 200%;">
-                Audio Overview
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
 
-            <!-- Video -->
-            <button data-modal-target="videoModal" data-modal-toggle="videoModal" data-tooltip-target="tooltip-video"
-                data-tooltip-placement="left"
-                class="flex items-center justify-center w-12 h-12 rounded-full bg-white text-gray-700 hover:bg-gray-100 shadow">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor"
-                    stroke-width="2" viewBox="0 0 24 24">
-                    <path
-                        d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14m-6 0a2 2 0 01-2-2V8a2 2 0 012-2h6a2 2 0 012 2v4a2 2 0 01-2 2H9z" />
-                </svg>
-            </button>
-            <div id="tooltip-video" role="tooltip"
-                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
-                data-translate="speed_dial.tooltip_video_overview" style="width: 200%;">
-                Video Overview
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
-            <!-- Mindmap -->
-            <button data-modal-target="mindmapModal" data-modal-toggle="mindmapModal"
-                data-tooltip-target="tooltip-mindmap" data-tooltip-placement="left"
-                class="flex items-center justify-center w-12 h-12 rounded-full bg-white text-gray-700 hover:bg-gray-100 shadow">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor"
-                    stroke-width="2" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="3" />
-                    <path
-                        d="M19.4 15a1.65 1.65 0 01.6 1.3v2a1.65 1.65 0 01-1.65 1.65H17M4.6 9A1.65 1.65 0 014 7.7V6a1.65 1.65 0 011.65-1.65H7" />
-                </svg>
-            </button>
-            <div id="tooltip-mindmap" role="tooltip"
-                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
-                data-translate="speed_dial.tooltip_mindmap_overview" style="width: 200%;">
-                Mindmap Overview
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
-            <!-- Learning Objectives -->
-            <button data-modal-target="learningObjectivesModal" data-modal-toggle="learningObjectivesModal"
-                data-tooltip-target="tooltip-learning-objectives" data-tooltip-placement="left"
-                class="flex items-center justify-center w-12 h-12 rounded-full bg-white text-gray-700 hover:bg-gray-100 shadow">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor"
-                    stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M4 4h16v12H4z" />
-                    <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
-                </svg>
-            </button>
-            <div id="tooltip-learning-objectives" role="tooltip"
-                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
-                data-translate="speed_dial.tooltip_learning_objectives_overview" style="width: 200%;">
-                Learning Objectives Overview
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
-            <!-- Tips -->
-            <button data-modal-target="tipsModal" data-modal-toggle="tipsModal" data-tooltip-target="tooltip-tips"
-                data-tooltip-placement="left"
-                class="flex items-center justify-center w-12 h-12 rounded-full bg-white text-gray-700 hover:bg-gray-100 shadow">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor"
-                    stroke-width="2" viewBox="0 0 24 24">
-                    <path
-                        d="M12 2a10 10 0 0110 10c0 3.866-2.238 7.163-5.5 8.65V22h-9v-1.35C4.238 19.163 2 15.866 2 12A10 10 0 0112 2z" />
-                </svg>
-            </button>
-            <div id="tooltip-tips" role="tooltip"
-                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
-                data-translate="speed_dial.tooltip_tips_overview" style="width: 200%;">
-                Tips Overview
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
-        </div>
 
-        <!-- FAB button -->
-        <button type="button" data-dial-toggle="speed-dial-menu" aria-controls="speed-dial-menu" aria-expanded="false"
-            class="flex items-center justify-center text-black dark:text-white bg-white dark:bg-black rounded-full w-14 h-14 hover:bg-gray-100 dark:hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 focus:outline-none">
-            <svg class="w-5 h-5 transition-transform group-hover:rotate-45" aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 1v16M1 9h16" />
-            </svg>
-            <span class="sr-only" data-translate="speed_dial.open_actions_menu">Open actions menu</span>
-        </button>
-    </div>
-
-    <!-- Modals -->
-    <div id="audioModal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 z-50 flex items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-            <h3 class="text-lg font-semibold">Audio Overview</h3>
-            <p class="mt-2 text-gray-600">Audio content goes here...</p>
-            <button data-modal-hide="audioModal" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">Close</button>
-        </div>
-    </div>
-
-    <div id="videoModal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 z-50 flex items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-            <h3 class="text-lg font-semibold">Video Overview</h3>
-            <p class="mt-2 text-gray-600">Video content goes here...</p>
-            <button data-modal-hide="videoModal" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">Close</button>
-        </div>
-    </div>
-
-    <div id="mindmapModal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 z-50 flex items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-            <h3 class="text-lg font-semibold">Mind Map</h3>
-            <p class="mt-2 text-gray-600">Mind map visualization goes here...</p>
-            <button data-modal-hide="mindmapModal"
-                class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">Close</button>
-        </div>
-    </div>
-
-    <!-- Study Tips modal -->
-    <div id="tipsModal" tabindex="-1" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-7xl max-h-full">
-            <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-                <!-- Modal header -->
-                <div
-                    class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white" data-translate="titles.study_tips">
-                        Study Tips
-                    </h3>
-                    <button id="close-study-tips-btn" type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-hide="tipsModal">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+    <!-- Bottom footer -->
+    <footer id="bottom-footer" class="bg-white rounded-lg shadow-sm dark:bg-gray-900 m-4">
+        <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <a id="back-subcategory" th:href="@{'/quiz/' + ${category} + '/' + ${subcategory}}"
+                        class="inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                            </path>
                         </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
+                        <span id="back-btn" data-translate="back.button.label">Back</span>
+                    </a>
                 </div>
-                <!-- Modal body -->
-                <div class="p-4 md:p-5 space-y-4">
-                    <ul class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
-                        <li th:each="tip : ${titleObject.studyTips}">
-                            <span th:text="${tip}">Study Tip</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Learning Objectives modal -->
-    <div id="learningObjectivesModal" tabindex="-1" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-7xl max-h-full">
-            <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-                <!-- Modal header -->
-                <div
-                    class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white"
-                        data-translate="titles.learning_objectives">
-                        Learning Objectives
-                    </h3>
-                    <button type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-hide="learningObjectivesModal">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                <div>
+                    <a id="title-quiz-btn" th:href="@{'/quiz/form' + '/'  + ${currentTitle}}"
+                        class="inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white">
+                        <span data-translate="modal.test_your_knowledge">Test your knowledge</span>
+                        <svg class="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                            </path>
                         </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="p-4 md:p-5 space-y-4">
-                    <ul class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
-                        <li th:each="objective : ${titleObject.learningObjectives}">
-                            <span th:text="${objective}">Learning objective</span>
-                        </li>
-                    </ul>
+                    </a>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Bottom banner -->
-    <div id="bottom-banner" tabindex="-1"
-        class="fixed bottom-0 start-0 z-50 flex justify-between w-full p-4 border-t border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-        <div class="flex items-center justify-between w-full">
-            <!-- Back to Subcategory -->
-            <a id="back-subcategory" th:href="@{'/quiz/' + ${category} + '/' + ${subcategory}}"
-                class="inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
-                <span id="back-btn" data-translate="back.button.label">Back</span>
-            </a>
-            <!-- Test your knowledge -->
-            <a id="title-quiz-btn" th:href="@{'/quiz/form' + '/'  + ${currentTitle}}"
-                class="inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white">
-                <span data-translate="modal.test_your_knowledge">Test your knowledge</span>
-                <svg class="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-            </a>
-        </div>
-    </div>
-
+    </footer>
 
     <!-- Empty State -->
     <div th:if="${#lists.isEmpty(topics)}" class="text-center py-12">

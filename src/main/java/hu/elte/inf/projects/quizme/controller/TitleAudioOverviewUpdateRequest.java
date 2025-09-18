@@ -3,6 +3,7 @@ package hu.elte.inf.projects.quizme.controller;
 public class TitleAudioOverviewUpdateRequest {
     private String titleName;
     private String audioOverview;
+    private String videoOverview;
 
     public String getTitleName() {
         return titleName;
@@ -18,5 +19,13 @@ public class TitleAudioOverviewUpdateRequest {
 
     public void setAudioOverview(String audioOverview) {
         this.audioOverview = audioOverview;
+    }
+
+    public String getVideoOverview() {
+        return videoOverview;
+    }
+
+    public void setVideoOverview(String videoOverview) {
+        this.videoOverview = videoOverview;
     }
 }
