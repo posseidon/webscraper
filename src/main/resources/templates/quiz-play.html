@@ -3,6 +3,10 @@
     th:replace="~{fragments/layout-quiz :: layout (null, ~{::content})}" lang="en">
 
 <div th:fragment="content" class="container mx-auto px-4 pt-0 pb-48">
+    <h1 th:text="${quizTitle}" class="text-3xl font-bold text-gray-900 dark:text-white text-center my-6">
+        Quiz Title
+    </h1>
+
     <!-- Quiz card flipper -->
     <div id="quizContent" class="relative max-w-4xl mx-auto">
         <div id="quiz-card" class="relative w-full h-full"
@@ -104,7 +108,8 @@
                 <div id="quiz-action-footer"
                     class="fixed bottom-0 start-0 z-50 flex justify-between w-full p-4 border-t border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                     <div class="col-span-1 flex items-center justify-between w-full">
-                        <a id="quit-quiz-btn" th:href="@{'/quiz/' + ${category} + '/' + ${subcategory}}"
+                        <a id="quit-quiz-btn"
+                            th:href="@{'/quiz/' + ${category} + '/' + ${subcategory} + '/' + ${currentTitle}}"
                             class="inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -116,47 +121,6 @@
                         </a>
                     </div>
                     <div class="col-span-1 flex items-center justify-between w-full">
-                        <!-- Vietnamese Filter Button (top) -->
-                        <button type="button"
-                            class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-transparent rounded-full border-none shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200"
-                            id="vietnamese-filter-btn">
-                            <span class="text-xl">🇻🇳</span>
-                            <span class="sr-only">Vietnamese</span>
-                        </button>
-                        <div id="tooltip-vietnamese" role="tooltip"
-                            class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
-                            data-translate="speed_dial.tooltip_vietnamese" style="width: 200%;">
-                            Vietnamese Only
-                            <div class="tooltip-arrow" data-popper-arrow></div>
-                        </div>
-
-                        <!-- Hungarian Filter Button (middle) -->
-                        <button type="button"
-                            class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-transparent rounded-full border-none shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200"
-                            id="hungarian-filter-btn">
-                            <span class="text-xl">🇭🇺</span>
-                            <span class="sr-only">Hungarian</span>
-                        </button>
-                        <div id="tooltip-hungarian" role="tooltip"
-                            class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
-                            data-translate="speed_dial.tooltip_hungarian" style="width: 200%;">
-                            Hungarian Only
-                            <div class="tooltip-arrow" data-popper-arrow></div>
-                        </div>
-
-                        <!-- All Languages Filter Button (bottom, closest to main button) -->
-                        <button type="button"
-                            class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-transparent rounded-full border-none shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200 ring-2 ring-blue-500"
-                            id="all-filter-btn">
-                            <span class="text-xl">🌐</span>
-                            <span class="sr-only">Both Languages</span>
-                        </button>
-                        <div id="tooltip-all" role="tooltip"
-                            class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
-                            data-translate="speed_dial.tooltip_all" style="width: 200%;">
-                            Both Languages
-                            <div class="tooltip-arrow" data-popper-arrow></div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -239,11 +203,57 @@ full bg-white bg-opacity-50 dark:bg-black dark:bg-opacity-50">
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
+    <!-- Language Filter selector -->
+    <div id="filter-selector" tabindex="-1"
+        class="fixed bottom-0 start-0 z-50 flex justify-between w-full p-4 border-t border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+        <div class="max-w-md mx-auto flex items-center justify-center gap-2 p-2">
+            <!-- Vietnamese Filter Button (top) -->
+            <button type="button"
+                class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-transparent rounded-full border-none shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200"
+                id="vietnamese-filter-btn">
+                <span class="text-xl">🇻🇳</span>
+                <span class="sr-only">Vietnamese</span>
+            </button>
+            <div id="tooltip-vietnamese" role="tooltip"
+                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
+                data-translate="speed_dial.tooltip_vietnamese" style="width: 200%;">
+                Vietnamese Only
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+
+            <!-- Hungarian Filter Button (middle) -->
+            <button type="button"
+                class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-transparent rounded-full border-none shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200"
+                id="hungarian-filter-btn">
+                <span class="text-xl">🇭🇺</span>
+                <span class="sr-only">Hungarian</span>
+            </button>
+            <div id="tooltip-hungarian" role="tooltip"
+                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
+                data-translate="speed_dial.tooltip_hungarian" style="width: 200%;">
+                Hungarian Only
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+
+            <!-- All Languages Filter Button (bottom, closest to main button) -->
+            <button type="button"
+                class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-transparent rounded-full border-none shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200 ring-2 ring-blue-500"
+                id="all-filter-btn">
+                <span class="text-xl">🌐</span>
+                <span class="sr-only">Both Languages</span>
+            </button>
+            <div id="tooltip-all" role="tooltip"
+                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
+                data-translate="speed_dial.tooltip_all" style="width: 200%;">
+                Both Languages
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Data injection for JavaScript -->
@@ -253,6 +263,9 @@ full bg-white bg-opacity-50 dark:bg-black dark:bg-opacity-50">
         try {
             window.quizQuestionsData = /*[[${questions}]]*/[];
             window.currentQuizTitle = /*[[${currentTitle}]]*/ null;
+            window.category = /*[[${category}]]*/ null;
+            window.subcategory = /*[[${subcategory}]]*/ null;
+            console.log('Category:', window.category, 'Subcategory:', window.subcategory, 'Title:', window.currentQuizTitle);
         } catch (error) {
             console.error('Error injecting quiz data:', error);
             window.quizQuestionsData = [];

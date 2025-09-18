@@ -609,29 +609,30 @@ function finishQuiz() {
         .then(response => response.json())
         .then(data => {
             // Extract category and subcategory from current URL to redirect to titles page
-            const urlParams = new URLSearchParams(window.location.search);
-            const category = urlParams.get('category');
-            const topic = urlParams.get('subcategory');
-            const titles = window.currentQuizTitle || null;
+            const category = window.category;
+            const subCategory = window.subcategory;
+            const title = window.currentQuizTitle;
 
-            if (category && topic) {
-                window.location.href = `/quiz/${category}/${topic}/${titles}`;
+            console.error('Redirecting to quiz titles page after submitting results:', category, subCategory, title);
+
+            if (category && subCategory && title) {
+                window.location.href = `/quiz/${category}/${subCategory}/${title}`;
             } else {
                 // Fallback to categories if params not available
-                window.location.href = '/quiz/categories';
+                //window.location.href = '/quiz/categories';
             }
         })
         .catch(error => {
             // Extract category and subcategory from current URL for error case too
-            const urlParams = new URLSearchParams(window.location.search);
-            const category = urlParams.get('category');
-            const topic = urlParams.get('subcategory');
-
+            const category = window.category;
+            const subCategory = window.subcategory;
+            const title = window.currentQuizTitle;
+            console.error('Redirecting to quiz titles page after submitting results:', category, subCategory, title);
             if (category && topic) {
-                window.location.href = `/quiz/${category}/${topic}/${titles}`;
+                //window.location.href = `/quiz/${category}/${subCategory}/${title}`;
             } else {
                 // Fallback to categories if params not available
-                window.location.href = '/quiz/categories';
+                //window.location.href = '/quiz/categories';
             }
         });
 }
@@ -641,25 +642,6 @@ function setupLanguageFilterListeners() {
     // Setup manual toggle for speed dial main button
     const speedDialToggle = document.getElementById('language-speed-dial-btn');
     const speedDialMenu = document.getElementById('speed-dial-menu-bottom-right');
-    const helperSpeedDial = document.getElementById('helper-speed-dial');
-
-
-    if (speedDialToggle && speedDialMenu) {
-        // Ensure menu starts hidden - use inline styles to override any CSS conflicts
-        speedDialMenu.classList.remove('flex');
-        speedDialMenu.classList.add('hidden');
-        speedDialMenu.style.display = 'none';
-        speedDialMenu.style.pointerEvents = 'none';
-        speedDialToggle.setAttribute('aria-expanded', 'false');
-
-        // Simple click handler for speed dial toggle
-        speedDialToggle.addEventListener('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleSpeedDialMenu();
-        });
-
-    }
 
     // Language filter buttons
     const vietnameseBtn = document.getElementById('vietnamese-filter-btn');

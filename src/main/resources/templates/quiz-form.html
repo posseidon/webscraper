@@ -80,15 +80,15 @@
                 <!-- Start Quiz Button -->
                 <div id="config-form-actions"
                     class="flex items-center w-full justify-between gap-4 pt-4 md:pt-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button id="start-quiz-btn" type="button"
-                        class="red-accent text-white font-medium py-2 px-4 rounded-none hover:red-accent"
-                        th:attr="data-quiz-id=${titleObject.name}, data-category=${category}">
-                        <span data-translate="modal.play_quiz">Play Quiz</span>
-                    </button>
                     <button id="cancel-quiz-btn" type="button"
                         th:onclick="'window.location.href = \'' + @{/quiz/{category}/{subcategory}/{title}(category=${category}, subcategory=${subcategory}, title=${titleObject.name})} + '\';'"
                         class="red-accent text-white font-medium py-2 px-4 rounded-none hover:red-accent">
                         <span data-translate="modal.cancel">Cancel</span>
+                    </button>
+                    <button id="start-quiz-btn" type="button"
+                        class="red-accent text-white font-medium py-2 px-4 rounded-none hover:red-accent"
+                        th:attr="data-quiz-id=${titleObject.name}, data-category=${category}">
+                        <span data-translate="modal.play_quiz">Play Quiz</span>
                     </button>
                 </div>
             </form>

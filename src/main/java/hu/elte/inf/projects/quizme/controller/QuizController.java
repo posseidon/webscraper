@@ -183,7 +183,8 @@ public class QuizController {
         Title title = quizService.findTitleByName(titleName);
         if (Objects.nonNull(title)) {
             model.addAttribute(ATTR_TITLE_OBJECT, title);
-            model.addAttribute(ATTR_QUIZ_TITLE, title.getName());
+            model.addAttribute(ATTR_TITLE, title.getName());
+            model.addAttribute(ATTR_CATEGORY, title.getCategoryName());
             model.addAttribute(ATTR_SUBCATEGORY, title.getSubCategoryName());
             return VIEW_QUIZ_FORM;
         }
@@ -205,9 +206,11 @@ public class QuizController {
             model.addAttribute(ATTR_SELECTED_COUNT, questionCount);
             model.addAttribute(ATTR_SELECTED_DIFFICULTY, difficulty);
             model.addAttribute(ATTR_QUIZ_TITLE, title.getName());
-            Optional<SubCategory> subCategory = subCategoryRepository.findById(title.getSubCategoryName());
+            Optional<SubCategory> subCategory = quizService.findSubCategoryByName(title.getSubCategoryName());
             if (subCategory.isPresent()) {
+                model.addAttribute(ATTR_TITLE, title);
                 model.addAttribute(ATTR_SUBCATEGORY, subCategory.get().getName());
+                model.addAttribute(ATTR_CATEGORY, subCategory.get().getCategoryName());
             }
             model.addAttribute(ATTR_TITLE, titleId);
             return VIEW_QUIZ_PLAY;

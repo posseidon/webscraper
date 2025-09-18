@@ -3,6 +3,7 @@ package hu.elte.inf.projects.quizme.service;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -46,6 +47,10 @@ public class QuizService {
 
     public List<String> findDistinctSubCategories(String categoryName) {
         return subCategoryRepository.findByCategoryName(categoryName).stream().map(SubCategory::getName).toList();
+    }
+
+    public Optional<SubCategory> findSubCategoryByName(String subCategoryName) {
+        return subCategoryRepository.findByName(subCategoryName).stream().findFirst();
     }
 
     public List<Title> findTitlesByCategoryAndSubCategory(String categoryName, String subCategoryName) {
