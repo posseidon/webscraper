@@ -161,15 +161,15 @@ public class QuizImportService {
                         titleRepository.save(title);
                         subCategory.addTitle(title);
 
+                        data.getQuestions().forEach(question -> {
+                            question.setId(sequenceService.getNextQuestionId());
+                        });
+
                         data.getTopics().forEach(topic -> {
                             topic.setId(UUID.randomUUID().toString());
                             topic.setTitleName(titleName);
                             topic.setQuestionIds(
                                     data.getQuestions().stream().map(Question::getId).collect(Collectors.toList()));
-                        });
-
-                        data.getQuestions().forEach(question -> {
-                            question.setId(sequenceService.getNextQuestionId());
                         });
 
                         topicRepository.saveAll(data.getTopics());
@@ -178,5 +178,13 @@ public class QuizImportService {
                 }
             }
         });
+    }
+
+    public void deleteAllQuestions() {
+        questionRepository.deleteAll();
+    }
+
+    public void deleteAllTopics() {
+        topicRepository.deleteAll();
     }
 }

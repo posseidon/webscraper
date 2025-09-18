@@ -53,9 +53,11 @@ public class QuizService {
     }
 
     public List<Question> findQuestionsByTitle(String titleId) {
-        List<String> topicIds = topicRepository.findByTitleName(titleId).stream().map(Topic::getId)
+        List<String> questionIds = topicRepository.findByTitleName(titleId).stream()
+                .map(Topic::getQuestionIds)
+                .flatMap(List::stream)
                 .collect(Collectors.toList());
-        return questionRepository.findByTopicIdIn(topicIds);
+        return questionRepository.findByIdIn(questionIds);
     }
 
     public List<Question> getQuestionsByTopic(String topicId) {

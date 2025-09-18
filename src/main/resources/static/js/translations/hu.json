@@ -5,6 +5,8 @@
   "nav.earnings": "Keresetek",
   "nav.signout": "Kijelentkezés",
   "nav.user_menu": "Felhasználói menü megnyitása",
+  "nav.exam_information": "Vizsga Információ",
+  "nav.exam_material": "Vizsgaanyag",
   "categories.title": "Tanulási Anyagok - Kvíz Kategóriák",
   "categories.explore_desc": "Fedezze fel a {} témákat és tesztelje tudását interaktív kvízekkel.",
   "categories.start_learning": "Tanulás Kezdése",
@@ -204,5 +206,7 @@
   "footer.contact": "Kapcsolat",
   "landing.quiz_me": "Kvíz indítása",
   "landing.quiz_me_desc": "Egy egyszerű kvíz a tudásod tesztelésére.",
-  "quiz.quit_quiz": "Kilépés a kvízből"
+  "quiz.quit_quiz": "Kilépés a kvízből",
+  "back.button.label": "Vissza",
+  "modal.test_your_knowledge": "Tedd próbára tudásodat"
 }

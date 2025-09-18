@@ -5,6 +5,8 @@
   "nav.earnings": "Thu nhập",
   "nav.signout": "Đăng xuất",
   "nav.user_menu": "Mở menu người dùng",
+  "nav.exam_information": "Thông tin kỳ thi",
+  "nav.exam_material": "Tài liệu ôn thi",
   "categories.title": "Tài Liệu Học Tập - Danh Mục Câu Hỏi",
   "categories.explore_desc": "Khám phá các chủ đề {} và kiểm tra kiến thức của bạn với các câu hỏi tương tác.",
   "categories.start_learning": "Bắt Đầu Học",
@@ -204,5 +206,7 @@
   "footer.contact": "Liên hệ",
   "landing.quiz_me": "Bắt đầu trắc nghiệm",
   "landing.quiz_me_desc": "Một bài kiểm tra đơn giản để kiểm tra kiến thức của bạn.",
-  "quiz.quit_quiz": "Thoát Trac Nghiệm"
+  "quiz.quit_quiz": "Thoát Trac Nghiệm",
+  "back.button.label": "Quay lại",
+  "modal.test_your_knowledge": "Kiểm tra kiến thức"
 }

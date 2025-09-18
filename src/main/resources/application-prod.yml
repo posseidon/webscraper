@@ -1,10 +1,10 @@
 spring:
-  application:
-    name: quizme
   data:
     mongodb:
-      uri: ${AZURE_COSMOS_CONNECTION_STRING}
       database: quizme
+      uri: mongodb+srv://<username>:<password>@cluster0.mongodb.net/quizme?retryWrites=true&w=majority
+  application:
+    name: quizme
   thymeleaf:
     cache: true
     prefix: classpath:/templates/
@@ -59,6 +59,8 @@ server:
 
 logging:
   level:
+    org.springframework.data.mongodb.core: INFO  # Helps debug MongoDB connections
+    org.mongodb.driver: WARN                     # Reduce MongoDB driver noise
     org.hibernate.SQL: WARN
     org.hibernate.type.descriptor.sql.BasicBinder: WARN
     org.springframework: WARN

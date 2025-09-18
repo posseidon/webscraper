@@ -182,13 +182,10 @@ public class QuizController {
     public String quizForm(@PathVariable String titleName, Model model) {
         Title title = quizService.findTitleByName(titleName);
         if (Objects.nonNull(title)) {
-            Optional<SubCategory> subCategory = subCategoryRepository.findById(title.getSubCategoryName());
-            if (subCategory.isPresent()) {
-                model.addAttribute(ATTR_TITLE_OBJECT, title);
-                model.addAttribute(ATTR_QUIZ_TITLE, title.getName());
-                model.addAttribute(ATTR_SUBCATEGORY, subCategory.get().getName());
-                return VIEW_QUIZ_FORM;
-            }
+            model.addAttribute(ATTR_TITLE_OBJECT, title);
+            model.addAttribute(ATTR_QUIZ_TITLE, title.getName());
+            model.addAttribute(ATTR_SUBCATEGORY, title.getSubCategoryName());
+            return VIEW_QUIZ_FORM;
         }
         return REDIRECT + QUIZ_CATEGORIES + REDIRECT_ERROR_PARAM + ERROR_QUIZ_NOT_FOUND;
     }
@@ -198,8 +195,6 @@ public class QuizController {
             @RequestParam(name = PARAM_QUESTION_COUNT, defaultValue = "0") int questionCount,
             @RequestParam(name = PARAM_DIFFICULTY, defaultValue = DIFFICULTY_MIXED) String difficulty,
             Model model) {
-        System.err.println("Starting quiz for title: " + titleId + " with question count: " + questionCount
-                + " and difficulty: " + difficulty); // Debug line
         Title title = quizService.findTitleByName(titleId);
         List<Question> questions = quizService.findQuestionsByTitle(titleId);
         if (!CollectionUtils.isEmpty(questions)) {
@@ -246,9 +241,8 @@ public class QuizController {
 
         // Calculate questions per subcategory (ensure each subcategory gets at least 1
         // question)
-        Map<String, List<Question>> questionsByTopicName = questions.stream()
-                .filter(q -> difficultyService.matchesDifficulty(q.getDifficulty(), difficulty))
-                .collect(Collectors.groupingBy(Question::getTopicName));
+        Map<String, List<Question>> questionsByTopicName = allQuestions.stream()
+                .collect(Collectors.groupingBy(Question::getTopicId));
 
         int questionsPerTopic = Math.max(1, requestedCount / questionsByTopicName.size());
         int remainder = requestedCount % questionsByTopicName.size();

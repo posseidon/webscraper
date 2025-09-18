@@ -1,5 +1,3 @@
-// breadcrumb-truncation.js
-
 document.addEventListener('DOMContentLoaded', function () {
     const breadcrumb = document.getElementById('breadcrumb');
 
@@ -8,20 +6,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
         elementsToTruncate.forEach(element => {
             const originalText = element.textContent.trim();
-            const words = originalText.split(' ');
-            const maxWords = 2; // Keep the first 2 words
-            const minLengthForTruncation = 20; // Only truncate if the original text is longer than this
+            element.setAttribute('title', originalText); // Add tooltip
 
             function truncate() {
-                if (originalText.length > minLengthForTruncation && words.length > maxWords) {
-                    const truncatedWords = words.slice(0, maxWords);
-                    element.textContent = truncatedWords.join(' ') + ' ...';
+                const breadcrumbWidth = breadcrumb.offsetWidth;
+                const parentWidth = element.parentElement.offsetWidth;
+                const elementWidth = element.offsetWidth;
+
+                if (elementWidth > parentWidth) {
+                    let truncatedText = originalText;
+                    while (element.offsetWidth > parentWidth && truncatedText.length > 0) {
+                        truncatedText = truncatedText.slice(0, -1);
+                        element.textContent = truncatedText + '...';
+                    }
                 } else {
                     element.textContent = originalText;
                 }
             }
 
+            // Initial truncation
             truncate();
+
+            // Re-truncate on window resize
             window.addEventListener('resize', truncate);
         });
     }

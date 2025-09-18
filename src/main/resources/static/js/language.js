@@ -27,6 +27,7 @@ class LanguageManager {
         await this.loadTranslations();
         this.applyTranslations();
         this.updateLanguageSelector();
+        this.updateLanguageButton();
         this.setupEventListeners();
     }
 
@@ -57,10 +58,16 @@ class LanguageManager {
 
         this.currentLanguage = languageCode;
         localStorage.setItem('quiz-app-language', languageCode);
-        
+
         await this.loadTranslations();
         this.applyTranslations();
         this.updateLanguageSelector();
+        this.updateLanguageButton();
+
+        const dropdown = document.getElementById('language-dropdown-menu');
+        if (dropdown) {
+            dropdown.classList.add('hidden');
+        }
     }
 
     applyTranslations() {
@@ -211,6 +218,42 @@ class LanguageManager {
             code: this.currentLanguage,
             name: languageNames[this.currentLanguage] || this.currentLanguage
         };
+    }
+
+    updateLanguageButton() {
+        const languageInfo = this.getLanguageInfo();
+        const flagElement = document.getElementById('selected-language-flag');
+        const textElement = document.getElementById('selected-language-text');
+
+        if (flagElement && textElement) {
+            const flagSVGs = {
+                en: `
+                    <svg class="w-5 h-5 rounded-full me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path fill="#3c3b6e" d="M0 0h512v512H0z"/>
+                        <path fill="#fff" d="M128 128h256v256H128z"/>
+                        <path fill="#b22234" d="M160 160h192v192H160z"/>
+                        <path fill="#fff" d="M192 192h128v128H192z"/>
+                        <path fill="#3c3b6e" d="M224 224h64v64h-64z"/>
+                    </svg>
+                `,
+                hu: `
+                    <svg class="w-5 h-5 rounded-full me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+                        <rect width="900" height="600" fill="#436F4D"/>
+                        <rect width="900" height="400" fill="#FFF"/>
+                        <rect width="900" height="200" fill="#CD2A3E"/>
+                    </svg>
+                `,
+                vi: `
+                    <svg class="w-5 h-5 rounded-full me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+                        <rect width="600" height="400" fill="#DA251D"/>
+                        <polygon points="300,120 340,200 420,200 360,250 380,330 300,280 220,330 240,250 180,200 260,200" fill="#FF0"/>
+                    </svg>
+                `
+            };
+
+            flagElement.innerHTML = flagSVGs[languageInfo.code] || flagSVGs['en'];
+            textElement.textContent = languageInfo.name;
+        }
     }
 }
 

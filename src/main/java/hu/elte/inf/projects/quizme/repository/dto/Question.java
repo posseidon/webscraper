@@ -13,10 +13,6 @@ public class Question {
     @Id
     private String id;
 
-    @Field("topic_name")
-    @JsonProperty("topic_name")
-    private String topicName;
-
     @Field("topic_id")
     @JsonProperty("topic_id")
     private String topicId;
@@ -52,14 +48,6 @@ public class Question {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getTopicName() {
-        return topicName;
-    }
-
-    public void setTopicName(String topicName) {
-        this.topicName = topicName;
     }
 
     public String getTopicId() {

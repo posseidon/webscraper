@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.5.5</version>
-        <relativePath/>
+        <relativePath />
     </parent>
     <groupId>hu.elte.inf.projects</groupId>
     <artifactId>quizme</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>quizme</name>
     <description>quizme</description>
-    <url/>
+    <url />
     <licenses>
-        <license/>
+        <license />
     </licenses>
     <developers>
-        <developer/>
+        <developer />
     </developers>
     <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
+        <connection />
+        <developerConnection />
+        <tag />
+        <url />
     </scm>
     <properties>
         <java.version>17</java.version>
@@ -159,9 +161,8 @@
             </properties>
             <dependencies>
                 <dependency>
-                    <groupId>com.azure</groupId>
-                    <artifactId>azure-cosmos</artifactId>
-                    <version>4.51.0</version>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-data-mongodb</artifactId>
                 </dependency>
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
@@ -178,7 +179,8 @@
                         <artifactId>spring-boot-maven-plugin</artifactId>
                         <configuration>
                             <executable>true</executable>
-                            <jvmArguments>-Dspring.profiles.active=prod -Xms64m -Xmx256m -XX:+UseG1GC -XX:+UseStringDeduplication</jvmArguments>
+                            <jvmArguments>-Dspring.profiles.active=prod -Xms64m -Xmx256m
+                                -XX:+UseG1GC -XX:+UseStringDeduplication</jvmArguments>
                             <layers>
                                 <enabled>false</enabled>
                             </layers>
@@ -251,28 +253,31 @@
                                             const path = require('path');
                                             const srcDir = 'src/main/resources/static/js';
                                             const targetDir = 'target/classes/static/js/min';
-                                            
+
                                             if (!fs.existsSync(targetDir)) {
-                                                fs.mkdirSync(targetDir, {recursive: true});
+                                            fs.mkdirSync(targetDir, {recursive: true});
                                             }
-                                            
+
                                             function minifyJS(content) {
-                                                return content
-                                                    .replace(/\/\*[\s\S]*?\*\//g, '')
-                                                    .replace(/\/\/.*$/gm, '')
-                                                    .replace(/\s+/g, ' ')
-                                                    .replace(/;\s*}/g, '}')
-                                                    .replace(/{\s*/g, '{')
-                                                    .replace(/}\s*/g, '}')
-                                                    .replace(/,\s*/g, ',')
-                                                    .trim();
+                                            return content
+                                            .replace(/\/\*[\s\S]*?\*\//g, '')
+                                            .replace(/\/\/.*$/gm, '')
+                                            .replace(/\s+/g, ' ')
+                                            .replace(/;\s*}/g, '}')
+                                            .replace(/{\s*/g, '{')
+                                            .replace(/}\s*/g, '}')
+                                            .replace(/,\s*/g, ',')
+                                            .trim();
                                             }
-                                            
-                                            ['language.js', 'titles.js', 'quiz-play.js'].forEach(file => {
-                                                const content = fs.readFileSync(path.join(srcDir, file), 'utf8');
-                                                const minified = minifyJS(content);
-                                                const outputFile = file.replace('.js', '.min.js');
-                                                fs.writeFileSync(path.join(targetDir, outputFile), minified);
+
+                                            ['language.js', 'titles.js',
+                                            'quiz-play.js'].forEach(file => {
+                                            const content = fs.readFileSync(path.join(srcDir, file),
+                                            'utf8');
+                                            const minified = minifyJS(content);
+                                            const outputFile = file.replace('.js', '.min.js');
+                                            fs.writeFileSync(path.join(targetDir, outputFile),
+                                            minified);
                                             });
                                         </argument>
                                     </arguments>
@@ -295,23 +300,25 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <echo message="Minifying HTML files for production..."/>
+                                        <echo message="Minifying HTML files for production..." />
                                         <!-- Simple HTML minification using regex -->
                                         <replaceregexp byline="true" flags="g">
-                                            <regexp pattern="\s{2,}"/>
-                                            <substitution expression=" "/>
-                                            <fileset dir="${project.build.directory}/classes/templates">
-                                                <include name="**/*.html"/>
+                                            <regexp pattern="\s{2,}" />
+                                            <substitution expression=" " />
+                                            <fileset
+                                                dir="${project.build.directory}/classes/templates">
+                                                <include name="**/*.html" />
                                             </fileset>
                                         </replaceregexp>
                                         <replaceregexp byline="true" flags="g">
-                                            <regexp pattern="&lt;!--.*?--&gt;"/>
-                                            <substitution expression=""/>
-                                            <fileset dir="${project.build.directory}/classes/templates">
-                                                <include name="**/*.html"/>
+                                            <regexp pattern="&lt;!--.*?--&gt;" />
+                                            <substitution expression="" />
+                                            <fileset
+                                                dir="${project.build.directory}/classes/templates">
+                                                <include name="**/*.html" />
                                             </fileset>
                                         </replaceregexp>
-                                        <echo message="HTML minification completed"/>
+                                        <echo message="HTML minification completed" />
                                     </target>
                                 </configuration>
                             </execution>

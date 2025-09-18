@@ -107,3 +107,4 @@ target/data/
 *.local.properties
 application-*.local.yml
 application-*.local.properties
+prod.config

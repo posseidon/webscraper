@@ -5,6 +5,8 @@
   "nav.earnings": "Earnings",
   "nav.signout": "Sign out",
   "nav.user_menu": "Open user menu",
+  "nav.exam_information": "Exam Information",
+  "nav.exam_material": "Exam Material",
   "categories.title": "Learning Materials - Quiz Categories",
   "categories.explore_desc": "Explore {} topics and test your knowledge with interactive quizzes.",
   "categories.start_learning": "Start Learning",
@@ -204,5 +206,7 @@
   "footer.contact": "Contact",
   "landing.quiz_me": "Quiz me",
   "landing.quiz_me_desc": "A simple quiz to test your knowledge.",
-  "quiz.quit_quiz": "Quit Quiz"
+  "quiz.quit_quiz": "Quit Quiz",
+  "back.button.label": "Back",
+  "modal.test_your_knowledge": "Test your knowledge"
 }

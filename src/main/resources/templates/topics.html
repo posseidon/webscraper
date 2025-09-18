@@ -240,7 +240,7 @@
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                 </svg>
-                <span th:text="${subcategory}">Subcategory</span>
+                <span id="back-btn" data-translate="back.button.label">Back</span>
             </a>
             <!-- Test your knowledge -->
             <a id="title-quiz-btn" th:href="@{'/quiz/form' + '/'  + ${currentTitle}}"

@@ -8,7 +8,7 @@ import java.util.List;
 public interface QuestionRepository extends MongoRepository<Question, String> {
     List<Question> findByTopicId(String topicId);
 
-    List<Question> findByTopicIdIn(List<String> topicIds);
+    List<Question> findByIdIn(List<String> questionIds);
 
     List<Question> findByQuestionIn(List<String> questions);
 }

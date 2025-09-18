@@ -150,7 +150,7 @@ public class QuizImportServiceIntegrationTest {
         assertTrue(nationalSymbolsTopic.isPresent(), "Should find national symbols topic by ID");
         Topic topic = nationalSymbolsTopic.get();
         assertEquals("Nemzeti jelképek", topic.getTopicName());
-        assertEquals(title.getId(), topic.getTitleName());
+        assertEquals(title.getName(), topic.getTitleName());
 
         // Verify Questions are saved
         List<Question> questions = questionRepository.findAll();
