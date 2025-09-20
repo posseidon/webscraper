@@ -5,11 +5,12 @@
     <!-- Responsive Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         <!-- Dynamic Subcategory Cards -->
-        <a th:each="subcategory, iterStat : ${subCategories}" th:href="@{'/quiz/' + ${category} + '/' + ${subcategory}}"
+        <a th:each="subcategory, iterStat : ${subCategories}"
+            th:href="@{'/quiz/' + ${category} + '/' + ${subcategory.name}}"
             class="block p-6 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-
-            <h5 class="text-2xl font-normal tracking-tight font-sans text-gray-900 dark:text-white capitalize"
-                th:text="${subcategory}">Subcategory Name</h5>
+            <h2 class="text-xl font-normal tracking-tight font-sans text-gray-900 dark:text-white capitalize uppercase"
+                th:text="${subcategory.name}">Subcategory Name</h2>
+            <p class="font-normal text-gray-700 dark:text-gray-400" th:text="${subcategory.alias}"></p>
         </a>
 
         <!-- Empty State -->

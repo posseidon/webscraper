@@ -37,7 +37,9 @@ public final class QuizConstants {
     public static final String ATTR_TITLES = "titles";
     public static final String ATTR_TOPICS = "topics";
     public static final String ATTR_TITLE = "currentTitle";
+    public static final String ATTR_TITLE_ALIAS = "titleAlias";
     public static final String ATTR_TITLE_OBJECT = "titleObject";
+    public static final String ATTR_TOPIC_ALIAS = "topicAlias";
     public static final String ATTR_QUESTIONS = "questions";
     public static final String ATTR_TOTAL = "total";
     public static final String ATTR_SELECTED_COUNT = "selectedCount";

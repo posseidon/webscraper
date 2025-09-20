@@ -12,6 +12,7 @@ public class SubCategory {
     @Id
     private String id;
     private String name;
+    private String alias;
     private String categoryName;
 
     private List<Title> titles = new ArrayList<>();
@@ -57,5 +58,13 @@ public class SubCategory {
         titles.add(title);
         title.setSubCategoryName(this.name);
         title.setCategoryName(this.categoryName);
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 }

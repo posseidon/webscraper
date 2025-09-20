@@ -17,6 +17,8 @@ public class Title {
 
     private String name;
 
+    private String alias;
+
     @Field("sub_category_name")
     private String subCategoryName; // Denormalized reference
 
@@ -173,5 +175,13 @@ public class Title {
 
     public void setVideoOverview(URL videoOverview) {
         this.videoOverview = videoOverview;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 }

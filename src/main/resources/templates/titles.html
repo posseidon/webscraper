@@ -4,52 +4,44 @@
 
 <div th:fragment="content" class="container mx-auto px-4">
     <!-- Responsive Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto mb-24" id="titlesGrid">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto mb-24"
+        id="titlesGrid">
         <!-- Dynamic Quiz Cards -->
         <div th:each="title, iterStat : ${titles}"
             class="group bg-white dark:bg-gray-800 rounded-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 overflow-hidden hover:scale-105 quiz-card flex flex-col relative">
             <div class="p-3 flex flex-col pb-20">
                 <div class="min-h-56">
                     <div class="mb-3">
-                        <div class="flex justify-between items-center mb-4">
-                            <h2 class="text-xl font-bold text-gray-900 dark:text-white line-clamp-2 h-14"
+                        <div class="items-center mb-4">
+                            <h2 class="text-xl font-normal tracking-tight font-sans text-gray-900 dark:text-white capitalize uppercase"
                                 th:text="${title.name}">Quiz Title</h2>
+                            <p class="font-normal text-gray-700 dark:text-gray-400" th:text="${title.alias}">
+                            </p>
                         </div>
                         <hr class="border-t border-gray-300 dark:border-gray-600 my-2">
                     </div>
-                    <p th:text="${title.description}"
-                        class="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed line-clamp-6"></p>
+                    <blockquote>
+                        <p th:text="${title.description}" class="mb-3 text-sm text-gray-900 dark:text-white"></p>
+                    </blockquote>
                 </div>
                 <!-- Learning Objectives -->
-                <div class="mt-4">
+                <div class=" mt-4">
                     <h3 class="text-md font-semibold text-gray-900 dark:text-white mb-2"><span
                             data-translate="titles.learning_objectives">Learning Objectives</span></h3>
                     <hr class="border-t border-gray-300 dark:border-gray-600 my-2">
                     <ul class="space-y-2 text-gray-700 dark:text-gray-300 text-sm">
                         <div th:each="objective, iterStat : ${title.learningObjectives}">
-                            <li class="flex items-start">
-                                <span class="mr-2 text-green-500">✓</span>
+                            <li class="flex items-center space-x-3 rtl:space-x-reverse">
+                                <svg class="shrink-0 w-3.5 h-3.5 text-green-500 dark:text-green-400" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5" />
+                                </svg>
                                 <p th:text="${objective}"></p>
                             </li>
                         </div>
                     </ul>
                 </div>
-                <!-- Study Tips -->
-                <!--
-                <div class="mt-4">
-                    <h3 class="text-md font-semibold text-gray-900 dark:text-white mb-2"><span
-                            data-translate="titles.study_tips">Study Tips</span></h3>
-                    <hr class="border-t border-gray-300 dark:border-gray-600 my-2">
-                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-700 dark:text-gray-300">
-                        <div th:each="studyTip, iterStat : ${title.studyTips}">
-                            <li>
-                                <p th:text="${studyTip}"></p>
-                            </li>
-                        </div>
-                    </ul>
-                </div>
-                <br />
-                -->
             </div>
             <div class="p-3 flex flex-col pb-20">
                 <!-- View Topics Button -->
@@ -96,26 +88,31 @@
         </div>
     </div>
 
-    <!-- Bottom banner -->
-    <div id="bottom-banner" tabindex="-1"
-        class="fixed bottom-0 start-0 z-50 flex justify-between w-full p-4 border-t border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-        <div class="flex items-center justify-between w-full">
-            <!-- Back to Subcategory -->
-            <a id="back-subcategory" th:href="@{'/quiz/' + ${category} }"
-                class="inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
-                <span id="back-btn" data-translate="back.button.label">Back</span>
-            </a>
+    <!-- Bottom footer -->
+    <footer id="bottom-footer" class="bg-white rounded-lg shadow-sm dark:bg-gray-900 sticky bottom-0 z-10">
+        <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <!-- Back to Subcategory -->
+                    <a id="back-subcategory" th:href="@{'/quiz/' + ${category} }"
+                        class="inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                            </path>
+                        </svg>
+                        <span id="back-btn" data-translate="back.button.label">Back</span>
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
+    </footer>
+</div>
 
-    <!-- Include external JavaScript file -->
-    <!-- Conditional JS loading: minified for production, full for development -->
-    <script th:if="${@environment.acceptsProfiles('prod')}" th:src="@{/js/min/titles.min.js}" defer></script>
-    <script th:unless="${@environment.acceptsProfiles('prod')}" th:src="@{/js/titles.js}" defer></script>
+<!-- Include external JavaScript file -->
+<!-- Conditional JS loading: minified for production, full for development -->
+<script th:if="${@environment.acceptsProfiles('prod')}" th:src="@{/js/min/titles.min.js}" defer></script>
+<script th:unless="${@environment.acceptsProfiles('prod')}" th:src="@{/js/titles.js}" defer></script>
 </div>
 
 </html>

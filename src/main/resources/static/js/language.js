@@ -4,6 +4,7 @@ class LanguageManager {
         this.defaultLanguage = 'en';
         this.currentLanguage = this.detectLanguage();
         this.translations = {};
+        this.translationVersion = "1.0.0"; // Increment this version to bust cache for translation files
         
         this.init();
     }
@@ -33,12 +34,12 @@ class LanguageManager {
 
     async loadTranslations() {
         try {
-            const response = await fetch(`/js/translations/${this.currentLanguage}.json`);
+            const response = await fetch(`/js/translations/${this.currentLanguage}.json?v=${this.translationVersion}`);
             if (response.ok) {
                 this.translations = await response.json();
             } else {
                 if (this.currentLanguage !== 'en') {
-                    const fallbackResponse = await fetch('/js/translations/en.json');
+                    const fallbackResponse = await fetch(`/js/translations/en.json?v=${this.translationVersion}`);
                     this.translations = await fallbackResponse.json();
                 }
             }
@@ -223,30 +224,34 @@ class LanguageManager {
     updateLanguageButton() {
         const languageInfo = this.getLanguageInfo();
         const flagElement = document.getElementById('selected-language-flag');
-        const textElement = document.getElementById('selected-language-text');
+        const textElement = document.getElementById('language-span'); // Corrected ID
 
         if (flagElement && textElement) {
             const flagSVGs = {
                 en: `
-                    <svg class="w-5 h-5 rounded-full me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                        <path fill="#3c3b6e" d="M0 0h512v512H0z"/>
-                        <path fill="#fff" d="M128 128h256v256H128z"/>
-                        <path fill="#b22234" d="M160 160h192v192H160z"/>
-                        <path fill="#fff" d="M192 192h128v128H192z"/>
-                        <path fill="#3c3b6e" d="M224 224h64v64h-64z"/>
+                    <svg class="w-5 h-5 me-2 rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30">
+                        <clipPath id="a"><path d="M0 0v30h60V0z"/></clipPath>
+                        <clipPath id="b"><path d="M30 15h30v15zV15H0zH0V0h30z"/></clipPath>
+                        <g clip-path="url(#a)">
+                            <path d="M0 0v30h60V0z" fill="#00247d"/>
+                            <path d="M0 0l60 30M0 30L60 0" stroke="#fff" stroke-width="6"/>
+                            <path d="M0 0l60 30M0 30L60 0" clip-path="url(#b)" stroke="#cf142b" stroke-width="4"/>
+                            <path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/>
+                            <path d="M30 0v30M0 15h60" stroke="#cf142b" stroke-width="6"/>
+                        </g>
                     </svg>
                 `,
                 hu: `
-                    <svg class="w-5 h-5 rounded-full me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
-                        <rect width="900" height="600" fill="#436F4D"/>
-                        <rect width="900" height="400" fill="#FFF"/>
-                        <rect width="900" height="200" fill="#CD2A3E"/>
+                    <svg class="w-5 h-5 me-2 rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+                        <path fill="#CE2939" d="M0 0h900v200H0z"/>
+                        <path fill="#FFF" d="M0 200h900v200H0z"/>
+                        <path fill="#477050" d="M0 400h900v200H0z"/>
                     </svg>
                 `,
                 vi: `
-                    <svg class="w-5 h-5 rounded-full me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
-                        <rect width="600" height="400" fill="#DA251D"/>
-                        <polygon points="300,120 340,200 420,200 360,250 380,330 300,280 220,330 240,250 180,200 260,200" fill="#FF0"/>
+                    <svg class="w-5 h-5 me-2 rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+                        <path fill="#da251d" d="M0 0h600v400H0z"/>
+                        <path fill="#ff0" d="M300 117.4l56.4 173.2-147.7-107h182.6L243.6 290.6z"/>
                     </svg>
                 `
             };

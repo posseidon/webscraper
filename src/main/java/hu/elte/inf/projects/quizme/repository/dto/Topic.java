@@ -23,6 +23,8 @@ public class Topic {
     @JsonProperty("topic_name")
     private String topicName;
 
+    private String alias;
+
     private String description;
 
     // Denormalized references for efficient querying
@@ -100,5 +102,13 @@ public class Topic {
 
     public void setQuestionIds(List<String> questionIds) {
         this.questionIds = questionIds;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 }

@@ -70,16 +70,6 @@ public class UploadController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/chemistry/questions")
-    public ResponseEntity<Void> deleteAllQuestions() {
-        quizImportService.deleteAllQuestions();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
-    @DeleteMapping("/chemistry/topics")
-    public ResponseEntity<Void> deleteAllTopics() {
-        quizImportService.deleteAllTopics();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
 }

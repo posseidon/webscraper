@@ -134,14 +134,7 @@ function setupEventListeners() {
         });
     }
 
-    const flipCardBtn = document.getElementById('flipCardBtn');
-    if (flipCardBtn) {
-        flipCardBtn.addEventListener('click', function () {
-            const flipCard = document.getElementById('quiz-card');
-            flipCard.style.transform = flipCard.style.transform === 'rotateY(180deg)' ? '' : 'rotateY(180deg)';
-            toggleFlipCardButtonVisibility();
-        });
-    }
+    
 
     const gotoQuizBtn = document.getElementById('goto-quiz-btn');
     if (gotoQuizBtn) {
@@ -149,7 +142,6 @@ function setupEventListeners() {
             e.preventDefault(); // Prevent default link behavior
             const flipCard = document.getElementById('quiz-card');
             flipCard.style.transform = flipCard.style.transform === 'rotateY(180deg)' ? '' : 'rotateY(180deg)';
-            toggleFlipCardButtonVisibility();
         });
     }
     const closeSettingsBtn = document.getElementById('close-settings-btn');
@@ -158,23 +150,12 @@ function setupEventListeners() {
             e.preventDefault(); // Prevent default link behavior
             const flipCard = document.getElementById('quiz-card');
             flipCard.style.transform = flipCard.style.transform === 'rotateY(180deg)' ? '' : 'rotateY(180deg)';
-            toggleFlipCardButtonVisibility();
         });
     }
 
 }
 
-function toggleFlipCardButtonVisibility() {
-    const flipCard = document.getElementById('quiz-card');
-    const flipCardBtn = document.getElementById('flipCardBtn');
-    if (flipCard && flipCardBtn) {
-        if (flipCard.style.transform === 'rotateY(180deg)') {
-            flipCardBtn.classList.add('hidden');
-        } else {
-            flipCardBtn.classList.remove('hidden');
-        }
-    }
-}
+
 
 function loadQuestion(index) {
     if (index >= questions.length) {
@@ -245,11 +226,17 @@ function loadQuestion(index) {
     // Set action button to submit mode
     const actionBtn = document.getElementById('actionBtn');
     if (actionBtn) {
-        // Don't change the button text on initial load - it already has the correct translation span
-        // The template provides: <span data-translate="quiz.submit_answer">Submit Answer</span>
+        actionBtn.innerHTML = `<span data-translate="quiz.submit_answer">Submit Answer</span>`;
         actionBtn.className = 'inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white';
         actionBtn.dataset.mode = 'submit';
         actionBtn.disabled = true; // Disable until an option is selected
+        // Manually translate the new content if language manager is available
+        if (window.languageManager) {
+            const span = actionBtn.querySelector('span');
+            if (span) {
+                span.textContent = window.languageManager.translate('quiz.submit_answer');
+            }
+        }
     }
 
     // Hide the bottom banner for new questions
@@ -486,6 +473,20 @@ function hideExplanationModal() {
         if (speedDial) {
             speedDial.classList.remove('hidden');
         }
+
+        // If the action button is currently "Next", revert it to "Submit Answer"
+        const actionBtn = document.getElementById('actionBtn');
+        if (actionBtn && actionBtn.dataset.mode === 'next') {
+            actionBtn.innerHTML = `<span data-translate="quiz.submit_answer">Submit Answer</span>`;
+            actionBtn.dataset.mode = 'submit';
+            actionBtn.disabled = false; // Re-enable the button
+            if (window.languageManager) {
+                const span = actionBtn.querySelector('span');
+                if (span) {
+                    span.textContent = window.languageManager.translate('quiz.submit_answer');
+                }
+            }
+        }
     }
 }
 
@@ -521,10 +522,9 @@ function showEvaluation() {
         speedDial.classList.add('hidden');
     }
 
-    // Hide flip card button
-    const flipCardBtn = document.getElementById('flipCardBtn');
-    if (flipCardBtn) {
-        flipCardBtn.classList.add('hidden');
+    const bottomFooter = document.getElementById('bottom-footer');
+    if (bottomFooter) {
+        bottomFooter.classList.add('hidden');
     }
 
     quizResults.completedAt = new Date();

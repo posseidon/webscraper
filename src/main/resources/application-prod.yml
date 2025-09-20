@@ -2,7 +2,7 @@ spring:
   data:
     mongodb:
       database: quizme
-      uri: mongodb+srv://<username>:<password>@cluster0.mongodb.net/quizme?retryWrites=true&w=majority
+      uri: mongodb://localhost:27017/quizme_prod  # Production DB URI
   application:
     name: quizme
   thymeleaf:

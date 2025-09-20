@@ -3,12 +3,14 @@ package hu.elte.inf.projects.quizme.service;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import hu.elte.inf.projects.quizme.controller.dto.AliasItem;
 import hu.elte.inf.projects.quizme.repository.CategoryRepository;
 import hu.elte.inf.projects.quizme.repository.QuestionRepository;
 import hu.elte.inf.projects.quizme.repository.SubCategoryRepository;
@@ -41,12 +43,12 @@ public class QuizService {
         this.questionRepository = questionRepository;
     }
 
-    public List<String> findAllDistinctCategories() {
-        return categoryRepository.findAll().stream().map(Category::getName).toList();
+    public List<Category> findAllDistinctCategories() {
+        return categoryRepository.findAll();
     }
 
-    public List<String> findDistinctSubCategories(String categoryName) {
-        return subCategoryRepository.findByCategoryName(categoryName).stream().map(SubCategory::getName).toList();
+    public List<SubCategory> findDistinctSubCategories(String categoryName) {
+        return subCategoryRepository.findByCategoryName(categoryName);
     }
 
     public Optional<SubCategory> findSubCategoryByName(String subCategoryName) {
@@ -98,7 +100,8 @@ public class QuizService {
         titleRepository.save(title);
     }
 
-    public void updateTitleAudioVideoOverview(String titleName, String audioOverviewUrl, String videoOverviewUrl) throws MalformedURLException {
+    public void updateTitleAudioVideoOverview(String titleName, String audioOverviewUrl, String videoOverviewUrl)
+            throws MalformedURLException {
         List<Title> titles = titleRepository.findByName(titleName);
         if (CollectionUtils.isEmpty(titles)) {
             throw new IllegalArgumentException("Title not found: " + titleName);
@@ -115,5 +118,55 @@ public class QuizService {
 
     public Topic findTopicById(String testTopicId) {
         return topicRepository.findByTopicId(testTopicId).orElse(null);
+    }
+
+    public void deleteAllQuestions() {
+        questionRepository.deleteAll();
+    }
+
+    public void deleteAllTopics() {
+        topicRepository.deleteAll();
+    }
+
+    public void deleteAllTitles() {
+        titleRepository.deleteAll();
+    }
+
+    public void deleteAllSubCategories() {
+        subCategoryRepository.deleteAll();
+    }
+
+    public void deleteAllCategories() {
+        categoryRepository.deleteAll();
+    }
+
+    public void processAndStoreAlias(List<AliasItem> aliasItems) {
+        for (AliasItem item : aliasItems) {
+            if (Objects.nonNull(item.getCategory())) {
+                List<Category> categories = categoryRepository.findByName(item.getCategory());
+                categories.stream().findFirst().ifPresent(c -> {
+                    String name = c.getName();
+                    c.setName(item.getAlias());
+                    c.setAlias(name);
+                    categoryRepository.save(c);
+                });
+            } else if (Objects.nonNull(item.getSub_category())) {
+                List<SubCategory> subCategories = subCategoryRepository.findByName(item.getSub_category());
+                subCategories.stream().findFirst().ifPresent(sc -> {
+                    String name = sc.getName();
+                    sc.setName(item.getAlias());
+                    sc.setAlias(name);
+                    subCategoryRepository.save(sc);
+                });
+            } else if (Objects.nonNull(item.getTitle())) {
+                List<Title> titles = titleRepository.findByName(item.getTitle());
+                titles.stream().findFirst().ifPresent(t -> {
+                    String name = t.getName();
+                    t.setName(item.getAlias());
+                    t.setAlias(name);
+                    titleRepository.save(t);
+                });
+            }
+        }
     }
 }

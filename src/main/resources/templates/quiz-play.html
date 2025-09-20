@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
     th:replace="~{fragments/layout-quiz :: layout (null, ~{::content})}" lang="en">
-
+<style>
+    .circle-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+</style>
 <div th:fragment="content" class="container mx-auto px-4 pt-0 pb-48">
-    <h1 th:text="${quizTitle}" class="text-3xl font-bold text-gray-900 dark:text-white text-center my-6">
+    <h1 th:text="${quizTitle}"
+        class="text-xl font-normal tracking-tight font-sans text-gray-900 dark:text-white capitalize uppercase">
         Quiz Title
     </h1>
+    <p class="font-normal text-gray-700 dark:text-gray-400" th:text="${topicAlias}"></p>
+    <hr class="border-t border-gray-300 dark:border-gray-600 my-2">
 
-    <!-- Quiz card flipper -->
+    <!-- Quiz card -->
     <div id="quizContent" class="relative max-w-4xl mx-auto">
         <div id="quiz-card" class="relative w-full h-full"
             style="transform-style: preserve-3d; transition: transform 0.6s;">
-            <button id="flipCardBtn"
-                class="w-8 h-8 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white flex items-center justify-center">
-                <span class="text-2xl">&#9881;</span>
-            </button>
             <div id="questionContainer" class="w-full h-full" style="backface-visibility: hidden;">
                 <!-- Question Card -->
                 <div
                     class="max-w-4xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6">
-
                     <div class="p-6">
                         <!-- Question Text -->
                         <div class="mb-6">
@@ -43,91 +47,8 @@
                     </div>
                 </div>
             </div>
-
-            <div id="quizActions"
-                class="absolute top-0 left-0 w-full h-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm flex flex-col"
-                style="backface-visibility: hidden; transform: rotateY(180deg);">
-                <div id="quiz-action-header" class="p-4 border-b dark:border-gray-600 flex flex-col justify-center"
-                    style="height: 96px; min-height: 64px;">
-                    <div class="flex justify-between items-center w-full">
-                        <a id="goto-quiz-btn"
-                            class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 19l-7-7 7-7"></path>
-                            </svg>
-                        </a>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white text-center flex-grow"
-                            th:text="${quizTitle}">
-                        </h3>
-                        <a id="close-settings-btn"
-                            class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <div id="quiz-action-body" class="flex-grow flex items-start justify-center pt-4 px-[5px]"
-                    style="height: 70%; overflow-y: auto;">
-                    <article class="format lg:format-base px-2">
-                        <h1>Prototyping from A to Z: best practices for successful prototypes</h1>
-                        <p class="lead">Flowbite is an open-source library of UI components built with the
-                            utility-first classes from
-                            Tailwind CSS. It also includes interactive elements such as dropdowns, modals,
-                            datepickers.</p>
-                        <p>Before going digital, you might benefit from scribbling down some ideas in a sketchbook.
-                            This way, you can think
-                            things through before committing to an actual design project.</p>
-                        <p>But then I found a <a href="#">component library based on Tailwind CSS called
-                                Flowbite</a>. It comes with the
-                            most commonly used UI components, such as buttons, navigation bars, cards, form
-                            elements, and more which are
-                            conveniently built with the utility classes from Tailwind CSS.</p>
-
-                        ...
-
-                        <h2>When does design come in handy?</h2>
-                        <p>While it might seem like extra work at a first glance, here are some key moments in which
-                            prototyping will come
-                            in handy:</p>
-                        <ol>
-                            <li><strong>Impressing a client</strong>. Prototypes can help explain or even sell your
-                                idea by providing your
-                                client with a hands-on experience;</li>
-                            <li><strong>Communicating your vision</strong>. By using an interactive medium to
-                                preview and test design
-                                elements, designers and developers can understand each other — and the project —
-                                better.</li>
-                        </ol>
-                    </article>
-                </div>
-                <div id="quiz-action-footer"
-                    class="fixed bottom-0 start-0 z-50 flex justify-between w-full p-4 border-t border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-                    <div class="col-span-1 flex items-center justify-between w-full">
-                        <a id="quit-quiz-btn"
-                            th:href="@{'/quiz/' + ${category} + '/' + ${subcategory} + '/' + ${currentTitle}}"
-                            class="inline-flex items-center text-sm font-bold text-red-600 dark:text-red-400 dark:hover:text-white">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 19l-7-7 7-7">
-                                </path>
-                            </svg>
-                            <span data-translate="quiz.quit_quiz">Quit Quiz</span>
-                        </a>
-                    </div>
-                    <div class="col-span-1 flex items-center justify-between w-full">
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
-
-
 
     <!-- Results Container (hidden initially) -->
     <div id="resultsContainer" class="hidden">
@@ -175,8 +96,8 @@
     </div>
 
     <!-- Explanation Modal (shown only for wrong answers) -->
-    <div id="explanation-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h=
-full bg-white bg-opacity-50 dark:bg-black dark:bg-opacity-50">
+    <div id="explanation-modal" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h=full bg-white bg-opacity-50 dark:bg-black dark:bg-opacity-50">
         <div class="relative p-4 w-full h-auto max-w-4xl mx-auto">
             <!-- Modal content -->
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -208,53 +129,58 @@ full bg-white bg-opacity-50 dark:bg-black dark:bg-opacity-50">
     </div>
 
     <!-- Language Filter selector -->
-    <div id="filter-selector" tabindex="-1"
-        class="fixed bottom-0 start-0 z-50 flex justify-between w-full p-4 border-t border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-        <div class="max-w-md mx-auto flex items-center justify-center gap-2 p-2">
-            <!-- Vietnamese Filter Button (top) -->
-            <button type="button"
-                class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-transparent rounded-full border-none shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200"
-                id="vietnamese-filter-btn">
-                <span class="text-xl">🇻🇳</span>
-                <span class="sr-only">Vietnamese</span>
-            </button>
-            <div id="tooltip-vietnamese" role="tooltip"
-                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
-                data-translate="speed_dial.tooltip_vietnamese" style="width: 200%;">
-                Vietnamese Only
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
-
-            <!-- Hungarian Filter Button (middle) -->
-            <button type="button"
-                class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-transparent rounded-full border-none shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200"
-                id="hungarian-filter-btn">
-                <span class="text-xl">🇭🇺</span>
-                <span class="sr-only">Hungarian</span>
-            </button>
-            <div id="tooltip-hungarian" role="tooltip"
-                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
-                data-translate="speed_dial.tooltip_hungarian" style="width: 200%;">
-                Hungarian Only
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
-
-            <!-- All Languages Filter Button (bottom, closest to main button) -->
-            <button type="button"
-                class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-transparent rounded-full border-none shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200 ring-2 ring-blue-500"
-                id="all-filter-btn">
-                <span class="text-xl">🌐</span>
-                <span class="sr-only">Both Languages</span>
-            </button>
-            <div id="tooltip-all" role="tooltip"
-                class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
-                data-translate="speed_dial.tooltip_all" style="width: 200%;">
-                Both Languages
-                <div class="tooltip-arrow" data-popper-arrow></div>
+    <footer id="bottom-footer" class="bg-white rounded-lg shadow-sm dark:bg-gray-900 sticky bottom-0 z-10">
+        <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <button type="button" id="quit-quiz-btn"
+                        th:onclick="'window.location.href = \'' + @{'/quiz/' + ${category} + '/' + ${subcategory} + '/' + ${currentTitle}} + '\''"
+                        class="flex justify-center items-center w-[40px] h-[40px] aspect-square text-gray-500 hover:text-gray-900 bg-transparent rounded-full shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                        <span class="sr-only">Quit Quiz</span>
+                    </button>
+                </div>
+                <div>
+                    <!-- Vietnamese Filter Button (top) -->
+                    <button
+                        class="flex justify-center circle-btn items-center w-[40px] aspect-square rounded-full text-gray-500 hover:text-gray-900 bg-transparent shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200"
+                        id="vietnamese-filter-btn">
+                        <svg class="w-4 h-4 rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+                            <path fill="#da251d" d="M0 0h600v400H0z" />
+                            <path fill="#ff0" d="M300 117.4l56.4 173.2-147.7-107h182.6L243.6 290.6z" />
+                        </svg>
+                        <span class="sr-only">Vietnamese</span>
+                    </button>
+                </div>
+                <div>
+                    <!-- Hungarian Filter Button (middle) -->
+                    <button type="button"
+                        class="flex justify-center items-center w-[40px] aspect-square text-gray-500 hover:text-gray-900 bg-transparent rounded-full shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200"
+                        id="hungarian-filter-btn">
+                        <svg class="w-4 h-4 rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+                            <path fill="#CE2939" d="M0 0h900v200H0z" />
+                            <path fill="#FFF" d="M0 200h900v200H0z" />
+                            <path fill="#477050" d="M0 400h900v200H0z" />
+                        </svg>
+                        <span class="sr-only">Hungarian</span>
+                    </button>
+                </div>
+                <div>
+                    <!-- All Languages Filter Button (bottom, closest to main button) -->
+                    <button type="button"
+                        class="flex justify-center items-center w-[40px] aspect-square text-gray-500 hover:text-gray-900 bg-transparent rounded-full shadow-lg dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 transition-all duration-200 ring-2 ring-blue-500"
+                        id="all-filter-btn">
+                        <span class="text-base">🌐</span>
+                        <span class="sr-only">Both Languages</span>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-
+    </footer>
 
     <!-- Data injection for JavaScript -->
     <script th:inline="javascript">

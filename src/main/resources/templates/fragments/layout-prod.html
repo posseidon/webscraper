@@ -17,6 +17,7 @@
 
     <!-- Minified JavaScript -->
     <script th:src="@{/js/min/language.min.js}" defer></script>
+    <script th:src="@{/js/min/drawer-icon-toggle.min.js}" defer></script>
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900 pt-5 md:pt-24 pb-5">
@@ -32,6 +33,177 @@
 
     <!-- Import Footer -->
     <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- drawer component -->
+    <div id="drawer-backdrop"
+        class="fixed top-4 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-auto dark:bg-gray-800"
+        tabindex="-1" aria-labelledby="drawer-backdrop-label">
+        <h5 id="drawer-backdrop-label" class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">Menu
+        </h5>
+        <button type="button" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white">
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            </svg>
+            <span class="sr-only">Close menu</span>
+        </button>
+        <div class="py-4 overflow-y-auto">
+            <ul class="space-y-2 font-medium">
+                <li id="home-option" style="padding: 5px;">
+                    <a href="/quiz/categories"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path d="M0 0h7v7H0V0zm8 0h12v7H8V0zM0 8h7v12H0V8zm8 0h12v12H8V8z" />
+                        </svg>
+                        <span class="ms-3" th:text="#{nav.home}" data-translate="nav.home">Home</span>
+                    </a>
+                </li>
+                <li style="padding: 5px;">
+                    <button type="button"
+                        class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        aria-controls="dropdown-nav" data-collapse-toggle="dropdown-nav">
+                        <i class="fa-solid fa-compass w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                        <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap" th:text="#{nav.quizzes}" data-translate="nav.quizzes">Quizzes</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 4 4 4-4" />
+                        </svg>
+                    </button>
+                    <ul id="dropdown-nav" class="hidden py-2 space-y-2">
+                        <li th:each="category, iterStat : ${navigation}" style="padding: 5px;">
+                            <button type="button"
+                                class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                th:attr="aria-controls='dropdown-cat-' + ${iterStat.index}, data-collapse-toggle='dropdown-cat-' + ${iterStat.index}">
+                                <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap"
+                                    th:text="${category.name}"></span>
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 10 6">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 1 4 4 4-4" />
+                                </svg>
+                            </button>
+                            <ul th:id="'dropdown-cat-' + ${iterStat.index}" class="hidden py-2 space-y-2">
+                                <li th:each="subCategory, subIterStat : ${category.subCategories}" style="padding: 5px;">
+                                    <button type="button"
+                                        class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                        th:attr="aria-controls='dropdown-subcat-' + ${iterStat.index} + '-' + ${subIterStat.index}, data-collapse-toggle='dropdown-subcat-' + ${iterStat.index} + '-' + ${subIterStat.index}">
+                                        <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap"
+                                            th:text="${subCategory.name}"></span>
+                                        <svg class="w-3 h-3" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                            <path stroke="currentColor" stroke-linecap="round"
+                                                stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+                                        </svg>
+                                    </button>
+                                    <ul th:id="'dropdown-subcat-' + ${iterStat.index} + '-' + ${subIterStat.index}"
+                                        class="hidden py-2 space-y-2">
+                                        <li th:each="title : ${subCategory.titles}" style="padding: 5px;">
+                                            <a th:href="${title.url}"
+                                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                                th:text="${title.name}"></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li style="padding: 5px;">
+                    <button id="language-btn" type="button"
+                        class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+                        <span id="selected-language-flag" class="me-2"></span>
+                        <span id="language-span" class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap" th:text="#{nav.language}" data-translate="nav.language">Language</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 4 4 4-4" />
+                        </svg>
+                    </button>
+                    <ul id="dropdown-example" class="hidden py-2 space-y-2">
+                        <li id="english-lang-option" style="padding: 5px;">
+                            <a href="#" data-lang="en"
+                                class="language-option flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                <svg class="w-5 h-5 me-2 rounded-full" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 60 30">
+                                    <clipPath id="a">
+                                        <path d="M0 0v30h60V0z" />
+                                    </clipPath>
+                                    <clipPath id="b">
+                                        <path d="M30 15h30v15zv15H0zH0V0h30z" />
+                                    </clipPath>
+                                    <g clip-path="url(#a)">
+                                        <path d="M0 0v30h60V0z" fill="#00247d" />
+                                        <path d="M0 0l60 30M0 30L60 0" stroke="#fff" stroke-width="6" />
+                                        <path d="M0 0l60 30M0 30L60 0" clip-path="url(#b)" stroke="#cf142b"
+                                            stroke-width="4" />
+                                        <path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10" />
+                                        <path d="M30 0v30M0 15h60" stroke="#cf142b" stroke-width="6" />
+                                    </g>
+                                </svg>
+                                English
+                            </a>
+                        </li>
+                        <li id="hungarian-lang-option" style="padding: 5px;">
+                            <a href="#" data-lang="hu"
+                                class="language-option flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                <svg class="w-5 h-5 me-2 rounded-full" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 900 600">
+                                    <path fill="#CE2939" d="M0 0h900v200H0z" />
+                                    <path fill="#FFF" d="M0 200h900v200H0z" />
+                                    <path fill="#477050" d="M0 400h900v200H0z" />
+                                </svg>
+                                Magyar
+                            </a>
+                        </li>
+                        <li id="vietnamese-lang-option" style="padding: 5px;">
+                            <a href="#" data-lang="vi"
+                                class="language-option flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                <svg class="w-5 h-5 me-2 rounded-full" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 600 400">
+                                    <path fill="#da251d" d="M0 0h600v400H0z" />
+                                    <path fill="#ff0" d="M300 117.4l56.4 173.2-147.7-107h182.6L243.6 290.6z" />
+                                </svg>
+                                Tiếng Việt
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li id="exam-information-option" style="padding: 5px;">
+                    <a href="https://oif.gov.hu/tajekoztatok/magyar-kulturalis-ismereti-vizsga" target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <span id="exam-information-link" class="flex-1 ms-3 whitespace-nowrap"
+                            th:text="#{nav.exam_information}" data-translate="nav.exam_information">Info</span>
+                    </a>
+                </li>
+                <li id="exam-material-option" style="padding: 5px;">
+                    <a href="https://oif.gov.hu/storage/media/Kultur%C3%A1lis%20Ismereti%20Vizsga/magyar-kulturalis-ismereti-vizsga-segedanyag.pdf"
+                        target="_blank" rel="noopener noreferrer"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 0C4.477 0 0 4.477 0 10s4.477 10 10 10 10-4.477 10-10S15.523 0 10 0ZM8 15H6V5h2v10Zm4 0H10V5h2v10Z" />
+                        </svg>
+                        <span id="exam-material-link" class="flex-1 ms-3 whitespace-nowrap"
+                            th:text="#{nav.exam_material}" data-translate="nav.exam_material">Material</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </body>
 
 </html>

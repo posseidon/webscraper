@@ -15,6 +15,8 @@ public class Category {
 
     private String name;
 
+    private String alias;
+
     @Field("sub_categories")
     private List<SubCategory> subCategories = new ArrayList<>();
 
@@ -50,5 +52,13 @@ public class Category {
 
     public List<SubCategory> getSubCategories() {
         return subCategories;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 }

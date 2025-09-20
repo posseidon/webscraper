@@ -11,12 +11,24 @@ public class QuizMetadata {
 
     private String id;
 
+    private String category;
+
+    @JsonProperty("category_alias")
+    private String categoryAlias;
+
     @JsonProperty("sub_category")
     private String subCategory;
 
+    @JsonProperty("sub_category_alias")
+    private String subCategoryAlias;
+
     private String title;
+
+    @JsonProperty("title_alias")
+    private String titleAlias;
+
     private String description;
-    private String category;
+
     private String level;
 
     @JsonProperty("total_questions")
@@ -146,4 +158,29 @@ public class QuizMetadata {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getCategoryAlias() {
+        return categoryAlias;
+    }
+
+    public void setCategoryAlias(String categoryAlias) {
+        this.categoryAlias = categoryAlias;
+    }
+
+    public String getSubCategoryAlias() {
+        return subCategoryAlias;
+    }
+
+    public void setSubCategoryAlias(String subCategoryAlias) {
+        this.subCategoryAlias = subCategoryAlias;
+    }
+
+    public String getTitleAlias() {
+        return titleAlias;
+    }
+
+    public void setTitleAlias(String titleAlias) {
+        this.titleAlias = titleAlias;
+    }
+
 }

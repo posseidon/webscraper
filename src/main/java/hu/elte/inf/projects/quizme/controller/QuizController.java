@@ -45,8 +45,9 @@ import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_SUBCATEGORIES;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_TITLES;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_TOPICS;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_USER_MANUAL;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_TITLE_ALIAS;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_TOPIC_ALIAS;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -56,20 +57,17 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import hu.elte.inf.projects.quizme.repository.SubCategoryRepository;
+import hu.elte.inf.projects.quizme.repository.dto.Category;
 import hu.elte.inf.projects.quizme.repository.dto.Question;
 import hu.elte.inf.projects.quizme.repository.dto.SubCategory;
 import hu.elte.inf.projects.quizme.repository.dto.Title;
@@ -82,25 +80,22 @@ public class QuizController {
 
     private final QuizService quizService;
     private final JsonDifficultyService difficultyService;
-    private final SubCategoryRepository subCategoryRepository;
 
-    public QuizController(QuizService quizService, JsonDifficultyService difficultyService,
-            SubCategoryRepository subCategoryRepository) {
+    public QuizController(QuizService quizService, JsonDifficultyService difficultyService) {
         this.quizService = quizService;
         this.difficultyService = difficultyService;
-        this.subCategoryRepository = subCategoryRepository;
     }
 
     @GetMapping(ROOT)
     public String home(Model model) {
-        List<String> categories = quizService.findAllDistinctCategories();
+        List<Category> categories = quizService.findAllDistinctCategories();
         model.addAttribute(ATTR_CATEGORIES, categories);
         return VIEW_LANDING;
     }
 
     @GetMapping(QUIZ_CATEGORIES)
     public String showSubjects(Model model) {
-        List<String> categories = quizService.findAllDistinctCategories();
+        List<Category> categories = quizService.findAllDistinctCategories();
         model.addAttribute(ATTR_CATEGORIES, categories);
 
         return VIEW_CATEGORIES;
@@ -113,7 +108,7 @@ public class QuizController {
 
     @GetMapping(QUIZ_CATEGORY)
     public String showSubCategories(@PathVariable String category, Model model) {
-        List<String> subCategories = quizService.findDistinctSubCategories(category);
+        List<SubCategory> subCategories = quizService.findDistinctSubCategories(category);
         model.addAttribute(ATTR_SUBCATEGORIES, subCategories);
         model.addAttribute(ATTR_CATEGORY, category);
         return VIEW_SUBCATEGORIES;
@@ -142,6 +137,7 @@ public class QuizController {
 
         model.addAttribute(ATTR_TOPICS, topics);
         model.addAttribute(ATTR_TITLE, title);
+        model.addAttribute(ATTR_TITLE_ALIAS, titleObject.getAlias());
         model.addAttribute(ATTR_TITLE_OBJECT, titleObject);
         model.addAttribute(ATTR_CATEGORY, category);
         model.addAttribute(ATTR_SUBCATEGORY, subcategory);
@@ -171,6 +167,7 @@ public class QuizController {
         model.addAttribute(ATTR_SELECTED_COUNT, questions.size());
         model.addAttribute(ATTR_SELECTED_DIFFICULTY, DIFFICULTY_MIXED);
         model.addAttribute(ATTR_QUIZ_TITLE, topic.getTopicName());
+        model.addAttribute(ATTR_TOPIC_ALIAS, topic.getAlias());
         model.addAttribute(ATTR_TITLE, title);
         model.addAttribute(ATTR_CATEGORY, category);
         model.addAttribute(ATTR_SUBCATEGORY, subcategory);
@@ -351,25 +348,5 @@ public class QuizController {
         response.put(RESULT_SCORE, results.get(RESULT_CORRECT) + "/" + results.get(RESULT_TOTAL));
 
         return response;
-    }
-
-    @PutMapping("/titles/audio-video-overview")
-    @ResponseBody
-    public ResponseEntity<String> updateTitleAudioVideoOverview(
-            @RequestBody List<TitleAudioOverviewUpdateRequest> updates) {
-        for (TitleAudioOverviewUpdateRequest update : updates) {
-            try {
-                quizService.updateTitleAudioVideoOverview(update.getTitleName(), update.getAudioOverview(),
-                        update.getVideoOverview());
-            } catch (IllegalArgumentException e) {
-                return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-            } catch (MalformedURLException e) {
-                return new ResponseEntity<>(
-                        "Invalid URL for title " + update.getTitleName() + ": " + update.getAudioOverview() + ", "
-                                + update.getVideoOverview(),
-                        HttpStatus.BAD_REQUEST);
-            }
-        }
-        return new ResponseEntity<>("Title audio and video overviews updated successfully!", HttpStatus.OK);
     }
 }

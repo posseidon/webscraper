@@ -135,13 +135,15 @@ public class QuizImportService {
 
             if (StringUtils.isNotBlank(quizMetadata.getCategory())) {
                 // create new Category unless it already exists
-                Category category = categoryRepository.findByName(quizMetadata.getCategory()).stream().findFirst()
+                Category category = categoryRepository.findByName(categoryName).stream().findFirst()
                         .orElse(new Category(categoryName));
+                category.setAlias(quizMetadata.getCategoryAlias());
                 category = categoryRepository.save(category);
 
                 if (StringUtils.isNotBlank(subCategoryName)) {
                     SubCategory subCategory = subCategoryRepository.findByName(subCategoryName).stream().findFirst()
                             .orElse(new SubCategory(subCategoryName));
+                    subCategory.setAlias(quizMetadata.getSubCategoryAlias());
                     subCategory.setCategoryName(category.getName());
                     subCategory = subCategoryRepository.save(subCategory);
 
@@ -157,6 +159,7 @@ public class QuizImportService {
                         title.setVersion(quizMetadata.getVersion());
                         title.setCategoryName(category.getName());
                         title.setSubCategoryName(subCategory.getName());
+                        title.setAlias(quizMetadata.getTitleAlias());
 
                         titleRepository.save(title);
                         subCategory.addTitle(title);
@@ -178,13 +181,5 @@ public class QuizImportService {
                 }
             }
         });
-    }
-
-    public void deleteAllQuestions() {
-        questionRepository.deleteAll();
-    }
-
-    public void deleteAllTopics() {
-        topicRepository.deleteAll();
     }
 }

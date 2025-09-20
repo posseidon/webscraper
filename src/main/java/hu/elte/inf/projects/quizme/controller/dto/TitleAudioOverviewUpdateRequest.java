@@ -1,4 +1,4 @@
-package hu.elte.inf.projects.quizme.controller;
+package hu.elte.inf.projects.quizme.controller.dto;
 
 public class TitleAudioOverviewUpdateRequest {
     private String titleName;
