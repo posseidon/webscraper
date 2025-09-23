@@ -11,4 +11,6 @@ public interface QuestionRepository extends MongoRepository<Question, String> {
     List<Question> findByIdIn(List<String> questionIds);
 
     List<Question> findByQuestionIn(List<String> questions);
+
+    List<Question> findByTopicIdIn(List<String> topicIds);
 }

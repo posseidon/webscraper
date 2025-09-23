@@ -1,36 +1,82 @@
 spring:
   application:
     name: quizme
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/quizme
-  thymeleaf:
-    cache: false
-    prefix: classpath:/templates/
-    suffix: .html
-  web:
-    resources:
-      static-locations: classpath:/static/
-      cache:
-        period: 0
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:h2:mem:quizme
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
+            user-name-attribute: sub
   devtools:
     restart:
       enabled: true
-      additional-paths: 
-        - src/main/resources
-        - src/main/java
-      poll-interval: 1000
-      quiet-period: 400
     livereload:
       enabled: true
-      port: 35729
-    remote:
-      secret: mysecret
 
 server:
+  port: ${PORT:8080}  # Use Azure's PORT env var, fallback to 8080
+  http2:
+    enabled: true
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
   undertow:
     threads:
-      worker: 8
-      io: 2
-    buffer-size: 1024
+      worker: 4        # Reduced for production efficiency
+      io: 2            # Optimized for I/O operations
+    buffer-size: 1024  # 1KB buffer size
     direct-buffers: true
+    accesslog:
+      enabled: false   # Disable access logging for performance
+    options:
+      server:
+        RECORD_REQUEST_START_TIME: false
+      socket:
+        BACKLOG: 1024
+
+logging:
+  level:
+    org.springframework.data.mongodb.core: INFO  # Helps debug MongoDB connections
+    org.mongodb.driver: WARN                     # Reduce MongoDB driver noise
+    org.hibernate.SQL: WARN
+    org.hibernate.type.descriptor.sql.BasicBinder: WARN
+    org.springframework: WARN
+    org.apache.catalina: WARN
+    org.eclipse.jetty: WARN
+    org.springframework.security: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+app:
+  security:
+    enabled: false

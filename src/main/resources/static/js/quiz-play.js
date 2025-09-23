@@ -134,7 +134,7 @@ function setupEventListeners() {
         });
     }
 
-    
+
 
     const gotoQuizBtn = document.getElementById('goto-quiz-btn');
     if (gotoQuizBtn) {
@@ -389,21 +389,6 @@ function submitAnswer() {
 }
 
 function handleActionButton(event) {
-    // Check if the clicked element is related to speed dial - if so, ignore
-    if (event && event.target && (
-        event.target.id === 'language-speed-dial-btn' ||
-        event.target.closest('#language-speed-dial-btn') ||
-        event.target.closest('#helper-speed-dial') ||
-        event.target.closest('#speed-dial-menu-bottom-right') ||
-        event.target.id === 'vietnamese-filter-btn' ||
-        event.target.id === 'hungarian-filter-btn' ||
-        event.target.id === 'all-filter-btn'
-    )) {
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-    }
-
     const actionBtn = document.getElementById('actionBtn');
     const mode = actionBtn.dataset.mode;
 
@@ -425,15 +410,9 @@ function nextQuestion() {
 function showExplanationModal(explanation) {
     const modal = document.getElementById('explanation-modal');
     const modalText = document.getElementById('modal-explanation-text');
-    const speedDial = document.getElementById('helper-speed-dial');
 
     if (!modal || !modalText) {
         return;
-    }
-
-    // Hide speed dial
-    if (speedDial) {
-        speedDial.classList.add('hidden');
     }
 
     // Clear any existing content and translation attributes
@@ -461,18 +440,12 @@ function showExplanationModal(explanation) {
 
 function hideExplanationModal() {
     const modal = document.getElementById('explanation-modal');
-    const speedDial = document.getElementById('helper-speed-dial');
 
     if (modal && !modal.classList.contains('hidden')) {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
         modal.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('overflow-hidden');
-
-        // Show speed dial
-        if (speedDial) {
-            speedDial.classList.remove('hidden');
-        }
 
         // If the action button is currently "Next", revert it to "Submit Answer"
         const actionBtn = document.getElementById('actionBtn');
@@ -490,65 +463,39 @@ function hideExplanationModal() {
     }
 }
 
-function toggleSpeedDialMenu() {
-    const speedDialMenu = document.getElementById('speed-dial-menu-bottom-right');
-    const speedDialToggle = document.getElementById('language-speed-dial-btn');
-
-    if (speedDialMenu && speedDialToggle) {
-        const isHidden = speedDialMenu.classList.contains('hidden');
-        if (isHidden) {
-            speedDialMenu.classList.remove('hidden');
-            speedDialMenu.classList.add('flex');
-            speedDialMenu.style.display = 'flex'; // Ensure it's visible
-            speedDialMenu.style.pointerEvents = 'auto';
-            speedDialToggle.setAttribute('aria-expanded', 'true');
-        } else {
-            speedDialMenu.classList.add('hidden');
-            speedDialMenu.classList.remove('flex');
-            speedDialMenu.style.display = 'none'; // Ensure it's hidden
-            speedDialMenu.style.pointerEvents = 'none';
-            speedDialToggle.setAttribute('aria-expanded', 'false');
-        }
-    }
-}
-
 function showEvaluation() {
     // Hide explanation modal when showing results
     hideExplanationModal();
 
-    // Hide speed dial
-    const speedDial = document.getElementById('helper-speed-dial');
-    if (speedDial) {
-        speedDial.classList.add('hidden');
-    }
+    setTimeout(() => {
+        const bottomFooter = document.getElementById('bottom-footer');
+        if (bottomFooter) {
+            bottomFooter.classList.add('hidden');
+        }
 
-    const bottomFooter = document.getElementById('bottom-footer');
-    if (bottomFooter) {
-        bottomFooter.classList.add('hidden');
-    }
+        quizResults.completedAt = new Date();
 
-    quizResults.completedAt = new Date();
+        // Calculate percentage
+        const percentage = Math.round((correctAnswers / totalQuestions) * 100);
 
-    // Calculate percentage
-    const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+        // Hide question container
+        document.getElementById('quizContent').classList.add('hidden');
 
-    // Hide question container
-    document.getElementById('questionContainer').classList.add('hidden');
+        // Show results container
+        document.getElementById('resultsContainer').classList.remove('hidden');
 
-    // Show results container
-    document.getElementById('resultsContainer').classList.remove('hidden');
+        // Update results display
+        document.getElementById('scorePercentage').textContent = percentage + '%';
+        document.getElementById('correctAnswers').textContent = correctAnswers;
+        document.getElementById('totalQuestionsResult').textContent = totalQuestions;
 
-    // Update results display
-    document.getElementById('scorePercentage').textContent = percentage + '%';
-    document.getElementById('correctAnswers').textContent = correctAnswers;
-    document.getElementById('totalQuestionsResult').textContent = totalQuestions;
-
-    // Show wrong answers if any
-    if (wrongAnswers.length > 0) {
-        displayWrongAnswers();
-    } else {
-        document.getElementById('wrongAnswersSection').classList.add('hidden');
-    }
+        // Show wrong answers if any
+        if (wrongAnswers.length > 0) {
+            displayWrongAnswers();
+        } else {
+            document.getElementById('wrongAnswersSection').classList.add('hidden');
+        }
+    }, 0);
 }
 
 function displayWrongAnswers() {
@@ -611,35 +558,31 @@ function finishQuiz() {
             // Extract category and subcategory from current URL to redirect to titles page
             const category = window.category;
             const subCategory = window.subcategory;
-            const title = window.currentQuizTitle;
-
+            const title = window.quizTitle;
+            console.log('Category:', window.category, 'Subcategory:', window.subcategory, 'Current Title:', window.quizTitle);
             if (category && subCategory && title) {
                 window.location.href = `/quiz/${category}/${subCategory}/${title}`;
             } else {
-                window.location.href = '/quiz/categories';
+                window.location.href = '/';
             }
         })
         .catch(error => {
             // Extract category and subcategory from current URL for error case too
             const category = window.category;
             const subCategory = window.subcategory;
-            const title = window.currentQuizTitle;
-
+            const title = window.quizTitle;
+            console.log('Category:', window.category, 'Subcategory:', window.subcategory, 'Current Title:', window.quizTitle);
             if (category && topic) {
                 window.location.href = `/quiz/${category}/${subCategory}/${title}`;
             } else {
                 // Fallback to categories if params not available
-                window.location.href = '/quiz/categories';
+                window.location.href = '/';
             }
         });
 }
 
 // Language Filter Functions
 function setupLanguageFilterListeners() {
-    // Setup manual toggle for speed dial main button
-    const speedDialToggle = document.getElementById('language-speed-dial-btn');
-    const speedDialMenu = document.getElementById('speed-dial-menu-bottom-right');
-
     // Language filter buttons
     const vietnameseBtn = document.getElementById('vietnamese-filter-btn');
     const hungarianBtn = document.getElementById('hungarian-filter-btn');

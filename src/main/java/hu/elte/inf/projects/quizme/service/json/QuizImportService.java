@@ -171,8 +171,13 @@ public class QuizImportService {
                         data.getTopics().forEach(topic -> {
                             topic.setId(UUID.randomUUID().toString());
                             topic.setTitleName(titleName);
-                            topic.setQuestionIds(
-                                    data.getQuestions().stream().map(Question::getId).collect(Collectors.toList()));
+
+                            List<String> questionIds = data.getQuestions().stream()
+                                    .filter(q -> q.getTopicId().equals(topic.getTopicId()))
+                                    .map(Question::getId)
+                                    .collect(Collectors.toList());
+
+                            topic.setQuestionIds(questionIds);
                         });
 
                         topicRepository.saveAll(data.getTopics());

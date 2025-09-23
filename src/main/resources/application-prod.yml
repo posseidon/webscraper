@@ -2,7 +2,7 @@ spring:
   data:
     mongodb:
       database: quizme
-      uri: mongodb://localhost:27017/quizme_prod  # Production DB URI
+      uri: ${DB_CONNECTION_URL}
   application:
     name: quizme
   thymeleaf:
@@ -13,15 +13,28 @@ spring:
     resources:
       static-locations: classpath:/static/
       cache:
-        period: 31536000  # 1 year for static resources
+        period: 0  # 1 year for static resources
         cachecontrol:
-          max-age: 31536000
+          max-age: 0
           cache-public: true
-  devtools:
-    restart:
-      enabled: false
-    livereload:
-      enabled: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - openid
+              - profile
+              - email
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v2/userinfo
+            user-name-attribute: sub
 
 server:
   port: ${PORT:8080}  # Use Azure's PORT env var, fallback to 8080
@@ -69,3 +82,7 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+app:
+  security:
+    enabled: false

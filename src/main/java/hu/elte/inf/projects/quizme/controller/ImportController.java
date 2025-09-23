@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,17 +17,17 @@ import hu.elte.inf.projects.quizme.repository.dto.QuizData;
 import hu.elte.inf.projects.quizme.service.json.QuizImportService;
 
 @RestController
-@RequestMapping("upload")
-public class UploadController {
+@RequestMapping("import")
+public class ImportController {
 
     private final QuizImportService quizImportService;
 
-    public UploadController(QuizImportService quizImportService) {
+    public ImportController(QuizImportService quizImportService) {
         this.quizImportService = quizImportService;
     }
 
-    @PostMapping("/chemistry")
-    public ResponseEntity<String> uploadChemistry(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/single")
+    public ResponseEntity<String> importSingleQuiz(@RequestParam("inputFile") MultipartFile file) {
         if (file == null || file.isEmpty()) {
             return ResponseEntity.badRequest().body("File is required and cannot be empty");
         }
@@ -46,8 +45,8 @@ public class UploadController {
         }
     }
 
-    @PostMapping("/chemistry/multi")
-    public ResponseEntity<String> uploadMultipleChemistry(@RequestParam("files") List<MultipartFile> files) {
+    @PostMapping("/multi")
+    public ResponseEntity<String> importMultiQuizzes(@RequestParam("files") List<MultipartFile> files) {
         if (files == null || files.isEmpty()) {
             return ResponseEntity.badRequest().body("At least one file is required and cannot be empty");
         }
@@ -69,7 +68,5 @@ public class UploadController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 
 }

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -168,5 +169,30 @@ public class QuizService {
                 });
             }
         }
+    }
+
+    public boolean deleteTitleAndRelatedData(String titleName) {
+        List<Title> titles = titleRepository.findByName(titleName);
+        if (CollectionUtils.isEmpty(titles)) {
+            return false; // Title not found
+        }
+
+        Title titleToDelete = titles.get(0);
+
+        // Find and delete all topics associated with the title
+        List<Topic> topicsToDelete = topicRepository.findByTitleName(titleToDelete.getName());
+        List<String> topicIds = topicsToDelete.stream()
+                .map(Topic::getTopicId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        List<Question> questionsToDelete = questionRepository.findByTopicIdIn(topicIds);
+        questionRepository.deleteAll(questionsToDelete);
+        if (!CollectionUtils.isEmpty(topicsToDelete)) {
+            topicRepository.deleteAll(topicsToDelete);
+        }
+
+        // Finally, delete the title itself
+        titleRepository.delete(titleToDelete);
+        return true;
     }
 }

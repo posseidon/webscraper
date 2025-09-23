@@ -9,15 +9,15 @@ public final class QuizConstants {
 
     // Paths
     public static final String ROOT = "/";
-    public static final String QUIZ_CATEGORIES = "/quiz/categories";
+    public static final String QUIZ_CATEGORIES = "/categories";
     public static final String USER_MANUAL = "/user-manual";
-    public static final String QUIZ_CATEGORY = "/quiz/{category}";
-    public static final String QUIZ_CATEGORY_SUB = "/quiz/{category}/{subcategory}";
-    public static final String QUIZ_CATEGORY_SUB_TITLE = "/quiz/{category}/{subcategory}/{title}";
-    public static final String QUIZ_FORM = "/quiz/form/{titleName}";
-    public static final String QUIZ_PLAY = "/quiz/play/{topicId}";
-    public static final String QUIZ_START = "/quiz/start/{titleId}";
-    public static final String QUIZ_SUBMIT_RESULTS = "/quiz/submit-results";
+    public static final String QUIZ_CATEGORY = "/{category}";
+    public static final String QUIZ_CATEGORY_SUB = "/{category}/{subcategory}";
+    public static final String QUIZ_CATEGORY_SUB_TITLE = "/{category}/{subcategory}/{title}";
+    public static final String QUIZ_FORM = "/form/{titleName}";
+    public static final String QUIZ_PLAY = "/play/{topicId}";
+    public static final String QUIZ_START = "/start/{titleId}";
+    public static final String QUIZ_SUBMIT_RESULTS = "/submit-results";
 
     // View names
     public static final String VIEW_LANDING = "landing_page";

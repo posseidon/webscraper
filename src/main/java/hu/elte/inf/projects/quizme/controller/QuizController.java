@@ -10,8 +10,10 @@ import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_SUBCATEGORIES;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_SUBCATEGORY;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_TITLE;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_TITLES;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_TITLE_ALIAS;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_TITLE_OBJECT;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_TOPICS;
+import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_TOPIC_ALIAS;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_TOTAL;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.DIFFICULTY_LEVELS;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.DIFFICULTY_MIXED;
@@ -34,19 +36,15 @@ import static hu.elte.inf.projects.quizme.util.QuizConstants.RESULT_MESSAGE;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.RESULT_SCORE;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.RESULT_SUCCESS;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.RESULT_TOTAL;
-import static hu.elte.inf.projects.quizme.util.QuizConstants.ROOT;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.SUCCESS_RESULTS_MESSAGE;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.USER_MANUAL;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_CATEGORIES;
-import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_LANDING;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_QUIZ_FORM;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_QUIZ_PLAY;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_SUBCATEGORIES;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_TITLES;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_TOPICS;
 import static hu.elte.inf.projects.quizme.util.QuizConstants.VIEW_USER_MANUAL;
-import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_TITLE_ALIAS;
-import static hu.elte.inf.projects.quizme.util.QuizConstants.ATTR_TOPIC_ALIAS;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,6 +55,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -64,6 +66,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -75,30 +78,31 @@ import hu.elte.inf.projects.quizme.repository.dto.Topic;
 import hu.elte.inf.projects.quizme.service.JsonDifficultyService;
 import hu.elte.inf.projects.quizme.service.QuizService;
 
+@RequestMapping("/quiz")
 @Controller
 public class QuizController {
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(QuizController.class);
 
     private final QuizService quizService;
     private final JsonDifficultyService difficultyService;
+
+    @Value("${app.security.enabled:true}")
+    private boolean securityEnabled;
 
     public QuizController(QuizService quizService, JsonDifficultyService difficultyService) {
         this.quizService = quizService;
         this.difficultyService = difficultyService;
     }
 
-    @GetMapping(ROOT)
-    public String home(Model model) {
-        List<Category> categories = quizService.findAllDistinctCategories();
-        model.addAttribute(ATTR_CATEGORIES, categories);
-        return VIEW_LANDING;
-    }
-
     @GetMapping(QUIZ_CATEGORIES)
-    public String showSubjects(Model model) {
-        List<Category> categories = quizService.findAllDistinctCategories();
-        model.addAttribute(ATTR_CATEGORIES, categories);
+    public String showCategories(Model model, Authentication authentication) {
+        if (!securityEnabled || (authentication != null && authentication.getPrincipal() instanceof OAuth2User)) {
+            List<Category> categories = quizService.findAllDistinctCategories();
+            model.addAttribute(ATTR_CATEGORIES, categories);
 
-        return VIEW_CATEGORIES;
+            return VIEW_CATEGORIES;
+        }
+        return "redirect:/login";
     }
 
     @GetMapping(USER_MANUAL)
@@ -154,7 +158,7 @@ public class QuizController {
         Topic topic = quizService.findTopicById(topicId);
 
         if (topic == null || topic.getQuestionIds().isEmpty()) {
-            return REDIRECT + QUIZ_CATEGORIES + REDIRECT_ERROR_PARAM + ERROR_NO_QUESTIONS;
+            return REDIRECT + "/quiz" + QUIZ_CATEGORIES + REDIRECT_ERROR_PARAM + ERROR_NO_QUESTIONS;
         }
 
         List<Question> questions = quizService.getQuestionsByTopic(topic.getTopicId());
@@ -169,6 +173,7 @@ public class QuizController {
         model.addAttribute(ATTR_QUIZ_TITLE, topic.getTopicName());
         model.addAttribute(ATTR_TOPIC_ALIAS, topic.getAlias());
         model.addAttribute(ATTR_TITLE, title);
+        model.addAttribute("title", title);
         model.addAttribute(ATTR_CATEGORY, category);
         model.addAttribute(ATTR_SUBCATEGORY, subcategory);
 
@@ -340,12 +345,16 @@ public class QuizController {
 
     @PostMapping(QUIZ_SUBMIT_RESULTS)
     @ResponseBody
-    public Map<String, Object> submitQuizResults(@RequestBody Map<String, Object> results) {
+    public Map<String, Object> submitQuizResults(@RequestBody Map<String, Object> results,
+            @AuthenticationPrincipal OAuth2User principal) {
 
         Map<String, Object> response = new HashMap<>();
         response.put(RESULT_SUCCESS, true);
         response.put(RESULT_MESSAGE, SUCCESS_RESULTS_MESSAGE);
         response.put(RESULT_SCORE, results.get(RESULT_CORRECT) + "/" + results.get(RESULT_TOTAL));
+
+        LOG.info("User {} completed a quiz with results: {}",
+                principal != null ? principal.getAttribute("email") : "Anonymous", results);
 
         return response;
     }

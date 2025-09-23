@@ -188,10 +188,10 @@
         // Pass quiz data to external JavaScript file
         try {
             window.quizQuestionsData = /*[[${questions}]]*/[];
-            window.currentQuizTitle = /*[[${currentTitle}]]*/ null;
+            window.quizTitle = /*[[${currentTitle}]]*/ null;
             window.category = /*[[${category}]]*/ null;
             window.subcategory = /*[[${subcategory}]]*/ null;
-            console.log('Category:', window.category, 'Subcategory:', window.subcategory, 'Title:', window.currentQuizTitle);
+            console.log('Category:', window.category, 'Subcategory:', window.subcategory, 'Current Title:', window.quizTitle);
         } catch (error) {
             console.error('Error injecting quiz data:', error);
             window.quizQuestionsData = [];

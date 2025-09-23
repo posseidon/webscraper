@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout-quiz :: layout ('My Data', ~{::content})}"
+      lang="en">
+
+<div th:fragment="content">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .data-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            max-width: 800px;
+            margin: 40px auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 22px;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #667eea;
+            color: #fff;
+            border-radius: 12px;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background: #764ba2;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+    </style>
+    <div class="data-container">
+        <h1 data-translate="my_data.title">My Data</h1>
+
+        <p data-translate="my_data.intro">In compliance with GDPR, you have the right to access and manage your personal data stored in our application.</p>
+
+        <h2 data-translate="my_data.stored_data.title">Your Stored Data</h2>
+        <p><span data-translate="my_data.stored_data.p1">We only store your</span> <strong data-translate="my_data.stored_data.email">email address</strong> <span data-translate="my_data.stored_data.p2">to link to your quiz progress.</span></p>
+        <p><span data-translate="my_data.stored_data.p3">If you are logged in, your email is:</span> <strong th:text="${#authentication.principal.attributes['email']}">user@example.com</strong></p>
+
+
+        <h2 data-translate="my_data.portability.title">Data Portability</h2>
+        <p data-translate="my_data.portability.p1">You can request a copy of all your data. We will send a file containing your email and all associated quiz progress to your registered email address.</p>
+        
+        <div class="btn-container">
+            <a href="#" class="btn" data-translate="my_data.portability.button" onclick="alert(t('my_data.portability.alert', 'A request has been sent to export your data. You will receive an email shortly.'));">Request My Data</a>
+        </div>
+
+        <h2 data-translate="my_data.erasure.title">Data Erasure</h2>
+        <p data-translate="my_data.erasure.p1">You can request the permanent deletion of your account and all associated data. This action is irreversible.</p>
+
+        <div class="btn-container">
+            <a href="#" class="btn btn-danger" data-translate="my_data.erasure.button" onclick="if(confirm(t('my_data.erasure.confirm', 'Are you sure you want to delete all your data? This action cannot be undone.'))) alert(t('my_data.erasure.alert', 'Your data deletion request has been processed.'));">Delete My Data</a>
+        </div>
+
+        <div class="btn-container">
+            <a href="/login" class="btn" data-translate="my_data.return_button">Return to Login</a>
+        </div>
+    </div>
+</div>
+
+</html>

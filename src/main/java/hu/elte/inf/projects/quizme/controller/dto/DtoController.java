@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import hu.elte.inf.projects.quizme.service.QuizService;
 
 @RestController
+@RequestMapping("/dto")
 public class DtoController {
 
     private final QuizService quizService;
@@ -55,10 +58,21 @@ public class DtoController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
     @DeleteMapping("/titles")
     public ResponseEntity<Void> deleteAllTitles() {
         quizService.deleteAllTitles();
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/title/{titleName}")
+    public ResponseEntity<Void> deleteTitleByName(@PathVariable String titleName) {
+        boolean deleted = quizService.deleteTitleAndRelatedData(titleName);
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/subcategories")

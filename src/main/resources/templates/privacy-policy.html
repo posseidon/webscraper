@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{fragments/layout-quiz :: layout ('Privacy Policy', ~{::content})}" lang="en">
+
+<div th:fragment="content">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .privacy-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            max-width: 800px;
+            margin: 40px auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 22px;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #667eea;
+            color: #fff;
+            border-radius: 12px;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn:hover {
+            background: #764ba2;
+        }
+    </style>
+    <div class="privacy-container">
+        <h1 data-translate="privacy.title">Privacy Policy</h1>
+
+        <p data-translate="privacy.intro">Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal
+            information in compliance with the General Data Protection Regulation (GDPR).</p>
+
+        <h2 data-translate="privacy.info_collect.title">Information We Collect</h2>
+        <p data-translate="privacy.info_collect.p1">When you sign in with Google, we collect and store the following information:</p>
+        <ul>
+            <li><strong data-translate="privacy.info_collect.email_title">Email Address:</strong> <span data-translate="privacy.info_collect.email_desc">We use your email address as a unique identifier to save your quiz
+                progress and associate it with your account.</span></li>
+        </ul>
+        <p data-translate="privacy.info_collect.p2">We do not collect any other personal information, such as your name, profile picture, or any other data from
+            your Google account.</p>
+
+        <h2 data-translate="privacy.info_use.title">How We Use Your Information</h2>
+        <p data-translate="privacy.info_use.p1">Your email address is used exclusively for the following purposes:</p>
+        <ul>
+            <li data-translate="privacy.info_use.l1">To create and manage your user account.</li>
+            <li data-translate="privacy.info_use.l2">To save and retrieve your quiz progress and results.</li>
+            <li data-translate="privacy.info_use.l3">To allow you to access your progress across different devices.</li>
+        </ul>
+
+        <h2 data-translate="privacy.storage.title">Data Storage and Security</h2>
+        <p data-translate="privacy.storage.p1">Your email address is stored securely in our database. We implement appropriate technical and organizational
+            measures to protect your data from unauthorized access, disclosure, alteration, or destruction.</p>
+
+        <h2 data-translate="privacy.rights.title">Your Rights Under GDPR</h2>
+        <p data-translate="privacy.rights.p1">As a user, you have the following rights regarding your personal data:</p>
+        <ul>
+            <li><strong data-translate="privacy.rights.access_title">Right of Access:</strong> <span data-translate="privacy.rights.access_desc">You have the right to request a copy of the information that we hold
+                about you.</span></li>
+            <li><strong data-translate="privacy.rights.rectification_title">Right of Rectification:</strong> <span data-translate="privacy.rights.rectification_desc">You have the right to correct any data that is inaccurate or
+                incomplete.</span></li>
+            <li><strong data-translate="privacy.rights.erasure_title">Right of Erasure:</strong> <span data-translate="privacy.rights.erasure_desc">You have the right to request the deletion of your data from our
+                systems.</span></li>
+        </ul>
+        <p data-translate="privacy.rights.p2">You can view your data and request its deletion on our "My Data" page.</p>
+
+        <div class="btn-container">
+            <a href="/login" class="btn" data-translate="privacy.agree_button">I Understand and Agree</a>
+        </div>
+    </div>
+</div>
+
+</html>

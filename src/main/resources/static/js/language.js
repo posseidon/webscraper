@@ -34,12 +34,12 @@ class LanguageManager {
 
     async loadTranslations() {
         try {
-            const response = await fetch(`/js/translations/${this.currentLanguage}.json?v=${this.translationVersion}`);
+            const response = await fetch(`${window.location.origin}/js/translations/${this.currentLanguage}.json?v=${this.translationVersion}`);
             if (response.ok) {
                 this.translations = await response.json();
             } else {
                 if (this.currentLanguage !== 'en') {
-                    const fallbackResponse = await fetch(`/js/translations/en.json?v=${this.translationVersion}`);
+                    const fallbackResponse = await fetch(`${window.location.origin}/js/translations/en.json?v=${this.translationVersion}`);
                     this.translations = await fallbackResponse.json();
                 }
             }
